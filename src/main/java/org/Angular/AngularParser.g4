@@ -3,19 +3,21 @@ parser grammar AngularParser ;
 options {tokenVocab=AngularLexer;}
 
 // Program
-program : (importStatement)* (classDeclaration | variableDeclaration | functionDeclaration)* exportStatement?;
+program : (importStatement)* (variableDeclaration | classDeclaration | functionDeclaration | componentDeclaration)* exportStatement?;
 
 // Main Parts
 importStatement
     : IMPORT (ID | LEFTCURLY (ID (COMMA ID)*)? RIGHTCURLY) FROM STRING SEMI;
 exportStatement
-    : EXPORT (DEFAULT? ID | DEFAULT CLASS ID) SEMI;
+     : EXPORT (DEFAULT? (CLASS ID LEFTCURLY) ) SEMI;
 variableDeclaration
     : (VAR | LET | CONST) ID EQUAL (value | array | object | functionDeclaration) SEMI;
 classDeclaration
     : CLASS ID (EXTENDS ID)? (IMPLEMENTS ID (COMMA ID)*)? LEFTCURLY classBody RIGHTCURLY;
 functionDeclaration
     : FUNCTION ID LEFTPAREN parameters? RIGHTPAREN LEFTCURLY functionBody RIGHTCURLY;
+componentDeclaration
+    : decorator LEFTCURLY componentBody RIGHTCURLY;
 
 // Values
 value
@@ -25,7 +27,8 @@ value
     | BOOLEAN
     | NULL
     | array
-    | object;
+    | object
+    | jsxElement;
 
 array
     : LEFTBRACKET (value (COMMA value)*)? RIGHTBRACKET;
@@ -35,20 +38,19 @@ object
 
 // Classes
 classBody
-    : (decorator? classMember)*;
-
-classMember
-    : (variableDeclaration | functionDeclaration | constructorDeclaration);
+   :   decorator | functionDeclaration | variableDeclaration| constructorDeclaration;
 
 constructorDeclaration
     : CONSTRUCTOR LEFTPAREN parameters? RIGHTPAREN LEFTCURLY functionBody RIGHTCURLY;
 
 // Decorators
 decorator
-    : AT ID LEFTPAREN decoratorArguments? RIGHTPAREN;
+    : AT ID LEFTPAREN decoratorArguments? RIGHTPAREN
+    | AT ID
+    ;
 
 decoratorArguments
-    : (ID COLON value (COMMA ID COLON value)*);
+    : (ID COLON value | LEFTCURLY .*? RIGHTCURLY) (COMMA (ID COLON value | LEFTCURLY .*? RIGHTCURLY))*;
 
 // Functions
 parameters
@@ -69,6 +71,10 @@ statement
     | callFunction
     | printStatement
     | jsxElement;
+
+// Component
+componentBody
+    : variableDeclaration* functionDeclaration*;
 
 // Conditionals And Loops
 ifStatement
