@@ -68,6 +68,16 @@ public interface AngularParserListener extends ParseTreeListener {
 	 */
 	void exitFunctionDeclaration(AngularParser.FunctionDeclarationContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link AngularParser#componentDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterComponentDeclaration(AngularParser.ComponentDeclarationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AngularParser#componentDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitComponentDeclaration(AngularParser.ComponentDeclarationContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link AngularParser#value}.
 	 * @param ctx the parse tree
 	 */
@@ -107,16 +117,6 @@ public interface AngularParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitClassBody(AngularParser.ClassBodyContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link AngularParser#classMember}.
-	 * @param ctx the parse tree
-	 */
-	void enterClassMember(AngularParser.ClassMemberContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link AngularParser#classMember}.
-	 * @param ctx the parse tree
-	 */
-	void exitClassMember(AngularParser.ClassMemberContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AngularParser#constructorDeclaration}.
 	 * @param ctx the parse tree
@@ -187,6 +187,16 @@ public interface AngularParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitStatement(AngularParser.StatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AngularParser#componentBody}.
+	 * @param ctx the parse tree
+	 */
+	void enterComponentBody(AngularParser.ComponentBodyContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AngularParser#componentBody}.
+	 * @param ctx the parse tree
+	 */
+	void exitComponentBody(AngularParser.ComponentBodyContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AngularParser#ifStatement}.
 	 * @param ctx the parse tree

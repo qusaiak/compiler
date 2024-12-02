@@ -47,6 +47,12 @@ public interface AngularParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFunctionDeclaration(AngularParser.FunctionDeclarationContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link AngularParser#componentDeclaration}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitComponentDeclaration(AngularParser.ComponentDeclarationContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link AngularParser#value}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -70,12 +76,6 @@ public interface AngularParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitClassBody(AngularParser.ClassBodyContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link AngularParser#classMember}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitClassMember(AngularParser.ClassMemberContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AngularParser#constructorDeclaration}.
 	 * @param ctx the parse tree
@@ -118,6 +118,12 @@ public interface AngularParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitStatement(AngularParser.StatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AngularParser#componentBody}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitComponentBody(AngularParser.ComponentBodyContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AngularParser#ifStatement}.
 	 * @param ctx the parse tree
