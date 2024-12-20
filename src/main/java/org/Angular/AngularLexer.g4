@@ -88,6 +88,13 @@ BOOLEAN           : 'true' | 'false';
 STRING            : '"' ( ESCAPE | ~["\\] )* '"' | '\'' ( ESCAPE | ~['\\] )* '\'';
 fragment ESCAPE   : '\\' [\\"'];
 
+// Directives
+NGIF                : 'ngIf';
+NGSWITCH            : 'ngSwitch';
+NGFOR               : 'ngFor';
+NGSTYLE             : 'ngStyle';
+NGCLASS             : 'ngClass';
+
 // Whitespace and Comments
 WS                : [ \t\r\n]+ -> skip;
 COMMENT           : '//' ~[\r\n]* -> skip;

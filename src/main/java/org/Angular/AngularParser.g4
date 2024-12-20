@@ -28,7 +28,8 @@ value
     | NULL
     | array
     | object
-    | jsxElement;
+    | jsxElement
+    | directive;
 
 array
     : LEFTBRACKET (value (COMMA value)*)? RIGHTBRACKET;
@@ -70,7 +71,8 @@ statement
     | whileStatement
     | callFunction
     | printStatement
-    | jsxElement;
+    | jsxElement
+    | directive;
 
 // Component
 componentBody
@@ -94,7 +96,16 @@ expression
     : value
     | ID
     | ID DOT ID
-    | callFunction;
+    | callFunction
+    | directive;
+
+// Directives
+directive
+    : NGIF LEFTPAREN condition RIGHTPAREN
+    | NGSWITCH LEFTPAREN expression RIGHTPAREN
+    | NGFOR LEFTPAREN expression RIGHTPAREN
+    | NGSTYLE LEFTPAREN expression RIGHTPAREN
+    | NGCLASS LEFTPAREN expression RIGHTPAREN;
 
 // Function Calls
 callFunction
@@ -102,7 +113,7 @@ callFunction
 
 // JSX For HTML
 jsxElement
-    : LESSTHAN ID (jsxAttribute | jsxClass)* GREATERTHAN content* LESSTHAN DIVISION ID GREATERTHAN;
+    : LESSTHAN ID (jsxAttribute | jsxClass | directive)* GREATERTHAN content* LESSTHAN DIVISION ID GREATERTHAN;
 
 jsxAttribute
     : ID EQUAL expression;
