@@ -7,7 +7,7 @@ public class JsxElement {
     private final List<JsxAttribute> attributes;
     private final List<Value> children;
 
-    public JsxElement(String tagName, List<JsxAttribute> attributes, List<Value> children) {
+    public JsxElement(String tagName, List<JsxAttribute> attributes, List<Value> children, List<Directives> directives) {
         this.tagName = tagName;
         this.attributes = attributes;
         this.children = children;

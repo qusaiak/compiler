@@ -10,6 +10,7 @@ public class Value {
     private Object nestedObject;
     private List<Value> nestedArray;
     private JsxElement jsxElement;
+    private Directives directive;
     private boolean isNull;
 
     public Value(String stringValue) {
@@ -40,8 +41,20 @@ public class Value {
         this.jsxElement = jsxElement;
     }
 
+    public Value(Directives directive) {
+        this.directive = directive;
+    }
+
     public Value(boolean isNull) {
         this.isNull = isNull;
+    }
+
+    public Directives getDirective() {
+        return directive;
+    }
+
+    public void setDirective(Directives directive) {
+        this.directive = directive;
     }
 
     @Override
@@ -53,6 +66,7 @@ public class Value {
         if (nestedObject != null) return nestedObject.toString();
         if (nestedArray != null) return nestedArray.toString();
         if (jsxElement != null) return jsxElement.toString();
+        if (directive != null) return directive.toString();
         if (isNull) return "null";
         return "undefined";
     }
