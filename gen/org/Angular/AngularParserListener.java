@@ -248,6 +248,16 @@ public interface AngularParserListener extends ParseTreeListener {
 	 */
 	void exitExpression(AngularParser.ExpressionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link AngularParser#directive}.
+	 * @param ctx the parse tree
+	 */
+	void enterDirective(AngularParser.DirectiveContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AngularParser#directive}.
+	 * @param ctx the parse tree
+	 */
+	void exitDirective(AngularParser.DirectiveContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link AngularParser#callFunction}.
 	 * @param ctx the parse tree
 	 */
