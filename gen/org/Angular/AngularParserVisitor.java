@@ -77,6 +77,12 @@ public interface AngularParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitClassBody(AngularParser.ClassBodyContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link AngularParser#assignment}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAssignment(AngularParser.AssignmentContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link AngularParser#constructorDeclaration}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -124,6 +130,12 @@ public interface AngularParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitReturnStatement(AngularParser.ReturnStatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AngularParser#operation}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitOperation(AngularParser.OperationContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AngularParser#statement}.
 	 * @param ctx the parse tree
@@ -244,12 +256,6 @@ public interface AngularParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitExpression(AngularParser.ExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link AngularParser#shortIf}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitShortIf(AngularParser.ShortIfContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AngularParser#type}.
 	 * @param ctx the parse tree

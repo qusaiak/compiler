@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+
+
 import { ProductService } from '../product.service';
 
 @Component({
@@ -17,3 +19,4 @@ export class ProductComponent {
     this.selectedProduct = product;
   }
 }
+

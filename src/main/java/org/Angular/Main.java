@@ -12,7 +12,7 @@ import static org.antlr.v4.runtime.CharStreams.fromFileName;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        String source="src/tests/test2/product.component.spec.ts";
+        String source="src/tests/test1/product.component.ts";
         CharStream cs=fromFileName(source);
         AngularLexer lexer = new AngularLexer(cs);
         CommonTokenStream tokenStream = new CommonTokenStream(lexer);

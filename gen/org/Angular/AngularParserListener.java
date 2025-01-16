@@ -118,6 +118,16 @@ public interface AngularParserListener extends ParseTreeListener {
 	 */
 	void exitClassBody(AngularParser.ClassBodyContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link AngularParser#assignment}.
+	 * @param ctx the parse tree
+	 */
+	void enterAssignment(AngularParser.AssignmentContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AngularParser#assignment}.
+	 * @param ctx the parse tree
+	 */
+	void exitAssignment(AngularParser.AssignmentContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link AngularParser#constructorDeclaration}.
 	 * @param ctx the parse tree
 	 */
@@ -197,6 +207,16 @@ public interface AngularParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitReturnStatement(AngularParser.ReturnStatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AngularParser#operation}.
+	 * @param ctx the parse tree
+	 */
+	void enterOperation(AngularParser.OperationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AngularParser#operation}.
+	 * @param ctx the parse tree
+	 */
+	void exitOperation(AngularParser.OperationContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AngularParser#statement}.
 	 * @param ctx the parse tree
@@ -397,16 +417,6 @@ public interface AngularParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitExpression(AngularParser.ExpressionContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link AngularParser#shortIf}.
-	 * @param ctx the parse tree
-	 */
-	void enterShortIf(AngularParser.ShortIfContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link AngularParser#shortIf}.
-	 * @param ctx the parse tree
-	 */
-	void exitShortIf(AngularParser.ShortIfContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AngularParser#type}.
 	 * @param ctx the parse tree
