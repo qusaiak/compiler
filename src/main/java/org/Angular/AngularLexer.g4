@@ -87,6 +87,9 @@ ONINIT : 'ngOnInit';
 ONCHANGES : 'ngOnChanges';
 ONDESTROY: 'ngOnDestroy';
 AS : 'as';
+THIS :'this';
+VOID : 'void';
+NUMBER :'number';
 TEMPLATE_LITERAL  : '`' .*? '`';
 
 // Values

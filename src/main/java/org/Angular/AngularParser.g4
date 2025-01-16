@@ -12,27 +12,24 @@ exportStatement
     : EXPORT (DEFAULT? (classDeclaration | variableDeclaration | functionDeclaration | componentDeclaration | object) | LEFTCURLY (ID (COMMA ID)*)? RIGHTCURLY) ;
 
 variableDeclaration
-    : (VAR | LET | CONST) ID EQUAL (value | array | object | functionDeclaration) SEMI;
+    : (VAR | LET | CONST)? ID (EQUAL | COLON) (value | array | object | functionDeclaration) SEMI
+    | (VAR | LET | CONST)? ID COLON type value? EQUAL (value | array | object | functionDeclaration) SEMI
+    ;
 classDeclaration
-    : CLASS ID (EXTENDS ID)? (IMPLEMENTS ID (COMMA ID)*)? LEFTCURLY classBody RIGHTCURLY;
+    : CLASS ID (EXTENDS ID)? (IMPLEMENTS ID (COMMA ID)*)? LEFTCURLY classBody* RIGHTCURLY;
 functionDeclaration
-    : FUNCTION ID LEFTPAREN parameters? RIGHTPAREN LEFTCURLY functionBody RIGHTCURLY;
+    : FUNCTION? ID LEFTPAREN parameters? RIGHTPAREN (COLON type)? LEFTCURLY functionBody RIGHTCURLY;
 componentDeclaration
     : decorator | LEFTCURLY componentBody RIGHTCURLY;
 
 // Values
 value
-    : STRING
-    | INT
-    | DOUBLE
-    | BOOLEAN
-    | NULL
+    : type
     | array
     | object
     | jsxElement
     | angularDirective
     | interpolation
-    | ANY
     ;
 
 array
@@ -43,18 +40,16 @@ object
 
 // Classes
 classBody
-   : decorator
-   | functionDeclaration
-   | variableDeclaration
-   | constructorDeclaration
-   | assignment
+   :   decorator | constructorDeclaration | variableDeclaration | functionDeclaration
    ;
 
 assignment
-: (ID COLON (ID|ANY|NULL) SEMI)*;
+: (ID COLON type SEMI)+
+| THIS DOT ID EQUAL (value | THIS DOT ID (DOT callFunction)?)? SEMI?
+;
 
 constructorDeclaration
-    : CONSTRUCTOR LEFTPAREN parameters? RIGHTPAREN LEFTCURLY functionBody RIGHTCURLY;
+    : CONSTRUCTOR LEFTPAREN parameters? RIGHTPAREN LEFTCURLY (functionBody | assignment) RIGHTCURLY;
 
 // Decorators
 decorator
@@ -74,19 +69,22 @@ argumentContent
         | classDeclaration
         | LEFTCURLY (statement)* RIGHTCURLY
         | SELECTOR COLON STRING COMMA
-        | TEMPLATEURL COLON STRING COMMA
+        | TEMPLATEURL COLON (STRING | jsxElement) COMMA
         ;
 
 // Functions
 parameters
-    : ID (COLON type)? (COMMA ID (COLON type)?)*
-    | LEFTCURLY ID (COMMA ID)* RIGHTCURLY;
+    : (PUBLIC | PRIVATE)? ID (COLON type (EQUAL value)?)? (COMMA (PUBLIC | PRIVATE)? ID (COLON type (EQUAL value)?)?)*
+    | LEFTCURLY ID (COMMA ID)* RIGHTCURLY
+    ;
 
 functionBody
     : statement* returnStatement?;
 
 returnStatement
-    : RETURN (value | jsxElement)? SEMI;
+    : RETURN (value (operation value)? | jsxElement)? SEMI;
+
+operation: PLUS | MINUS | STAR | DIVISION | EQ | NEQ | GREATERTHAN | LESSTHAN;
 
 statement
     : variableDeclaration
@@ -96,7 +94,10 @@ statement
     | callFunction
     | printStatement
     | jsxElement
-    | angularDirective;
+    | angularDirective
+    | returnStatement
+    | assignment
+    ;
 
 // Component
 componentBody
@@ -194,6 +195,7 @@ expression
     | callFunction
     | array
     | object
+    | expression operation expression
     ;
 
 // Types
@@ -202,7 +204,14 @@ type
     | STRING
     | INT
     | DOUBLE
-    | BOOLEAN;
+    | BOOLEAN
+    | ANY
+    | PUBLIC
+    | PRIVATE
+    | VOID
+    | NUMBER
+    | NULL
+    ;
 
 // Print
 printStatement
