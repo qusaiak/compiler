@@ -33,10 +33,15 @@ SQ                : '\'';
 DQ                : '"';
 DOT               : '.';
 AT                : '@';
+SLASHGREATERTHAN  : '/>';
+DOUBLELEFTCURLY   : '{{';
+DOUBLERIGHTCURLY  : '}}';
+
 
 // Keywords
 COMPONENT         : 'component';
-TEMPLATE          : 'template';
+TEMPLATEURL       : 'templateUrl';
+SELECTOR          : 'selector';
 CLASS             : 'class';
 INPUT             : 'input';
 OUTPUT            : 'output';
@@ -69,7 +74,7 @@ CONTINUE          : 'continue';
 TRY               : 'try';
 CATCH             : 'catch';
 FINALLY           : 'finally';
-THROW             : 'throw';
+THROWS             : 'throws';
 ASYNC             : 'async';
 AWAIT             : 'await';
 TYPE              : 'type';
@@ -78,6 +83,10 @@ INTERFACE         : 'interface';
 PUBLIC            : 'public';
 PRIVATE           : 'private';
 PROTECTED         : 'protected';
+ONINIT : 'ngOnInit';
+ONCHANGES : 'ngOnChanges';
+ONDESTROY: 'ngOnDestroy';
+AS : 'as';
 TEMPLATE_LITERAL  : '`' .*? '`';
 
 // Values

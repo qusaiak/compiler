@@ -3,13 +3,14 @@ parser grammar AngularParser ;
 options {tokenVocab=AngularLexer;}
 
 // Program
-program : (importStatement)* (variableDeclaration | classDeclaration | functionDeclaration | componentDeclaration)* exportStatement?;
+program : (importStatement)* (variableDeclaration | classDeclaration | functionDeclaration | componentDeclaration)* exportStatement? | EOF;
 
 // Main Parts
 importStatement
     : IMPORT (ID | LEFTCURLY (ID (COMMA ID)*)? RIGHTCURLY) FROM STRING SEMI;
 exportStatement
-     : EXPORT (DEFAULT? (CLASS ID LEFTCURLY) ) SEMI;
+    : EXPORT (DEFAULT? (classDeclaration | variableDeclaration | functionDeclaration | componentDeclaration | object) | LEFTCURLY (ID (COMMA ID)*)? RIGHTCURLY) ;
+
 variableDeclaration
     : (VAR | LET | CONST) ID EQUAL (value | array | object | functionDeclaration) SEMI;
 classDeclaration
@@ -17,7 +18,7 @@ classDeclaration
 functionDeclaration
     : FUNCTION ID LEFTPAREN parameters? RIGHTPAREN LEFTCURLY functionBody RIGHTCURLY;
 componentDeclaration
-    : decorator LEFTCURLY componentBody RIGHTCURLY;
+    : decorator | LEFTCURLY componentBody RIGHTCURLY;
 
 // Values
 value
@@ -29,7 +30,10 @@ value
     | array
     | object
     | jsxElement
-    | directive;
+    | angularDirective
+    | interpolation
+    | ANY
+    ;
 
 array
     : LEFTBRACKET (value (COMMA value)*)? RIGHTBRACKET;
@@ -39,7 +43,15 @@ object
 
 // Classes
 classBody
-   :   decorator | functionDeclaration | variableDeclaration| constructorDeclaration;
+   : decorator
+   | functionDeclaration
+   | variableDeclaration
+   | constructorDeclaration
+   | assignment
+   ;
+
+assignment
+: (ID COLON (ID|ANY|NULL) SEMI)*;
 
 constructorDeclaration
     : CONSTRUCTOR LEFTPAREN parameters? RIGHTPAREN LEFTCURLY functionBody RIGHTCURLY;
@@ -50,8 +62,20 @@ decorator
     | AT ID
     ;
 
-decoratorArguments
-    : (ID COLON value | LEFTCURLY .*? RIGHTCURLY) (COMMA (ID COLON value | LEFTCURLY .*? RIGHTCURLY))*;
+decoratorArguments: decoratorArgument*;
+
+decoratorArgument:
+     LEFTCURLY argumentContent* RIGHTCURLY ;
+
+argumentContent
+        : exportStatement
+        | functionDeclaration
+        | variableDeclaration
+        | classDeclaration
+        | LEFTCURLY (statement)* RIGHTCURLY
+        | SELECTOR COLON STRING COMMA
+        | TEMPLATEURL COLON STRING COMMA
+        ;
 
 // Functions
 parameters
@@ -72,7 +96,7 @@ statement
     | callFunction
     | printStatement
     | jsxElement
-    | directive;
+    | angularDirective;
 
 // Component
 componentBody
@@ -91,45 +115,86 @@ forStatement
 whileStatement
     : WHILE LEFTPAREN condition RIGHTPAREN LEFTCURLY statement* RIGHTCURLY;
 
-// Expressions
-expression
-    : value
-    | ID
-    | ID DOT ID
-    | callFunction
-    | directive;
-
-// Directives
-directive
-    : NGIF LEFTPAREN condition RIGHTPAREN
-    | NGSWITCH LEFTPAREN expression RIGHTPAREN
-    | NGFOR LEFTPAREN expression RIGHTPAREN
-    | NGSTYLE LEFTPAREN expression RIGHTPAREN
-    | NGCLASS LEFTPAREN expression RIGHTPAREN;
-
 // Function Calls
 callFunction
     : ID LEFTPAREN (expression (COMMA expression)*)? RIGHTPAREN SEMI;
 
-// JSX For HTML
+// Jsx Element
 jsxElement
-    : LESSTHAN ID (jsxAttribute | jsxClass | directive)* GREATERTHAN content* LESSTHAN DIVISION ID GREATERTHAN;
+    : openingTag jsxContent* closingTag
+    | selfClosingTag
+    ;
 
-jsxAttribute
-    : ID EQUAL expression;
+// Opening Tag
+openingTag
+    : LESSTHAN ID jsxAttributes GREATERTHAN
+    ;
 
-jsxClass
-    : CLASS EQUAL STRING;
+// Closing Tag
+closingTag
+    : LESSTHAN DIVISION ID GREATERTHAN
+    ;
 
-content
+// Self-Closing Tag
+selfClosingTag
+    : LESSTHAN ID jsxAttributes SLASHGREATERTHAN
+    ;
+
+// jsx Content
+jsxContent
     : jsxElement
-    | shortIf
-    | callFunction
-    | ID;
+    | interpolation
+    | ID
+    ;
 
-// Short if
-shortIf
-    : LEFTCURLY condition AND jsxElement RIGHTCURLY;
+// Interpolation
+interpolation
+    : DOUBLELEFTCURLY expression DOUBLERIGHTCURLY
+    ;
+
+// jsx Attributes
+jsxAttributes
+    : (angularDirective | jsxAttribute | jsxEvent | jsxBinding | jsxClass)*
+    ;
+
+// Angular Directive
+angularDirective
+    : STAR ID EQUAL STRING
+    ;
+
+// jsx Attribute
+jsxAttribute
+    : ID EQUAL STRING
+    ;
+
+// jsx Event
+jsxEvent
+    : LEFTPAREN ID RIGHTPAREN EQUAL STRING
+    ;
+
+// jsx Binding
+jsxBinding
+    : LEFTBRACKET ID RIGHTBRACKET EQUAL (STRING | interpolation)
+    ;
+
+// jsx Class
+jsxClass
+    : CLASS EQUAL STRING
+    ;
+
+// Expression
+expression
+    : ID
+    | ID DOT ID
+    | STRING
+    | INT
+    | DOUBLE
+    | BOOLEAN
+    | value
+    | callFunction
+    | array
+    | object
+    ;
 
 // Types
 type
