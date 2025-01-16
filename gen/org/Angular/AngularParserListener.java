@@ -128,16 +128,6 @@ public interface AngularParserListener extends ParseTreeListener {
 	 */
 	void exitAssignment(AngularParser.AssignmentContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AngularParser#constructorDeclaration}.
-	 * @param ctx the parse tree
-	 */
-	void enterConstructorDeclaration(AngularParser.ConstructorDeclarationContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link AngularParser#constructorDeclaration}.
-	 * @param ctx the parse tree
-	 */
-	void exitConstructorDeclaration(AngularParser.ConstructorDeclarationContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link AngularParser#decorator}.
 	 * @param ctx the parse tree
 	 */
@@ -158,16 +148,6 @@ public interface AngularParserListener extends ParseTreeListener {
 	 */
 	void exitDecoratorArguments(AngularParser.DecoratorArgumentsContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link AngularParser#decoratorArgument}.
-	 * @param ctx the parse tree
-	 */
-	void enterDecoratorArgument(AngularParser.DecoratorArgumentContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link AngularParser#decoratorArgument}.
-	 * @param ctx the parse tree
-	 */
-	void exitDecoratorArgument(AngularParser.DecoratorArgumentContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link AngularParser#argumentContent}.
 	 * @param ctx the parse tree
 	 */
@@ -177,6 +157,16 @@ public interface AngularParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitArgumentContent(AngularParser.ArgumentContentContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link AngularParser#constructorDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterConstructorDeclaration(AngularParser.ConstructorDeclarationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link AngularParser#constructorDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitConstructorDeclaration(AngularParser.ConstructorDeclarationContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link AngularParser#parameters}.
 	 * @param ctx the parse tree

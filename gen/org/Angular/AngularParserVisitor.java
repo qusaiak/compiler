@@ -83,12 +83,6 @@ public interface AngularParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitAssignment(AngularParser.AssignmentContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AngularParser#constructorDeclaration}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitConstructorDeclaration(AngularParser.ConstructorDeclarationContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link AngularParser#decorator}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -101,17 +95,17 @@ public interface AngularParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDecoratorArguments(AngularParser.DecoratorArgumentsContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AngularParser#decoratorArgument}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitDecoratorArgument(AngularParser.DecoratorArgumentContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link AngularParser#argumentContent}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitArgumentContent(AngularParser.ArgumentContentContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AngularParser#constructorDeclaration}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitConstructorDeclaration(AngularParser.ConstructorDeclarationContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AngularParser#parameters}.
 	 * @param ctx the parse tree
