@@ -7,20 +7,30 @@ program : (importStatement)* (variableDeclaration | classDeclaration | functionD
 
 // Main Parts
 importStatement
-    : IMPORT (ID | LEFTCURLY (ID (COMMA ID)*)? RIGHTCURLY) FROM STRING SEMI;
+    : IMPORT (ID | LEFTCURLY (ID (COMMA ID)*)? RIGHTCURLY) FROM STRING SEMI
+    ;
+
 exportStatement
-    : EXPORT (DEFAULT? (classDeclaration | variableDeclaration | functionDeclaration | componentDeclaration | object) | LEFTCURLY (ID (COMMA ID)*)? RIGHTCURLY) ;
+    : EXPORT (DEFAULT? (classDeclaration | variableDeclaration | functionDeclaration | componentDeclaration | object) | LEFTCURLY (ID (COMMA ID)*)? RIGHTCURLY)
+    ;
 
 variableDeclaration
     : (VAR | LET | CONST)? ID (EQUAL | COLON) (value | array | object | functionDeclaration) SEMI
     | (VAR | LET | CONST)? ID COLON type value? EQUAL (value | array | object | functionDeclaration) SEMI
     ;
+
 classDeclaration
-    : CLASS ID (EXTENDS ID)? (IMPLEMENTS ID (COMMA ID)*)? LEFTCURLY classBody* RIGHTCURLY;
+    : CLASS ID (EXTENDS ID)? (IMPLEMENTS ID (COMMA ID)*)? LEFTCURLY classBody RIGHTCURLY
+    ;
+
 functionDeclaration
-    : FUNCTION? ID LEFTPAREN parameters? RIGHTPAREN (COLON type)? LEFTCURLY functionBody RIGHTCURLY;
+    : FUNCTION? ID LEFTPAREN parameters? RIGHTPAREN (COLON type)? LEFTCURLY functionBody RIGHTCURLY
+    ;
+
 componentDeclaration
-    : decorator | LEFTCURLY componentBody RIGHTCURLY;
+    : decorator
+    | LEFTCURLY componentBody RIGHTCURLY
+    ;
 
 // Values
 value
@@ -33,44 +43,46 @@ value
     ;
 
 array
-    : LEFTBRACKET (value (COMMA value)*)? RIGHTBRACKET;
+    : LEFTBRACKET (value (COMMA value)*)? RIGHTBRACKET
+    ;
 
 object
-    : LEFTCURLY (ID COLON value (COMMA ID COLON value)*)? RIGHTCURLY;
+    : LEFTCURLY (ID COLON value (COMMA ID COLON value)*)? RIGHTCURLY
+    ;
 
 // Classes
 classBody
-   :   decorator | constructorDeclaration | variableDeclaration | functionDeclaration
+   : (decorator | constructorDeclaration | variableDeclaration | functionDeclaration)*
    ;
 
 assignment
-: (ID COLON type SEMI)+
-| THIS DOT ID EQUAL (value | THIS DOT ID (DOT callFunction)?)? SEMI?
-;
-
-constructorDeclaration
-    : CONSTRUCTOR LEFTPAREN parameters? RIGHTPAREN LEFTCURLY (functionBody | assignment) RIGHTCURLY;
+   : (ID COLON type SEMI)+
+   | THIS DOT ID EQUAL (value | THIS DOT ID (DOT callFunction)?)? SEMI?
+   ;
 
 // Decorators
 decorator
-    : AT ID LEFTPAREN decoratorArguments? RIGHTPAREN
+    : AT ID LEFTPAREN decoratorArguments* RIGHTPAREN
     | AT ID
     ;
 
-decoratorArguments: decoratorArgument*;
-
-decoratorArgument:
-     LEFTCURLY argumentContent* RIGHTCURLY ;
+decoratorArguments:
+    LEFTCURLY argumentContent* RIGHTCURLY
+    ;
 
 argumentContent
-        : exportStatement
-        | functionDeclaration
-        | variableDeclaration
-        | classDeclaration
-        | LEFTCURLY (statement)* RIGHTCURLY
-        | SELECTOR COLON STRING COMMA
-        | TEMPLATEURL COLON (STRING | jsxElement) COMMA
-        ;
+    : exportStatement
+    | functionDeclaration
+    | variableDeclaration
+    | classDeclaration
+    | LEFTCURLY (statement)* RIGHTCURLY
+    | SELECTOR COLON STRING COMMA
+    | TEMPLATEURL COLON (STRING | jsxElement) COMMA
+    ;
+
+constructorDeclaration
+    : CONSTRUCTOR LEFTPAREN parameters? RIGHTPAREN LEFTCURLY (functionBody | assignment) RIGHTCURLY
+    ;
 
 // Functions
 parameters
@@ -79,12 +91,25 @@ parameters
     ;
 
 functionBody
-    : statement* returnStatement?;
+    : statement* returnStatement?
+    ;
 
 returnStatement
-    : RETURN (value (operation value)? | jsxElement)? SEMI;
+    : RETURN (value (operation value)? | jsxElement)? SEMI
+    ;
 
-operation: PLUS | MINUS | STAR | DIVISION | EQ | NEQ | GREATERTHAN | LESSTHAN;
+operation
+    : PLUS
+    | MINUS
+    | STAR
+    | DIVISION
+    | EQ
+    | NEQ
+    | GREATERTHAN
+    | GREATEREQUAL
+    | LESSTHAN
+    | LESSEQUAL
+    ;
 
 statement
     : variableDeclaration
@@ -101,24 +126,31 @@ statement
 
 // Component
 componentBody
-    : variableDeclaration* functionDeclaration*;
+    : variableDeclaration* functionDeclaration*
+    ;
 
 // Conditionals And Loops
 ifStatement
-    : IF LEFTPAREN condition RIGHTPAREN LEFTCURLY statement* RIGHTCURLY (ELSE LEFTCURLY statement* RIGHTCURLY)?;
+    : IF LEFTPAREN condition RIGHTPAREN LEFTCURLY statement* RIGHTCURLY (ELSE LEFTCURLY statement* RIGHTCURLY)?
+    ;
 
 condition
-    : expression (AND | OR) expression | expression;
+    : expression (AND | OR) expression
+    | expression
+    ;
 
 forStatement
-    : FOR LEFTPAREN variableDeclaration? condition? SEMI? statement? RIGHTPAREN LEFTCURLY statement* RIGHTCURLY;
+    : FOR LEFTPAREN variableDeclaration? condition? SEMI? statement? RIGHTPAREN LEFTCURLY statement* RIGHTCURLY
+    ;
 
 whileStatement
-    : WHILE LEFTPAREN condition RIGHTPAREN LEFTCURLY statement* RIGHTCURLY;
+    : WHILE LEFTPAREN condition RIGHTPAREN LEFTCURLY statement* RIGHTCURLY
+    ;
 
 // Function Calls
 callFunction
-    : ID LEFTPAREN (expression (COMMA expression)*)? RIGHTPAREN SEMI;
+    : ID LEFTPAREN (expression (COMMA expression)*)? RIGHTPAREN SEMI
+    ;
 
 // Jsx Element
 jsxElement
