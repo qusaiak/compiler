@@ -95,6 +95,18 @@ public interface AngularParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDecoratorArguments(AngularParser.DecoratorArgumentsContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link AngularParser#decoratorArgument}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDecoratorArgument(AngularParser.DecoratorArgumentContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AngularParser#argumentContent}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArgumentContent(AngularParser.ArgumentContentContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link AngularParser#parameters}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -149,18 +161,6 @@ public interface AngularParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitWhileStatement(AngularParser.WhileStatementContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AngularParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitExpression(AngularParser.ExpressionContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link AngularParser#directive}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitDirective(AngularParser.DirectiveContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link AngularParser#callFunction}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -173,11 +173,65 @@ public interface AngularParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitJsxElement(AngularParser.JsxElementContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link AngularParser#openingTag}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitOpeningTag(AngularParser.OpeningTagContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AngularParser#closingTag}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitClosingTag(AngularParser.ClosingTagContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AngularParser#selfClosingTag}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSelfClosingTag(AngularParser.SelfClosingTagContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AngularParser#jsxContent}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitJsxContent(AngularParser.JsxContentContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AngularParser#interpolation}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInterpolation(AngularParser.InterpolationContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AngularParser#jsxAttributes}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitJsxAttributes(AngularParser.JsxAttributesContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AngularParser#angularDirective}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAngularDirective(AngularParser.AngularDirectiveContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link AngularParser#jsxAttribute}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitJsxAttribute(AngularParser.JsxAttributeContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AngularParser#jsxEvent}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitJsxEvent(AngularParser.JsxEventContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link AngularParser#jsxBinding}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitJsxBinding(AngularParser.JsxBindingContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AngularParser#jsxClass}.
 	 * @param ctx the parse tree
@@ -185,11 +239,11 @@ public interface AngularParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitJsxClass(AngularParser.JsxClassContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link AngularParser#content}.
+	 * Visit a parse tree produced by {@link AngularParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitContent(AngularParser.ContentContext ctx);
+	T visitExpression(AngularParser.ExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link AngularParser#shortIf}.
 	 * @param ctx the parse tree
