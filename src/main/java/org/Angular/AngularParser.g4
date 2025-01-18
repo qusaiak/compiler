@@ -3,7 +3,7 @@ parser grammar AngularParser ;
 options {tokenVocab=AngularLexer;}
 
 // Program
-program : (importStatement)* (variableDeclaration | classDeclaration | functionDeclaration | componentDeclaration)* exportStatement? EOF;
+program :(importStatement)* (variableDeclaration | classDeclaration | functionDeclaration | componentDeclaration)* exportStatement? EOF;
 
 // Main Parts
 importStatement
@@ -15,8 +15,8 @@ exportStatement
     ;
 
 variableDeclaration
-    : (VAR | LET | CONST)? ID (EQUAL | COLON) (value | array | object | functionDeclaration) SEMI
-    | (VAR | LET | CONST)? ID COLON type value? EQUAL (value | array | object | functionDeclaration) SEMI
+    : (VAR | LET | CONST)? ID (EQUAL | COLON) (value | array | object | functionDeclaration) (SEMI | COMMA)
+    | (VAR | LET | CONST)? ID COLON type value? EQUAL (value | array | object | functionDeclaration) (SEMI | COMMA)
     ;
 
 classDeclaration
@@ -160,7 +160,7 @@ jsxElement
 
 // Opening Tag
 openingTag
-    : LESSTHAN ID jsxAttributes GREATERTHAN
+    : LESSTHAN ID jsxAttributes? GREATERTHAN
     ;
 
 // Closing Tag
@@ -170,7 +170,7 @@ closingTag
 
 // Self-Closing Tag
 selfClosingTag
-    : LESSTHAN ID jsxAttributes SLASHGREATERTHAN
+    : LESSTHAN ID jsxAttributes? SLASHGREATERTHAN
     ;
 
 // jsx Content
@@ -187,7 +187,7 @@ interpolation
 
 // jsx Attributes
 jsxAttributes
-    : (angularDirective | jsxAttribute | jsxEvent | jsxBinding | jsxClass)*
+    : (angularDirective | jsxAttribute | jsxEvent | jsxBinding | jsxClass)+
     ;
 
 // Angular Directive
