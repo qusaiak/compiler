@@ -31,6 +31,7 @@ PLUSPLUS          : '++';
 MINUSMINUS        : '--';
 SQ                : '\'';
 DQ                : '"';
+HTMLSTRING        : '`';
 DOT               : '.';
 AT                : '@';
 SLASHGREATERTHAN  : '/>';
@@ -40,8 +41,6 @@ DOUBLERIGHTCURLY  : '}}';
 
 // Keywords
 COMPONENT         : 'component';
-TEMPLATEURL       : 'templateUrl';
-SELECTOR          : 'selector';
 CLASS             : 'class';
 INPUT             : 'input';
 OUTPUT            : 'output';
@@ -74,7 +73,7 @@ CONTINUE          : 'continue';
 TRY               : 'try';
 CATCH             : 'catch';
 FINALLY           : 'finally';
-THROWS             : 'throws';
+THROWS            : 'throws';
 ASYNC             : 'async';
 AWAIT             : 'await';
 TYPE              : 'type';
@@ -83,14 +82,18 @@ INTERFACE         : 'interface';
 PUBLIC            : 'public';
 PRIVATE           : 'private';
 PROTECTED         : 'protected';
-ONINIT : 'ngOnInit';
-ONCHANGES : 'ngOnChanges';
-ONDESTROY: 'ngOnDestroy';
-AS : 'as';
-THIS :'this';
-VOID : 'void';
-NUMBER :'number';
-TEMPLATE_LITERAL  : '`' .*? '`';
+AS                : 'as';
+THIS              :'this';
+VOID              : 'void';
+NUMBER            :'number';
+ONINIT            : 'ngOnInit';
+ONCHANGES         : 'ngOnChanges';
+ONDESTROY         : 'ngOnDestroy';
+NGIF              : 'ngIf';
+NGSWITCH          : 'ngSwitch';
+NGFOR             : 'ngFor';
+NGSTYLE           : 'ngStyle';
+NGCLASS           : 'ngClass';
 
 // Values
 ID                : [a-zA-Z_][a-zA-Z0-9_]*;
@@ -99,13 +102,6 @@ DOUBLE            : [0-9]+ ('.' [0-9]*)? | '.' [0-9]+ ;
 BOOLEAN           : 'true' | 'false';
 STRING            : '"' ( ESCAPE | ~["\\] )* '"' | '\'' ( ESCAPE | ~['\\] )* '\'';
 fragment ESCAPE   : '\\' [\\"'];
-
-// Directives
-NGIF                : 'ngIf';
-NGSWITCH            : 'ngSwitch';
-NGFOR               : 'ngFor';
-NGSTYLE             : 'ngStyle';
-NGCLASS             : 'ngClass';
 
 // Whitespace and Comments
 WS                : [ \t\r\n]+ -> skip;

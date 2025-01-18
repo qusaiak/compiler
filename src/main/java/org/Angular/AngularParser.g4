@@ -3,7 +3,7 @@ parser grammar AngularParser ;
 options {tokenVocab=AngularLexer;}
 
 // Program
-program : (importStatement)* (variableDeclaration | classDeclaration | functionDeclaration | componentDeclaration)* exportStatement? | EOF;
+program : (importStatement)* (variableDeclaration | classDeclaration | functionDeclaration | componentDeclaration)* exportStatement? EOF;
 
 // Main Parts
 importStatement
@@ -76,8 +76,8 @@ argumentContent
     | variableDeclaration
     | classDeclaration
     | LEFTCURLY (statement)* RIGHTCURLY
-    | SELECTOR COLON STRING COMMA
-    | TEMPLATEURL COLON (STRING | jsxElement) COMMA
+    | ID COLON STRING COMMA
+    | ID COLON HTMLSTRING jsxElement HTMLSTRING COMMA
     ;
 
 constructorDeclaration
@@ -192,7 +192,15 @@ jsxAttributes
 
 // Angular Directive
 angularDirective
-    : STAR ID EQUAL STRING
+    : STAR directive EQUAL STRING
+    ;
+
+directive
+    : NGIF
+    | NGSWITCH
+    | NGFOR
+    | NGSTYLE
+    | NGCLASS
     ;
 
 // jsx Attribute

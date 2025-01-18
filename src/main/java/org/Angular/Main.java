@@ -18,13 +18,14 @@ public class Main {
         CommonTokenStream tokenStream = new CommonTokenStream(lexer);
         AngularParser parser= new AngularParser(tokenStream);
         ParseTree tree =parser.program();
-        Program doc=(Program) new BaseVisitor().visit(tree);
+        BaseVisitor baseVisitor = new BaseVisitor();
+        Program program =(Program) baseVisitor.visit(tree);
         System.out.println("\n\n\n\n");
         System.out.println("******** AST TREE:\n");
         print_ast(tree,0);
         System.out.println("\n\n\n\n");
         System.out.println("******** PROGRAM:\n");
-        System.out.println(doc);
+        System.out.println(program);
     }
     static void print_ast(ParseTree tree, int depth) {
         if (tree.getChildCount() != 0) {
