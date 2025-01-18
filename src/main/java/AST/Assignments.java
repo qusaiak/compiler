@@ -55,21 +55,21 @@ public class Assignments {
 
     @Override
     public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Assignments: {\n");
+        sb.append("  id='").append(id).append("'\n");
         if (type != null) {
-            return "Assignment{" +
-                    "id='" + id + '\'' +
-                    ", type=" + type +
-                    '}';
-        } else if (value != null) {
-            return "Assignment{" +
-                    "id='" + id + '\'' +
-                    ", value=" + value +
-                    '}';
-        } else {
-            return "Assignment{" +
-                    "id='" + id + '\'' +
-                    ", callFunction=" + callFunction +
-                    '}';
+            sb.append("  type=").append(type).append('\n');
         }
+        if (value != null) {
+            sb.append("  value=").append(value).append('\n');
+        }
+        if (callFunction != null) {
+            sb.append("  callFunction=").append(callFunction).append('\n');
+        }
+        sb.append("}");
+        return sb.toString();
     }
+
+
 }

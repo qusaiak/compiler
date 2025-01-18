@@ -41,16 +41,18 @@ public class JsxBinding {
 
     @Override
     public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("JsxBinding: {\n");
+        sb.append("  id='").append(id).append("'\n");
         if (value != null) {
-            return "JsxBinding{" +
-                    "id='" + id + '\'' +
-                    ", value='" + value + '\'' +
-                    '}';
-        } else {
-            return "JsxBinding{" +
-                    "id='" + id + '\'' +
-                    ", interpolation=" + interpolation +
-                    '}';
+            sb.append("  value='").append(value).append("'\n");
         }
+        if (interpolation != null) {
+            sb.append("  interpolation=").append(interpolation).append("\n");
+        }
+        sb.append("}");
+        return sb.toString();
     }
+
+
 }

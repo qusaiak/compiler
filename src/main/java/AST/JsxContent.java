@@ -43,20 +43,19 @@ public class JsxContent {
 
     @Override
     public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("JsxContent: {\n");
         if (jsxElement != null) {
-            return "JsxContent{" +
-                    "\njsxElement=" + jsxElement +
-                    "\n}";
-        } else if (interpolation != null) {
-            return "JsxContent{" +
-                    "\ninterpolation=" + interpolation +
-                    "\n}";
-        } else if (id != null) {
-            return "JsxContent{" +
-                    "\nid='" + id + '\'' +
-                    "\n}";
-        } else {
-            return "JsxContent{}";
+            sb.append("  jsxElement=").append(jsxElement).append("\n");
         }
+        if (interpolation != null) {
+            sb.append("  interpolation=").append(interpolation).append("\n");
+        }
+        if (id != null) {
+            sb.append("  id='").append(id).append("'\n");
+        }
+        sb.append("}");
+        return sb.toString();
     }
+
 }

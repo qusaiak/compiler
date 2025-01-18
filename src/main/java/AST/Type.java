@@ -20,10 +20,11 @@ public class Type {
 
     @Override
     public String toString() {
-        return "Type{" +
-                "typeName='" + typeName + '\'' +
-                '}';
+        return "Type: {\n" +
+                "  typeName='" + typeName + "'\n" +
+                "}";
     }
+
 
     public static List<Type> getAllTypes() {
         List<Type> types = new ArrayList<>();
@@ -40,4 +41,5 @@ public class Type {
         types.add(new Type("NULL"));
         return types;
     }
+
 }

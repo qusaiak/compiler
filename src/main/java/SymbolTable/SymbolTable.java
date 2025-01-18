@@ -19,11 +19,20 @@ public class SymbolTable {
     }
 
     public void print() {
-        System.out.println("TYPE" + "\t\t\t\t\t" + "VALUE");
+        System.out.println("*****************************************************************************");
+        System.out.println("*                               SYMBOL TABLE                                *");
+        System.out.println("*****************************************************************************");
+        System.out.println("| ID | Variable Name   | Value                                              |");
+        System.out.println("*****************************************************************************");
+
+        int id = 1;
         for (Row row : rows) {
             if (row != null) {
-                System.out.println(row.getType() + "\t\t\t\t" + row.getValue());
+                System.out.printf("| %-2d | %-15s | %-50s |\n", id, row.getType(), row.getValue());
+                id++;
             }
         }
+
+        System.out.println("*****************************************************************************");
     }
 }

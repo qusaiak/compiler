@@ -27,9 +27,15 @@ public class SelfClosingTag {
 
     @Override
     public String toString() {
-        return "SelfClosingTag{" +
-                "id='" + id + '\'' +
-                ", jsxAttributes=" + jsxAttributes +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("SelfClosingTag: {\n");
+        sb.append("  id='").append(id).append("'\n");
+        if (jsxAttributes != null) {
+            sb.append("  jsxAttributes=").append(jsxAttributes).append("\n");
+        }
+        sb.append("}");
+        return sb.toString();
     }
+
+
 }

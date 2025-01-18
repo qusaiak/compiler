@@ -46,14 +46,23 @@ public class FunctionDeclaration {
     public void setFunctionBody(FunctionBody functionBody) {
         this.functionBody = functionBody;
     }
-
     @Override
     public String toString() {
-        return "FunctionDeclaration{" +
-                "id='" + id + '\'' +
-                ", parameters=" + parameters +
-                ", returnType=" + returnType +
-                ", functionBody=" + functionBody +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("FunctionDeclaration: {\n");
+        sb.append("  id='").append(id).append("'\n");
+        if (parameters != null && !parameters.isEmpty()) {
+            sb.append("  parameters=").append(parameters).append("\n");
+        }
+        if (returnType != null) {
+            sb.append("  returnType=").append(returnType).append("\n");
+        }
+        if (functionBody != null) {
+            sb.append("  functionBody=").append(functionBody).append("\n");
+        }
+        sb.append("}");
+        return sb.toString();
     }
+
+
 }

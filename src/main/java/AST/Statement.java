@@ -134,46 +134,31 @@ public class Statement {
 
     @Override
     public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Statement: {\n");
         if (variableDeclaration != null) {
-            return "Statement{" +
-                    "variableDeclaration=" + variableDeclaration +
-                    '}';
+            sb.append("  variableDeclaration=").append(variableDeclaration).append("\n");
         } else if (ifStatement != null) {
-            return "Statement{" +
-                    "ifStatement=" + ifStatement +
-                    '}';
+            sb.append("  ifStatement=").append(ifStatement).append("\n");
         } else if (forStatement != null) {
-            return "Statement{" +
-                    "forStatement=" + forStatement +
-                    '}';
+            sb.append("  forStatement=").append(forStatement).append("\n");
         } else if (whileStatement != null) {
-            return "Statement{" +
-                    "whileStatement=" + whileStatement +
-                    '}';
+            sb.append("  whileStatement=").append(whileStatement).append("\n");
         } else if (callFunction != null) {
-            return "Statement{" +
-                    "callFunction=" + callFunction +
-                    '}';
+            sb.append("  callFunction=").append(callFunction).append("\n");
         } else if (printStatement != null) {
-            return "Statement{" +
-                    "printStatement=" + printStatement +
-                    '}';
+            sb.append("  printStatement=").append(printStatement).append("\n");
         } else if (jsxElement != null) {
-            return "Statement{" +
-                    "jsxElement=" + jsxElement +
-                    '}';
+            sb.append("  jsxElement=").append(jsxElement).append("\n");
         } else if (directive != null) {
-            return "Statement{" +
-                    "Directives=" + directive +
-                    '}';
+            sb.append("  directive=").append(directive).append("\n");
         } else if (returnStatement != null) {
-            return "Statement{" +
-                    "returnStatement=" + returnStatement +
-                    '}';
-        } else {
-            return "Statement{" +
-                    "assignment=" + assignment +
-                    '}';
+            sb.append("  returnStatement=").append(returnStatement).append("\n");
+        } else if (assignment != null) {
+            sb.append("  assignment=").append(assignment).append("\n");
         }
+        sb.append("}");
+        return sb.toString();
     }
+
 }

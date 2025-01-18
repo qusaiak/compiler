@@ -20,8 +20,14 @@ public class Print{
 
     @Override
     public String toString() {
-        return "PrintStatement{" +
-                "\nexpressions=" + expressions +
-                "\n}";
+        StringBuilder sb = new StringBuilder();
+        sb.append("PrintStatement: {\n");
+        if (expressions != null && !expressions.isEmpty()) {
+            sb.append("  expressions=").append(expressions).append("\n");
+        }
+        sb.append("}");
+        return sb.toString();
     }
+
+
 }

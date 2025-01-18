@@ -30,7 +30,16 @@ public class CallFunction {
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(functionName, arguments);
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("CallFunction: {\n");
+        sb.append("  functionName='").append(functionName).append("'\n");
+        if (arguments != null && !arguments.isEmpty()) {
+            sb.append("  arguments=").append(arguments).append('\n');
+        }
+        sb.append("}");
+        return sb.toString();
     }
+
+
 }

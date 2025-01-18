@@ -23,7 +23,6 @@ public class Expression {
         this.operation=op;
     }
 
-    // Getters and Setters
     public Value getValue() {
         return value;
     }
@@ -87,34 +86,30 @@ public class Expression {
 
     @Override
     public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Expression: {\n");
         if (value != null) {
-            return "Expression{" +
-                    "\nvalue=" + value +
-                    "\n}";
-        } else if (id != null) {
-            return "Expression{" +
-                    "\nid='" + id + '\'' +
-                    "\n}";
-        } else if (complexId != null) {
-            return "Expression{" +
-                    "\ncomplexId='" + complexId + '\'' +
-                    "\n}";
-        } else if (callFunction != null) {
-            return "Expression{" +
-                    "\ncallFunction=" + callFunction +
-                    "\n}";
-        } else if (directive != null) {
-            return "Expression{" +
-                    "\ndirective=" + directive +
-                    "\n}";
-        } else if (left != null && right != null && operation != null) {
-            return "Expression{" +
-                    "\nleft=" + left +
-                    "\noperation=" + operation +
-                    "\nright=" + right +
-                    "\n}";
-        } else {
-            return "Expression{}";
+            sb.append("  value=").append(value).append("\n");
         }
+        if (id != null) {
+            sb.append("  id='").append(id).append("'\n");
+        }
+        if (complexId != null) {
+            sb.append("  complexId='").append(complexId).append("'\n");
+        }
+        if (callFunction != null) {
+            sb.append("  callFunction=").append(callFunction).append("\n");
+        }
+        if (directive != null) {
+            sb.append("  directive=").append(directive).append("\n");
+        }
+        if (left != null && right != null && operation != null) {
+            sb.append("  left=").append(left).append("\n");
+            sb.append("  operation=").append(operation).append("\n");
+            sb.append("  right=").append(right).append("\n");
+        }
+        sb.append("}");
+        return sb.toString();
     }
+
 }

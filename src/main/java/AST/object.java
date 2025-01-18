@@ -17,11 +17,11 @@ public class object {
     public void addProperty(String key, Object value) {
         properties.put(key, value);
     }
-
     @Override
     public String toString() {
-        return "ObjectNode{" +
-                "\nproperties=" + properties +
-                "\n}";
+        return "CustomObject: {\n" +
+                "  properties=" + properties + "\n" +
+                "}";
     }
+
 }

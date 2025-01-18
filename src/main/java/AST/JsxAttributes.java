@@ -21,6 +21,7 @@ public class JsxAttributes {
         this.jsxClasses = jsxClasses;
     }
 
+    // Getters and setters
     public List<angularDirective> getAngularDirectives() {
         return angularDirectives;
     }
@@ -63,12 +64,26 @@ public class JsxAttributes {
 
     @Override
     public String toString() {
-        return "JsxAttributes{" +
-                "angularDirectives=" + angularDirectives +
-                ", jsxAttributes=" + jsxAttributes +
-                ", jsxEvents=" + jsxEvents +
-                ", jsxBindings=" + jsxBindings +
-                ", jsxClasses=" + jsxClasses +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("JsxAttributes: {\n");
+        if (angularDirectives != null && !angularDirectives.isEmpty()) {
+            sb.append("  angularDirectives=").append(angularDirectives).append("\n");
+        }
+        if (jsxAttributes != null && !jsxAttributes.isEmpty()) {
+            sb.append("  jsxAttributes=").append(jsxAttributes).append("\n");
+        }
+        if (jsxEvents != null && !jsxEvents.isEmpty()) {
+            sb.append("  jsxEvents=").append(jsxEvents).append("\n");
+        }
+        if (jsxBindings != null && !jsxBindings.isEmpty()) {
+            sb.append("  jsxBindings=").append(jsxBindings).append("\n");
+        }
+        if (jsxClasses != null && !jsxClasses.isEmpty()) {
+            sb.append("  jsxClasses=").append(jsxClasses).append("\n");
+        }
+        sb.append("}");
+        return sb.toString();
     }
+
+
 }

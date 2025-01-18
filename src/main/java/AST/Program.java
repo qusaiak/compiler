@@ -74,13 +74,49 @@ public class Program {
 
     @Override
     public String toString() {
-        return "Program{" +
-                "importStatements=" + importStatements +
-                ", variableDeclarations=" + variableDeclarations +
-                ", classDeclarations=" + classDeclarations +
-                ", functionDeclarations=" + functionDeclarations +
-                ", componentDeclarations=" + componentDeclarations +
-                ", exportStatement=" + exportStatement +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("Program:\n");
+
+        if (importStatements != null && !importStatements.isEmpty()) {
+            sb.append("\nImport Statements:\n");
+            for (ImportStatement importStatement : importStatements) {
+                sb.append("  ").append(importStatement).append("\n");
+            }
+        }
+
+        if (variableDeclarations != null && !variableDeclarations.isEmpty()) {
+            sb.append("\nVariable Declarations:\n");
+            for (VariableDeclaration variableDeclaration : variableDeclarations) {
+                sb.append("  ").append(variableDeclaration).append("\n");
+            }
+        }
+
+        if (classDeclarations != null && !classDeclarations.isEmpty()) {
+            sb.append("\nClass Declarations:\n");
+            for (ClassDeclaration classDeclaration : classDeclarations) {
+                sb.append("  ").append(classDeclaration).append("\n");
+            }
+        }
+
+        if (functionDeclarations != null && !functionDeclarations.isEmpty()) {
+            sb.append("\nFunction Declarations:\n");
+            for (FunctionDeclaration functionDeclaration : functionDeclarations) {
+                sb.append("  ").append(functionDeclaration).append("\n");
+            }
+        }
+
+        if (componentDeclarations != null && !componentDeclarations.isEmpty()) {
+            sb.append("\nComponent Declarations:\n");
+            for (ComponentDeclaration componentDeclaration : componentDeclarations) {
+                sb.append("  ").append(componentDeclaration).append("\n");
+            }
+        }
+
+        if (exportStatement != null) {
+            sb.append("\nExport Statement:\n  ").append(exportStatement).append("\n");
+        }
+
+        return sb.toString();
     }
+
 }

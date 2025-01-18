@@ -98,14 +98,27 @@ public class VariableDeclaration {
 
     @Override
     public String toString() {
-        return "VariableDeclaration{" +
-                "varType='" + varType + '\'' +
-                ", id='" + id + '\'' +
-                ", type=" + type +
-                ", value=" + value +
-                ", array=" + array +
-                ", object=" + object +
-                ", functionDeclaration=" + functionDeclaration +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("Variable Declaration: {");
+        sb.append("\n  varType='").append(varType).append('\'');
+        sb.append(",\n  id='").append(id).append('\'');
+        if (type != null) {
+            sb.append(",\n  type=").append(type);
+        }
+        if (value != null) {
+            sb.append(",\n  value=").append(value);
+        }
+        if (array != null) {
+            sb.append(",\n  array=").append(array);
+        }
+        if (object != null) {
+            sb.append(",\n  object=").append(object);
+        }
+        if (functionDeclaration != null) {
+            sb.append(",\n  functionDeclaration=").append(functionDeclaration);
+        }
+        sb.append("\n}");
+        return sb.toString();
     }
+
 }

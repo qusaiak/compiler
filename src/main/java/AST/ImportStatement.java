@@ -58,11 +58,22 @@ public class ImportStatement {
 
     @Override
     public String toString() {
-        return "ImportStatement{" +
-                "id='" + id + '\'' +
-                ", ids=" + ids +
-                ", from='" + from + '\'' +
-                ", string='" + string + '\'' +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("ImportStatement: {\n");
+        if (id != null) {
+            sb.append("  id='").append(id).append("'\n");
+        }
+        if (ids != null && !ids.isEmpty()) {
+            sb.append("  ids=").append(ids).append("\n");
+        }
+        if (from != null) {
+            sb.append("  from='").append(from).append("'\n");
+        }
+        if (string != null) {
+            sb.append("  string='").append(string).append("'\n");
+        }
+        sb.append("}");
+        return sb.toString();
     }
+
 }

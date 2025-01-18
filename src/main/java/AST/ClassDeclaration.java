@@ -51,11 +51,18 @@ public class ClassDeclaration {
 
     @Override
     public String toString() {
-        return "ClassDeclaration{" +
-                "className='" + className + '\'' +
-                ", extendsClassName='" + extendsClassName + '\'' +
-                ", implementsList=" + implementsList +
-                ", classBody=" + classBody +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("ClassDeclaration:{");
+        sb.append("className='").append(className).append("'");
+        if (extendsClassName != null) {
+            sb.append("  extendsClassName='").append(extendsClassName).append("'\n");
+        }
+        if (implementsList != null && !implementsList.isEmpty()) {
+            sb.append("  implementsList=").append(implementsList).append("\n");
+        }
+        sb.append("}");
+        return sb.toString();
     }
+
+
 }

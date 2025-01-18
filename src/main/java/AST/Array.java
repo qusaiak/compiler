@@ -20,8 +20,14 @@ public class Array {
 
     @Override
     public String toString() {
-        return "Array{" +
-                "\nvalues=" + values +
-                "\n}";
+        StringBuilder sb = new StringBuilder();
+        sb.append("Array: {\n");
+        if (values != null && !values.isEmpty()) {
+            sb.append("  values=").append(values).append('\n');
+        }
+        sb.append("}");
+        return sb.toString();
     }
+
+
 }

@@ -40,4 +40,21 @@ public class ifStatement {
     public int hashCode() {
         return Objects.hash(condition, thenStatements, elseStatements);
     }
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("ifStatement: {\n");
+        if (condition != null) {
+            sb.append("  condition=").append(condition).append("\n");
+        }
+        if (thenStatements != null && !thenStatements.isEmpty()) {
+            sb.append("  thenStatements=").append(thenStatements).append("\n");
+        }
+        if (elseStatements != null && !elseStatements.isEmpty()) {
+            sb.append("  elseStatements=").append(elseStatements).append("\n");
+        }
+        sb.append("}");
+        return sb.toString();
+    }
+
 }

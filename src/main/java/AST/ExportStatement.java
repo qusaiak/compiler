@@ -86,14 +86,29 @@ public class ExportStatement {
 
     @Override
     public String toString() {
-        return "ExportStatement{" +
-                "isDefault=" + isDefault +
-                ", classDeclaration=" + classDeclaration +
-                ", variableDeclaration=" + variableDeclaration +
-                ", functionDeclaration=" + functionDeclaration +
-                ", componentDeclaration=" + componentDeclaration +
-                ", object=" + object +
-                ", ids=" + ids +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("ExportStatement: {\n");
+        sb.append("  isDefault=").append(isDefault).append("\n");
+        if (classDeclaration != null) {
+            sb.append("  classDeclaration=").append(classDeclaration).append("\n");
+        }
+        if (variableDeclaration != null) {
+            sb.append("  variableDeclaration=").append(variableDeclaration).append("\n");
+        }
+        if (functionDeclaration != null) {
+            sb.append("  functionDeclaration=").append(functionDeclaration).append("\n");
+        }
+        if (componentDeclaration != null) {
+            sb.append("  componentDeclaration=").append(componentDeclaration).append("\n");
+        }
+        if (object != null) {
+            sb.append("  object=").append(object).append("\n");
+        }
+        if (ids != null && !ids.isEmpty()) {
+            sb.append("  ids=").append(ids).append("\n");
+        }
+        sb.append("}");
+        return sb.toString();
     }
+
 }

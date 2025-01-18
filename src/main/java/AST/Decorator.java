@@ -33,9 +33,15 @@ public class Decorator {
 
     @Override
     public String toString() {
-        return "Decorator{" +
-                "id='" + id + '\'' +
-                ", arguments=" + arguments +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("Decorator: {\n");
+        sb.append("  id='").append(id).append("'\n");
+        if (arguments != null && !arguments.isEmpty()) {
+            sb.append("  arguments=").append(arguments).append("\n");
+        }
+        sb.append("}");
+        return sb.toString();
     }
+
+
 }

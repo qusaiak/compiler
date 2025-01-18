@@ -33,4 +33,16 @@ public class WhileStatement {
     public int hashCode() {
         return Objects.hash(condition, body);
     }
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("WhileStatement: {\n");
+        sb.append("  condition=").append(condition).append("\n");
+        if (body != null && !body.isEmpty()) {
+            sb.append("  body=").append(body).append("\n");
+        }
+        sb.append("}");
+        return sb.toString();
+    }
+
 }

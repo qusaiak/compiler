@@ -27,9 +27,10 @@ public class jsxEvent {
 
     @Override
     public String toString() {
-        return "JsxEvent{" +
-                "id='" + id + '\'' +
-                ", value='" + value + '\'' +
-                '}';
+        return "JsxEvent: {\n" +
+                "  id='" + id + "',\n" +
+                "  value='" + value + "'\n" +
+                "}";
     }
+
 }

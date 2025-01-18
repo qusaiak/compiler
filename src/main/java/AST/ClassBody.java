@@ -52,11 +52,23 @@ public class ClassBody {
 
     @Override
     public String toString() {
-        return "ClassBody{" +
-                "decorators=" + decorators +
-                ", constructorDeclarations=" + constructorDeclarations +
-                ", variableDeclarations=" + variableDeclarations +
-                ", functionDeclarations=" + functionDeclarations +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("ClassBody: {\n");
+        if (decorators != null && !decorators.isEmpty()) {
+            sb.append("  decorators=").append(decorators).append("\n");
+        }
+        if (constructorDeclarations != null && !constructorDeclarations.isEmpty()) {
+            sb.append("  constructorDeclarations=").append(constructorDeclarations).append("\n");
+        }
+        if (variableDeclarations != null && !variableDeclarations.isEmpty()) {
+            sb.append("  variableDeclarations=").append(variableDeclarations).append("\n");
+        }
+        if (functionDeclarations != null && !functionDeclarations.isEmpty()) {
+            sb.append("  functionDeclarations=").append(functionDeclarations).append("\n");
+        }
+        sb.append("}");
+        return sb.toString();
     }
+
+
 }

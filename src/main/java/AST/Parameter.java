@@ -47,11 +47,19 @@ public class Parameter {
 
     @Override
     public String toString() {
-        return "Parameter{" +
-                "accessModifier='" + accessModifier + '\'' +
-                ", id='" + id + '\'' +
-                ", type=" + type +
-                ", value=" + value +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("Parameter: {\n");
+        sb.append("  accessModifier='").append(accessModifier).append("'\n");
+        sb.append("  id='").append(id).append("'\n");
+        if (type != null) {
+            sb.append("  type=").append(type).append("\n");
+        }
+        if (value != null) {
+            sb.append("  value=").append(value).append("\n");
+        }
+        sb.append("}");
+        return sb.toString();
     }
+
+
 }

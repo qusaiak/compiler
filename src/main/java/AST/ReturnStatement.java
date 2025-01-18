@@ -50,16 +50,24 @@ public class ReturnStatement {
 
     @Override
     public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("ReturnStatement: {\n");
         if (jsxElement != null) {
-            return "ReturnStatement{" +
-                    "jsxElement=" + jsxElement +
-                    '}';
+            sb.append("  jsxElement=").append(jsxElement).append("\n");
         } else {
-            return "ReturnStatement{" +
-                    "value=" + value +
-                    ", operation=" + operation +
-                    ", secondValue=" + secondValue +
-                    '}';
+            if (value != null) {
+                sb.append("  value=").append(value).append("\n");
+            }
+            if (operation != null) {
+                sb.append("  operation=").append(operation).append("\n");
+            }
+            if (secondValue != null) {
+                sb.append("  secondValue=").append(secondValue).append("\n");
+            }
         }
+        sb.append("}");
+        return sb.toString();
     }
+
+
 }

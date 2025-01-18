@@ -52,16 +52,21 @@ public class JsxElement {
 
     @Override
     public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("JsxElement: {\n");
         if (selfClosingTag != null) {
-            return "JsxElement{" +
-                    "selfClosingTag=" + selfClosingTag +
-                    '}';
+            sb.append("  selfClosingTag=").append(selfClosingTag).append("\n");
         } else {
-            return "JsxElement{" +
-                    "openingTag=" + openingTag +
-                    ", jsxContents=" + jsxContents +
-                    ", closingTag=" + closingTag +
-                    '}';
+            sb.append("  openingTag=").append(openingTag).append("\n");
+            if (jsxContents != null && !jsxContents.isEmpty()) {
+                sb.append("  jsxContents=").append(jsxContents).append("\n");
+            }
+            if (closingTag != null) {
+                sb.append("  closingTag=").append(closingTag).append("\n");
+            }
         }
+        sb.append("}");
+        return sb.toString();
     }
+
 }

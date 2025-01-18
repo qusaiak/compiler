@@ -17,8 +17,10 @@ public class interpolation {
 
     @Override
     public String toString() {
-        return "Interpolation{" +
-                "expression=" + expression +
-                '}';
+        return "Interpolation: {\n" +
+                "  expression=" + expression + "\n" +
+                "}";
     }
+
+
 }

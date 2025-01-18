@@ -27,9 +27,10 @@ public class angularDirective {
 
     @Override
     public String toString() {
-        return "AngularDirective{" +
-                "directive='" + directive + '\'' +
+        return "AngularDirective:\n" +
+                "  directive='" + directive + '\'' +
                 ", value='" + value + '\'' +
-                '}';
+                '\n';
     }
+
 }

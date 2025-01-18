@@ -43,16 +43,18 @@ public class ConstructorDeclaration {
 
     @Override
     public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("ConstructorDeclaration: {\n");
+        sb.append("  parameters=").append(parameters).append("\n");
         if (functionBody != null) {
-            return "ConstructorDeclaration{" +
-                    "parameters=" + parameters +
-                    ", functionBody=" + functionBody +
-                    '}';
-        } else {
-            return "ConstructorDeclaration{" +
-                    "parameters=" + parameters +
-                    ", assignments=" + assignments +
-                    '}';
+            sb.append("  functionBody=").append(functionBody).append("\n");
         }
+        if (assignments != null && !assignments.isEmpty()) {
+            sb.append("  assignments=").append(assignments).append("\n");
+        }
+        sb.append("}");
+        return sb.toString();
     }
+
+
 }

@@ -29,9 +29,17 @@ public class FunctionBody {
 
     @Override
     public String toString() {
-        return "FunctionBody{" +
-                "statements=" + statements +
-                ", returnStatement=" + returnStatement +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("FunctionBody: {\n");
+        if (statements != null && !statements.isEmpty()) {
+            sb.append("  statements=").append(statements).append("\n");
+        }
+        if (returnStatement != null) {
+            sb.append("  returnStatement=").append(returnStatement).append("\n");
+        }
+        sb.append("}");
+        return sb.toString();
     }
+
+
 }

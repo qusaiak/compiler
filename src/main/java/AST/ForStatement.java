@@ -1,5 +1,6 @@
 package AST;
 
+import java.util.List;
 import java.util.Objects;
 
 public class ForStatement {
@@ -7,7 +8,7 @@ public class ForStatement {
     private Condition condition;
     private Statement body;
 
-    public ForStatement(VariableDeclaration variableDeclaration, Condition condition, Statement body) {
+    public ForStatement(VariableDeclaration variableDeclaration, Condition condition, Statement body, List<Statement> statements) {
         this.variableDeclaration = variableDeclaration;
         this.condition = condition;
         this.body = body;
@@ -39,4 +40,21 @@ public class ForStatement {
     public int hashCode() {
         return Objects.hash(variableDeclaration, condition, body);
     }
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("ForStatement: {\n");
+        if (variableDeclaration != null) {
+            sb.append("  variableDeclaration=").append(variableDeclaration).append("\n");
+        }
+        if (condition != null) {
+            sb.append("  condition=").append(condition).append("\n");
+        }
+        if (body != null) {
+            sb.append("  body=").append(body).append("\n");
+        }
+        sb.append("}");
+        return sb.toString();
+    }
+
 }

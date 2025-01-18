@@ -27,9 +27,10 @@ public class JsxAttribute {
 
     @Override
     public String toString() {
-        return "JsxAttribute{" +
-                "id='" + id + '\'' +
-                ", value='" + value + '\'' +
-                '}';
+        return "JsxAttribute: {\n" +
+                "  id='" + id + "',\n" +
+                "  value='" + value + "'\n" +
+                "}";
     }
+
 }

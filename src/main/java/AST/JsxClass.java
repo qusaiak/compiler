@@ -17,8 +17,9 @@ public class JsxClass {
 
     @Override
     public String toString() {
-        return "JsxClass{" +
-                "className='" + className + '\'' +
-                '}';
+        return "JsxClass: {\n" +
+                "  className='" + className + "'\n" +
+                "}";
     }
+
 }

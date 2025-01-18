@@ -17,8 +17,10 @@ public class ClosingTag {
 
     @Override
     public String toString() {
-        return "ClosingTag{" +
-                "id='" + id + '\'' +
-                '}';
+        return "ClosingTag: {\n" +
+                "  id='" + id + "'\n" +
+                "}";
     }
+
+
 }

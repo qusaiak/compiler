@@ -36,7 +36,13 @@ public class Condition {
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(left, right, operator);
+    public String toString() {
+        return "Condition: {\n" +
+                "  left=" + left + "\n" +
+                "  right=" + right + "\n" +
+                "  operator='" + operator + "'\n" +
+                "}";
     }
+
+
 }

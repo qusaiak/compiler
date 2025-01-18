@@ -27,9 +27,14 @@ public class OpeningTag {
 
     @Override
     public String toString() {
-        return "OpeningTag{" +
-                "id='" + id + '\'' +
-                ", jsxAttributes=" + jsxAttributes +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("OpeningTag: {\n");
+        sb.append("  id='").append(id).append("'\n");
+        if (jsxAttributes != null) {
+            sb.append("  jsxAttributes=").append(jsxAttributes).append("\n");
+        }
+        sb.append("}");
+        return sb.toString();
     }
+
 }

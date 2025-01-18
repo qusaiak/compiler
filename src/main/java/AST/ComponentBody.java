@@ -30,9 +30,17 @@ public class ComponentBody {
 
     @Override
     public String toString() {
-        return "ComponentBody{" +
-                "variableDeclarations=" + variableDeclarations +
-                ", functionDeclarations=" + functionDeclarations +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("ComponentBody: {\n");
+        if (variableDeclarations != null && !variableDeclarations.isEmpty()) {
+            sb.append("  variableDeclarations=").append(variableDeclarations).append("\n");
+        }
+        if (functionDeclarations != null && !functionDeclarations.isEmpty()) {
+            sb.append("  functionDeclarations=").append(functionDeclarations).append("\n");
+        }
+        sb.append("}");
+        return sb.toString();
     }
+
+
 }
