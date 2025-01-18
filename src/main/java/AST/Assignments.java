@@ -6,19 +6,16 @@ public class Assignments {
     private Value value;
     private CallFunction callFunction;
 
-    // Constructor for ID and type
     public Assignments(String id, Type type) {
         this.id = id;
         this.type = type;
     }
 
-    // Constructor for ID and value
     public Assignments(String id, Value value) {
         this.id = id;
         this.value = value;
     }
 
-    // Constructor for `this` keyword
     public Assignments(String id, CallFunction callFunction) {
         this.id = id;
         this.callFunction = callFunction;

@@ -37,7 +37,6 @@ public class Main {
         }
     }
 
-    // indentation based on depth
     private static String getIndent(int depth) {
         return "\t".repeat(Math.max(0, depth));
     }

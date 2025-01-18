@@ -3,42 +3,43 @@ package AST;
 import java.util.List;
 
 public class Value {
-    private String stringValue;
-    private Integer intValue;
-    private Double doubleValue;
-    private Boolean booleanValue;
-    private Object nestedObject;
+    private Type type;
     private List<Value> nestedArray;
+    private Object nestedObject;
     private JsxElement jsxElement;
     private angularDirective directive;
     private boolean isNull;
 
-    public Value(String stringValue) {
-        this.stringValue = stringValue;
+    public Value(Type type) {
+        this.type = type;
     }
 
-    public Value(Integer intValue) {
-        this.intValue = intValue;
-    }
-
-    public Value(Double doubleValue) {
-        this.doubleValue = doubleValue;
-    }
-
-    public Value(Boolean booleanValue) {
-        this.booleanValue = booleanValue;
+    public Type getType() {
+        return type;
     }
 
     public Value(Object nestedObject) {
         this.nestedObject = nestedObject;
     }
 
+    public Object getNestedObject() {
+        return nestedObject;
+    }
+
     public Value(List<Value> nestedArray) {
         this.nestedArray = nestedArray;
     }
 
+    public List<Value> getNestedArray() {
+        return nestedArray;
+    }
+
     public Value(JsxElement jsxElement) {
         this.jsxElement = jsxElement;
+    }
+
+    public JsxElement getJsxElement() {
+        return jsxElement;
     }
 
     public Value(angularDirective directive) {
@@ -59,10 +60,7 @@ public class Value {
 
     @Override
     public String toString() {
-        if (stringValue != null) return "\"" + stringValue + "\"";
-        if (intValue != null) return intValue.toString();
-        if (doubleValue != null) return doubleValue.toString();
-        if (booleanValue != null) return booleanValue.toString();
+        if (type != null) return type.toString();
         if (nestedObject != null) return nestedObject.toString();
         if (nestedArray != null) return nestedArray.toString();
         if (jsxElement != null) return jsxElement.toString();

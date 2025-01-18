@@ -12,7 +12,6 @@ public class DecoratorArgument {
     private String templateUrl;
     private JsxElement jsxElement;
 
-    // Constructor for each type of argument
     public DecoratorArgument(ExportStatement exportStatement) {
         this.exportStatement = exportStatement;
     }
@@ -42,7 +41,6 @@ public class DecoratorArgument {
         this.jsxElement = jsxElement;
     }
 
-    // Getters and setters
     public ExportStatement getExportStatement() {
         return exportStatement;
     }

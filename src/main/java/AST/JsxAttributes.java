@@ -21,7 +21,6 @@ public class JsxAttributes {
         this.jsxClasses = jsxClasses;
     }
 
-    // Getters and setters
     public List<angularDirective> getAngularDirectives() {
         return angularDirectives;
     }

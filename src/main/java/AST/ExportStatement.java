@@ -11,13 +11,11 @@ public class ExportStatement {
     private Object object;
     private List<String> ids;
 
-    // Constructor for default export
     public ExportStatement(boolean isDefault, ClassDeclaration classDeclaration) {
         this.isDefault = isDefault;
         this.classDeclaration = classDeclaration;
     }
 
-    // Constructor for named exports
     public ExportStatement(ClassDeclaration classDeclaration, VariableDeclaration variableDeclaration, FunctionDeclaration functionDeclaration, ComponentDeclaration componentDeclaration, Object object) {
         this.classDeclaration = classDeclaration;
         this.variableDeclaration = variableDeclaration;
@@ -26,12 +24,10 @@ public class ExportStatement {
         this.object = object;
     }
 
-    // Constructor for named exports with curly braces
     public ExportStatement(List<String> ids) {
         this.ids = ids;
     }
 
-    // Getters and setters
     public boolean isDefault() {
         return isDefault;
     }

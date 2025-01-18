@@ -12,7 +12,6 @@ public class Statement {
     private ReturnStatement returnStatement;
     private Assignments assignment;
 
-    // Constructors for each type of statement
     public Statement(VariableDeclaration variableDeclaration) {
         this.variableDeclaration = variableDeclaration;
     }
@@ -53,7 +52,6 @@ public class Statement {
         this.assignment = assignment;
     }
 
-    // Getters and setters
     public VariableDeclaration getVariableDeclaration() {
         return variableDeclaration;
     }

@@ -6,12 +6,10 @@ public class Decorator {
     private String id;
     private List<DecoratorArgument> arguments;
 
-    // Constructor for decorators without arguments
     public Decorator(String id) {
         this.id = id;
     }
 
-    // Constructor for decorators with arguments
     public Decorator(String id, List<DecoratorArgument> arguments) {
         this.id = id;
         this.arguments = arguments;

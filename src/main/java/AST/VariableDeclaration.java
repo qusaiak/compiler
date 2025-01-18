@@ -9,7 +9,6 @@ public class VariableDeclaration {
     private Object object;
     private FunctionDeclaration functionDeclaration;
 
-    // Constructor for variable declaration with value, array, object, or function declaration
     public VariableDeclaration(String varType, String id, Value value) {
         this.varType = varType;
         this.id = id;
@@ -41,7 +40,6 @@ public class VariableDeclaration {
         this.value = value;
     }
 
-    // Getters and setters
     public String getVarType() {
         return varType;
     }

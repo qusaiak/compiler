@@ -7,13 +7,11 @@ public class ConstructorDeclaration {
     private FunctionBody functionBody;
     private List<Assignments> assignments;
 
-    // Constructor for function body
     public ConstructorDeclaration(List<Parameter> parameters, FunctionBody functionBody) {
         this.parameters = parameters;
         this.functionBody = functionBody;
     }
 
-    // Constructor for assignments
     public ConstructorDeclaration(List<Parameter> parameters, List<Assignments> assignments) {
         this.parameters = parameters;
         this.assignments = assignments;
