@@ -12,7 +12,8 @@ import static org.antlr.v4.runtime.CharStreams.fromFileName;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        String source="src/tests/test1/product.component.ts";
+        int testNumber = 1 ;
+        String source="src/tests/test"+testNumber+".ts";
         CharStream cs=fromFileName(source);
         AngularLexer lexer = new AngularLexer(cs);
         CommonTokenStream tokenStream = new CommonTokenStream(lexer);
@@ -20,11 +21,11 @@ public class Main {
         ParseTree tree =parser.program();
         BaseVisitor baseVisitor = new BaseVisitor();
         Program program =(Program) baseVisitor.visit(tree);
-        System.out.println("\n\n\n\n");
-        System.out.println("******** AST TREE:\n");
+        System.out.println("\n\n");
+        System.out.println("******** AST TREE ********\n");
         print_ast(tree,0);
         System.out.println("\n\n\n\n");
-        System.out.println("******** PROGRAM:\n");
+        System.out.println("******** PROGRAM ********\n");
         System.out.println(program);
     }
     static void print_ast(ParseTree tree, int depth) {
