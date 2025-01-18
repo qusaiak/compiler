@@ -221,6 +221,12 @@ public interface AngularParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitAngularDirective(AngularParser.AngularDirectiveContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link AngularParser#directive}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDirective(AngularParser.DirectiveContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link AngularParser#jsxAttribute}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
