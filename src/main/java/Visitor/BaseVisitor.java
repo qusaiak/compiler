@@ -43,7 +43,7 @@ public class BaseVisitor extends AngularParserBaseVisitor<Object> {
         if (ctx.exportStatement() != null) {
             exportStatement = (ExportStatement) visit(ctx.exportStatement());
         }
-        System.out.println("******** SYMBOL TABLE:\n");
+        System.out.println("\n\n");
         this.symbolTable.print();
         return new Program(importStatements, variableDeclarations, classDeclarations, functionDeclarations, componentDeclarations, exportStatement);
     }
@@ -68,7 +68,7 @@ public class BaseVisitor extends AngularParserBaseVisitor<Object> {
 
         importStatement.setFrom(ctx.STRING().getText());
         Row row = new Row();
-        row.setType("Import from");
+        row.setType("ImportFrom");
         row.setValue(importStatement.getFrom());
         this.symbolTable.getRows().add(row);
         return importStatement;
@@ -83,38 +83,38 @@ public class BaseVisitor extends AngularParserBaseVisitor<Object> {
         VariableDeclaration variableDeclaration = null;
         FunctionDeclaration functionDeclaration = null;
         ComponentDeclaration componentDeclaration = null;
-        Object object = null;
+        object customObject = null;
         List<String> ids = new ArrayList<>();
 
         if (ctx.classDeclaration() != null) {
             classDeclaration = (ClassDeclaration) visit(ctx.classDeclaration());
             Row row = new Row();
             row.setType("Export");
-            row.setValue(new ExportStatement(classDeclaration, variableDeclaration, functionDeclaration, componentDeclaration, object).getClassDeclaration().toString());
+            row.setValue(classDeclaration.toString());
             this.symbolTable.getRows().add(row);
         } else if (ctx.variableDeclaration() != null) {
             variableDeclaration = (VariableDeclaration) visit(ctx.variableDeclaration());
             Row row = new Row();
             row.setType("Export");
-            row.setValue(new ExportStatement(classDeclaration, variableDeclaration, functionDeclaration, componentDeclaration, object).getVariableDeclaration().toString());
+            row.setValue(variableDeclaration.toString());
             this.symbolTable.getRows().add(row);
         } else if (ctx.functionDeclaration() != null) {
             functionDeclaration = (FunctionDeclaration) visit(ctx.functionDeclaration());
             Row row = new Row();
             row.setType("Export");
-            row.setValue(new ExportStatement(classDeclaration, variableDeclaration, functionDeclaration, componentDeclaration, object).getFunctionDeclaration().toString());
+            row.setValue(functionDeclaration.toString());
             this.symbolTable.getRows().add(row);
         } else if (ctx.componentDeclaration() != null) {
             componentDeclaration = (ComponentDeclaration) visit(ctx.componentDeclaration());
             Row row = new Row();
             row.setType("Export");
-            row.setValue(new ExportStatement(classDeclaration, variableDeclaration, functionDeclaration, componentDeclaration, object).getComponentDeclaration().toString());
+            row.setValue(componentDeclaration.toString());
             this.symbolTable.getRows().add(row);
         } else if (ctx.object() != null) {
-            object = visitObject(ctx.object());
+            customObject = (object) visit(ctx.object());
             Row row = new Row();
             row.setType("Export");
-            row.setValue(new ExportStatement(classDeclaration, variableDeclaration, functionDeclaration, componentDeclaration, object).getObject().toString());
+            row.setValue(customObject.toString());
             this.symbolTable.getRows().add(row);
         } else if (ctx.LEFTCURLY() != null) {
             for (int i = 0; i < ctx.ID().size(); i++) {
@@ -127,9 +127,11 @@ public class BaseVisitor extends AngularParserBaseVisitor<Object> {
         } else if (!ids.isEmpty()) {
             return new ExportStatement(ids);
         } else {
-            return new ExportStatement(classDeclaration, variableDeclaration, functionDeclaration, componentDeclaration, object);
+            return new ExportStatement(classDeclaration, variableDeclaration, functionDeclaration, componentDeclaration, customObject);
         }
     }
+
+
 
     // Variable Declaration
 
@@ -160,7 +162,7 @@ public class BaseVisitor extends AngularParserBaseVisitor<Object> {
         } else if (ctx.array() != null) {
             array = (Array) visit(ctx.array());
         } else if (ctx.object() != null) {
-            object = (Object) visit(ctx.object());
+            object = visit(ctx.object());
         } else if (ctx.functionDeclaration() != null) {
             functionDeclaration = (FunctionDeclaration) visit(ctx.functionDeclaration());
         }
@@ -178,6 +180,7 @@ public class BaseVisitor extends AngularParserBaseVisitor<Object> {
         }
     }
 
+
     // Class Declaration
 
     @Override
@@ -185,7 +188,7 @@ public class BaseVisitor extends AngularParserBaseVisitor<Object> {
         String className = ctx.ID(0).getText();
         String extendsClassName = ctx.EXTENDS() != null ? ctx.ID(1).getText() : null;
         List<String> implementsList = new ArrayList<>();
-        List<ClassBody> classBody = new ArrayList<>();
+        List<ClassBody> classBodyList = new ArrayList<>();
 
         if (ctx.IMPLEMENTS() != null) {
             for (int i = ctx.EXTENDS() != null ? 2 : 1; i < ctx.ID().size(); i++) {
@@ -193,8 +196,18 @@ public class BaseVisitor extends AngularParserBaseVisitor<Object> {
             }
         }
 
-        return new ClassDeclaration(className, extendsClassName, implementsList, classBody);
+        if (ctx.classBody() != null) {
+            classBodyList.add((ClassBody) visit(ctx.classBody()));
+        }
+
+        Row row = new Row();
+        row.setType("Class");
+        row.setValue(className);
+        this.symbolTable.getRows().add(row);
+
+        return new ClassDeclaration(className, extendsClassName, implementsList, classBodyList);
     }
+
 
     // Function Declaration
 
@@ -202,8 +215,10 @@ public class BaseVisitor extends AngularParserBaseVisitor<Object> {
     public Object visitFunctionDeclaration(AngularParser.FunctionDeclarationContext ctx) {
         String id = ctx.ID().getText();
         List<Parameter> parameters = new ArrayList<>();
+
         if (ctx.parameters() != null) {
-            parameters = (List<Parameter>) visit(ctx.parameters());
+            Parameters params = (Parameters) visit(ctx.parameters());
+            parameters = params.getParameterList();
         }
 
         Type returnType = null;
@@ -212,77 +227,57 @@ public class BaseVisitor extends AngularParserBaseVisitor<Object> {
         }
 
         FunctionBody functionBody = (FunctionBody) visit(ctx.functionBody());
+
         Row row = new Row();
         row.setType("FunctionName");
-        row.setValue(new FunctionDeclaration(id, parameters, returnType, functionBody).getId());
+        row.setValue(id);
         this.symbolTable.getRows().add(row);
+
         return new FunctionDeclaration(id, parameters, returnType, functionBody);
     }
+
+
 
     // Component Declaration
 
     @Override
     public Object visitComponentDeclaration(AngularParser.ComponentDeclarationContext ctx) {
+        Decorator decorator = null;
+        ComponentBody componentBody = null;
+
         if (ctx.decorator() != null) {
-            ComponentDeclaration component = new ComponentDeclaration((Decorator) visit(ctx.decorator()));
-            Row row = new Row();
-            row.setType("Component");
-            row.setValue(component.getDecorator().toString());
-            this.symbolTable.getRows().add(row);
-            return new ComponentDeclaration((Decorator) visit(ctx.decorator()));
-        } else {
-            ComponentDeclaration component = new ComponentDeclaration((ComponentBody) visit(ctx.decorator()));
-            Row row = new Row();
-            row.setType("Component");
-            row.setValue(component.getComponentBody().toString());
-            this.symbolTable.getRows().add(row);
-            return new ComponentDeclaration((ComponentBody) visit(ctx.componentBody()));
+            decorator = (Decorator) visit(ctx.decorator());
         }
+
+        if (ctx.componentBody() != null) {
+            componentBody = (ComponentBody) visit(ctx.componentBody());
+        }
+
+        return new ComponentDeclaration(decorator, componentBody);
     }
+
 
     // Value
 
     @Override
     public Object visitValue(AngularParser.ValueContext ctx) {
         if (ctx.type() != null) {
-            Value value = new Value(ctx.type());
-            Row row = new Row();
-            row.setType("TypeValue");
-            row.setValue(value.getType().toString());
-            this.symbolTable.getRows().add(row);
-            return new Value((Type) visit(ctx.type()));
+            return new Value(visit(ctx.type()));
         } else if (ctx.array() != null) {
-            Value value = new Value(ctx.type());
-            Row row = new Row();
-            row.setType("Array");
-            row.setValue(value.getNestedArray().toString());
-            this.symbolTable.getRows().add(row);
-            return new Value((Array) visit(ctx.array()));
+            return new Value(visit(ctx.array()));
         } else if (ctx.object() != null) {
-            Value value = new Value(ctx.type());
-            Row row = new Row();
-            row.setType("Object");
-            row.setValue(value.getNestedObject().toString());
-            this.symbolTable.getRows().add(row);
-            return new Value((Object) visit(ctx.object()));
+            return new Value(visit(ctx.object()));
         } else if (ctx.jsxElement() != null) {
-            Value value = new Value(ctx.type());
-            Row row = new Row();
-            row.setType("JsxElement");
-            row.setValue(value.getJsxElement().toString());
-            this.symbolTable.getRows().add(row);
-            return new Value((JsxElement) visit(ctx.jsxElement()));
+            return new Value(visit(ctx.jsxElement()));
         } else if (ctx.angularDirective() != null) {
-            Value value = new Value(ctx.type());
-            Row row = new Row();
-            row.setType("Directive");
-            row.setValue(value.getDirective().toString());
-            this.symbolTable.getRows().add(row);
-            return new Value((angularDirective) visit(ctx.angularDirective()));
+            return new Value(visit(ctx.angularDirective()));
+        } else if (ctx.interpolation() != null) {
+            return new Value(visit(ctx.interpolation()));
         }
 
         return null;
     }
+
 
     // Array
 
@@ -296,6 +291,7 @@ public class BaseVisitor extends AngularParserBaseVisitor<Object> {
 
         return array;
     }
+
 
     // Object
 
@@ -337,6 +333,7 @@ public class BaseVisitor extends AngularParserBaseVisitor<Object> {
         return new ClassBody(decorators, constructorDeclarations, variableDeclarations, functionDeclarations);
     }
 
+
     // Decorator
 
     @Override
@@ -353,17 +350,67 @@ public class BaseVisitor extends AngularParserBaseVisitor<Object> {
         return new Decorator(id, arguments);
     }
 
+
     // Decorator Arguments
 
+    @Override
+    public Object visitDecoratorArguments(AngularParser.DecoratorArgumentsContext ctx) {
+        DecoratorArgument decoratorArguments = new DecoratorArgument();
+
+        for (AngularParser.ArgumentContentContext argCtx : ctx.argumentContent()) {
+            ArgumentContent argumentContent = (ArgumentContent) visit(argCtx);
+            decoratorArguments.addArgumentContent(argumentContent);
+        }
+
+        return decoratorArguments;
+    }
 
 
+    // Argument Content
+
+    @Override
+    public Object visitArgumentContent(AngularParser.ArgumentContentContext ctx) {
+        if (ctx.exportStatement() != null) {
+            ExportStatement exportStatement = (ExportStatement) visit(ctx.exportStatement());
+            return new ArgumentContent(exportStatement);
+        } else if (ctx.functionDeclaration() != null) {
+            FunctionDeclaration functionDeclaration = (FunctionDeclaration) visit(ctx.functionDeclaration());
+            return new ArgumentContent(functionDeclaration);
+        } else if (ctx.variableDeclaration() != null) {
+            VariableDeclaration variableDeclaration = (VariableDeclaration) visit(ctx.variableDeclaration());
+            return new ArgumentContent(variableDeclaration);
+        } else if (ctx.classDeclaration() != null) {
+            ClassDeclaration classDeclaration = (ClassDeclaration) visit(ctx.classDeclaration());
+            return new ArgumentContent(classDeclaration);
+        } else if (ctx.LEFTCURLY() != null) {
+            List<Statement> statements = new ArrayList<>();
+            for (AngularParser.StatementContext stmtCtx : ctx.statement()) {
+                statements.add((Statement) visit(stmtCtx));
+            }
+            return new ArgumentContent(statements);
+        } else if (ctx.ID() != null && ctx.STRING() != null) {
+            String id = ctx.ID().getText();
+            String stringValue = ctx.STRING().getText();
+            return new ArgumentContent(id, stringValue);
+        } else if (ctx.ID() != null && ctx.HTMLSTRING().size() == 2 && ctx.jsxElement() != null) {
+            String id = ctx.ID().getText();
+            String htmlStringBefore = ctx.HTMLSTRING(0).getText();
+            JsxElement jsxElement = (JsxElement) visit(ctx.jsxElement());
+            String htmlStringAfter = ctx.HTMLSTRING(1).getText();
+            return new ArgumentContent(id, htmlStringBefore, jsxElement, htmlStringAfter);
+        }
+
+        return null;
+    }
 
     // Constructor Declaration
+
     @Override
     public Object visitConstructorDeclaration(AngularParser.ConstructorDeclarationContext ctx) {
         List<Parameter> parameters = new ArrayList<>();
-        if (ctx.parameters() != null) {;
-            parameters = (List<Parameter>) visit(ctx.parameters());
+        if (ctx.parameters() != null) {
+            Parameters params = (Parameters) visit(ctx.parameters());
+            parameters = params.getParameterList();
         }
 
         FunctionBody functionBody = null;
@@ -380,6 +427,7 @@ public class BaseVisitor extends AngularParserBaseVisitor<Object> {
             return new ConstructorDeclaration(parameters, assignments);
         }
     }
+
 
     // Parameters
 
@@ -436,6 +484,7 @@ public class BaseVisitor extends AngularParserBaseVisitor<Object> {
         return new FunctionBody(statements, returnStatement);
     }
 
+
     // Return Statement
     @Override
     public Object visitReturnStatement(AngularParser.ReturnStatementContext ctx) {
@@ -454,6 +503,7 @@ public class BaseVisitor extends AngularParserBaseVisitor<Object> {
 
         return new ReturnStatement(value, operation, secondValue);
     }
+
 
     // Operation
 
@@ -506,7 +556,12 @@ public class BaseVisitor extends AngularParserBaseVisitor<Object> {
         } else if (ctx.returnStatement() != null) {
             return new Statement((ReturnStatement) visit(ctx.returnStatement()));
         } else if (ctx.assignment() != null) {
-            return new Statement((Assignments) visit(ctx.assignment()));
+            Object assignment = visit(ctx.assignment());
+            if (assignment instanceof Assignments) {
+                return new Statement((Assignments) assignment);
+            } else if (assignment instanceof CallFunction) {
+                return new Statement((CallFunction) assignment);
+            }
         }
         return null;
     }
@@ -524,13 +579,7 @@ public class BaseVisitor extends AngularParserBaseVisitor<Object> {
         for (AngularParser.FunctionDeclarationContext funcCtx : ctx.functionDeclaration()) {
             functionDeclarations.add((FunctionDeclaration) visit(funcCtx));
         }
-        ComponentBody componentBody =  new ComponentBody(variableDeclarations, functionDeclarations);
 
-        Row row = new Row();
-        row.setType("ComponentBody");
-        row.setValue(componentBody.getFunctionDeclarations().toString());
-        row.setValue(componentBody.getVariableDeclarations().toString());
-        this.symbolTable.getRows().add(row);
         return new ComponentBody(variableDeclarations, functionDeclarations);
     }
 
@@ -603,8 +652,9 @@ public class BaseVisitor extends AngularParserBaseVisitor<Object> {
             statements.add((Statement) visit(ctx.statement(i)));
         }
 
-        return new ForStatement(variableDeclaration, condition, body);
+        return new ForStatement(variableDeclaration, condition, body, statements);
     }
+
 
     // While Statement
 
@@ -648,11 +698,7 @@ public class BaseVisitor extends AngularParserBaseVisitor<Object> {
             jsxContents.add((JsxContent) visit(contentCtx));
         }
         ClosingTag closingTag = (ClosingTag) visit(ctx.closingTag());
-        JsxElement jsxElement = new JsxElement(openingTag, jsxContents, closingTag);
-        Row row = new Row();
-        row.setType("JSXElement");
-        row.setValue(jsxElement.getJsxContents().toString());
-        this.symbolTable.getRows().add(row);
+
         return new JsxElement(openingTag, jsxContents, closingTag);
     }
 
@@ -660,11 +706,16 @@ public class BaseVisitor extends AngularParserBaseVisitor<Object> {
 
     @Override
     public Object visitOpeningTag(AngularParser.OpeningTagContext ctx) {
-        String id = ctx.ID().getText();
-        JsxAttributes jsxAttributes = (JsxAttributes) visit(ctx.jsxAttributes());
+        String id = ctx.ID() != null ? ctx.ID().getText() : null;
+
+        JsxAttributes jsxAttributes = null;
+        if (ctx.jsxAttributes() != null) {
+            jsxAttributes = (JsxAttributes) visit(ctx.jsxAttributes());
+        }
 
         return new OpeningTag(id, jsxAttributes);
     }
+
 
     // Closing Tag
 
@@ -678,11 +729,16 @@ public class BaseVisitor extends AngularParserBaseVisitor<Object> {
 
     @Override
     public Object visitSelfClosingTag(AngularParser.SelfClosingTagContext ctx) {
-        String id = ctx.ID().getText();
-        JsxAttributes jsxAttributes = (JsxAttributes) visit(ctx.jsxAttributes());
+        String id = ctx.ID() != null ? ctx.ID().getText() : null;
+
+        JsxAttributes jsxAttributes = null;
+        if (ctx.jsxAttributes() != null) {
+            jsxAttributes = (JsxAttributes) visit(ctx.jsxAttributes());
+        }
 
         return new SelfClosingTag(id, jsxAttributes);
     }
+
 
     // JSX Content
 
@@ -767,11 +823,6 @@ public class BaseVisitor extends AngularParserBaseVisitor<Object> {
     public Object visitJsxAttribute(AngularParser.JsxAttributeContext ctx) {
         String id = ctx.ID().getText();
         String value = ctx.STRING().getText();
-        JsxAttribute jsxAttribute = new JsxAttribute(id, value);
-        Row row = new Row();
-        row.setType("JSXAttribute");
-        row.setValue(jsxAttribute.getId());
-        this.symbolTable.getRows().add(row);
         return new JsxAttribute(id, value);
     }
 
@@ -806,10 +857,6 @@ public class BaseVisitor extends AngularParserBaseVisitor<Object> {
     @Override
     public Object visitJsxClass(AngularParser.JsxClassContext ctx) {
         String className = ctx.STRING().getText();
-        Row row = new Row();
-        row.setType("JSXClass");
-        row.setValue(className.getClass().toString());
-        this.symbolTable.getRows().add(row);
         return new JsxClass(className);
     }
 
@@ -830,13 +877,13 @@ public class BaseVisitor extends AngularParserBaseVisitor<Object> {
         } else if (ctx.BOOLEAN() != null) {
             return new Expression(String.valueOf(Boolean.parseBoolean(ctx.BOOLEAN().getText())));
         } else if (ctx.value() != null) {
-            return new Expression(String.valueOf((Value) visit(ctx.value())));
+            return new Expression(String.valueOf(visit(ctx.value())));
         } else if (ctx.callFunction() != null) {
-            return new Expression(String.valueOf((CallFunction) visit(ctx.callFunction())));
+            return new Expression(String.valueOf(visit(ctx.callFunction())));
         } else if (ctx.array() != null) {
-            return new Expression(String.valueOf((Array) visit(ctx.array())));
+            return new Expression(String.valueOf(visit(ctx.array())));
         } else if (ctx.object() != null) {
-            return new Expression(String.valueOf((Object) visit(ctx.object())));
+            return new Expression(String.valueOf(visit(ctx.object())));
         } else if (ctx.expression().size() == 2 && ctx.operation() != null) {
             Expression left = (Expression) visit(ctx.expression(0));
             Expression right = (Expression) visit(ctx.expression(1));
@@ -846,6 +893,7 @@ public class BaseVisitor extends AngularParserBaseVisitor<Object> {
 
         return null;
     }
+
 
     // Type
 
