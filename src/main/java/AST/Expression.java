@@ -5,8 +5,25 @@ public class Expression {
     private String id;
     private String complexId;
     private CallFunction callFunction;
-    private Directives directive;
+    private angularDirective directive;
+    private Expression left;
+    private Expression right;
+    private AST.operation operation;
 
+    public Expression(String text) {
+        this.id= text;
+    }
+
+    public Expression(int i) {
+    }
+
+    public Expression(Expression left, Expression right, AST.operation op) {
+        this.left=left;
+        this.right= right;
+        this.operation=op;
+    }
+
+    // Getters and Setters
     public Value getValue() {
         return value;
     }
@@ -19,9 +36,6 @@ public class Expression {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getComplexId() {
         return complexId;
@@ -39,12 +53,36 @@ public class Expression {
         this.callFunction = callFunction;
     }
 
-    public Directives getDirective() {
+    public angularDirective getDirective() {
         return directive;
     }
 
-    public void setDirective(Directives directive) {
+    public void setDirective(angularDirective directive) {
         this.directive = directive;
+    }
+
+    public Expression getLeft() {
+        return left;
+    }
+
+    public void setLeft(Expression left) {
+        this.left = left;
+    }
+
+    public Expression getRight() {
+        return right;
+    }
+
+    public void setRight(Expression right) {
+        this.right = right;
+    }
+
+    public operation getOperation() {
+        return operation;
+    }
+
+    public void setOperation(operation operation) {
+        this.operation = operation;
     }
 
     @Override
@@ -68,6 +106,12 @@ public class Expression {
         } else if (directive != null) {
             return "Expression{" +
                     "\ndirective=" + directive +
+                    "\n}";
+        } else if (left != null && right != null && operation != null) {
+            return "Expression{" +
+                    "\nleft=" + left +
+                    "\noperation=" + operation +
+                    "\nright=" + right +
                     "\n}";
         } else {
             return "Expression{}";

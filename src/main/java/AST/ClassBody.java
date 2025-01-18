@@ -1,62 +1,62 @@
 package AST;
 
+import java.util.List;
+
 public class ClassBody {
-    private Decorator decorator;
-    private FunctionDeclaration functionDeclaration;
-    private VariableDeclaration variableDeclaration;
-    private ConstructorDeclaration constructorDeclaration;
+    private List<Decorator> decorators;
+    private List<ConstructorDeclaration> constructorDeclarations;
+    private List<VariableDeclaration> variableDeclarations;
+    private List<FunctionDeclaration> functionDeclarations;
 
-    public Decorator getDecorator() {
-        return decorator;
+    public ClassBody(List<Decorator> decorators,
+                     List<ConstructorDeclaration> constructorDeclarations,
+                     List<VariableDeclaration> variableDeclarations,
+                     List<FunctionDeclaration> functionDeclarations) {
+        this.decorators = decorators;
+        this.constructorDeclarations = constructorDeclarations;
+        this.variableDeclarations = variableDeclarations;
+        this.functionDeclarations = functionDeclarations;
     }
 
-    public void setDecorator(Decorator decorator) {
-        this.decorator = decorator;
+    public List<Decorator> getDecorators() {
+        return decorators;
     }
 
-    public FunctionDeclaration getFunctionDeclaration() {
-        return functionDeclaration;
+    public void setDecorators(List<Decorator> decorators) {
+        this.decorators = decorators;
     }
 
-    public void setFunctionDeclaration(FunctionDeclaration functionDeclaration) {
-        this.functionDeclaration = functionDeclaration;
+    public List<ConstructorDeclaration> getConstructorDeclarations() {
+        return constructorDeclarations;
     }
 
-    public VariableDeclaration getVariableDeclaration() {
-        return variableDeclaration;
+    public void setConstructorDeclarations(List<ConstructorDeclaration> constructorDeclarations) {
+        this.constructorDeclarations = constructorDeclarations;
     }
 
-    public void setVariableDeclaration(VariableDeclaration variableDeclaration) {
-        this.variableDeclaration = variableDeclaration;
+    public List<VariableDeclaration> getVariableDeclarations() {
+        return variableDeclarations;
     }
 
-    public ConstructorDeclaration getConstructorDeclaration() {
-        return constructorDeclaration;
+    public void setVariableDeclarations(List<VariableDeclaration> variableDeclarations) {
+        this.variableDeclarations = variableDeclarations;
     }
 
-    public void setConstructorDeclaration(ConstructorDeclaration constructorDeclaration) {
-        this.constructorDeclaration = constructorDeclaration;
+    public List<FunctionDeclaration> getFunctionDeclarations() {
+        return functionDeclarations;
+    }
+
+    public void setFunctionDeclarations(List<FunctionDeclaration> functionDeclarations) {
+        this.functionDeclarations = functionDeclarations;
     }
 
     @Override
     public String toString() {
-        if (decorator != null) {
-            return "ClassBody{" +
-                    "\ndecorator=" + decorator +
-                    "\n}";
-        } else if (functionDeclaration != null) {
-            return "ClassBody{" +
-                    "\nfunctionDeclaration=" + functionDeclaration +
-                    "\n}";
-        } else if (variableDeclaration != null) {
-            return "ClassBody{" +
-                    "\nvariableDeclaration=" + variableDeclaration +
-                    "\n}";
-        } else if (constructorDeclaration != null) {
-            return "ClassBody{" +
-                    "\nconstructorDeclaration=" + constructorDeclaration +
-                    "\n}";
-        }
-        return "ClassBody{}";
+        return "ClassBody{" +
+                "decorators=" + decorators +
+                ", constructorDeclarations=" + constructorDeclarations +
+                ", variableDeclarations=" + variableDeclarations +
+                ", functionDeclarations=" + functionDeclarations +
+                '}';
     }
 }

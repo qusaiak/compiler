@@ -1,24 +1,35 @@
 package AST;
 
 public class JsxAttribute {
-    private final String name;
-    private final Value value;
+    private String id;
+    private String value;
 
-    public JsxAttribute(String name, Value value) {
-        this.name = name;
+    public JsxAttribute(String id, String value) {
+        this.id = id;
         this.value = value;
     }
 
-    public String getName() {
-        return name;
+    public String getId() {
+        return id;
     }
 
-    public Value getValue() {
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getValue() {
         return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
     }
 
     @Override
     public String toString() {
-        return name + "=\"" + value.toString() + "\"";
+        return "JsxAttribute{" +
+                "id='" + id + '\'' +
+                ", value='" + value + '\'' +
+                '}';
     }
 }

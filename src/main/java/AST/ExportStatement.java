@@ -1,30 +1,103 @@
 package AST;
 
+import java.util.List;
+
 public class ExportStatement {
-    private boolean defaultExport;
-    private String className;
+    private boolean isDefault;
+    private ClassDeclaration classDeclaration;
+    private VariableDeclaration variableDeclaration;
+    private FunctionDeclaration functionDeclaration;
+    private ComponentDeclaration componentDeclaration;
+    private Object object;
+    private List<String> ids;
 
-    public boolean isDefaultExport() {
-        return defaultExport;
+    // Constructor for default export
+    public ExportStatement(boolean isDefault, ClassDeclaration classDeclaration) {
+        this.isDefault = isDefault;
+        this.classDeclaration = classDeclaration;
     }
 
-    public void setDefaultExport(boolean defaultExport) {
-        this.defaultExport = defaultExport;
+    // Constructor for named exports
+    public ExportStatement(ClassDeclaration classDeclaration, VariableDeclaration variableDeclaration, FunctionDeclaration functionDeclaration, ComponentDeclaration componentDeclaration, Object object) {
+        this.classDeclaration = classDeclaration;
+        this.variableDeclaration = variableDeclaration;
+        this.functionDeclaration = functionDeclaration;
+        this.componentDeclaration = componentDeclaration;
+        this.object = object;
     }
 
-    public String getClassName() {
-        return className;
+    // Constructor for named exports with curly braces
+    public ExportStatement(List<String> ids) {
+        this.ids = ids;
     }
 
-    public void setClassName(String className) {
-        this.className = className;
+    // Getters and setters
+    public boolean isDefault() {
+        return isDefault;
+    }
+
+    public void setDefault(boolean isDefault) {
+        this.isDefault = isDefault;
+    }
+
+    public ClassDeclaration getClassDeclaration() {
+        return classDeclaration;
+    }
+
+    public void setClassDeclaration(ClassDeclaration classDeclaration) {
+        this.classDeclaration = classDeclaration;
+    }
+
+    public VariableDeclaration getVariableDeclaration() {
+        return variableDeclaration;
+    }
+
+    public void setVariableDeclaration(VariableDeclaration variableDeclaration) {
+        this.variableDeclaration = variableDeclaration;
+    }
+
+    public FunctionDeclaration getFunctionDeclaration() {
+        return functionDeclaration;
+    }
+
+    public void setFunctionDeclaration(FunctionDeclaration functionDeclaration) {
+        this.functionDeclaration = functionDeclaration;
+    }
+
+    public ComponentDeclaration getComponentDeclaration() {
+        return componentDeclaration;
+    }
+
+    public void setComponentDeclaration(ComponentDeclaration componentDeclaration) {
+        this.componentDeclaration = componentDeclaration;
+    }
+
+    public Object getObject() {
+        return object;
+    }
+
+    public void setObject(Object object) {
+        this.object = object;
+    }
+
+    public List<String> getIds() {
+        return ids;
+    }
+
+    public void setIds(List<String> ids) {
+        this.ids = ids;
     }
 
     @Override
     public String toString() {
         return "ExportStatement{" +
-                "defaultExport=" + defaultExport +
-                ", className='" + className + '\'' +
+                "isDefault=" + isDefault +
+                ", classDeclaration=" + classDeclaration +
+                ", variableDeclaration=" + variableDeclaration +
+                ", functionDeclaration=" + functionDeclaration +
+                ", componentDeclaration=" + componentDeclaration +
+                ", object=" + object +
+                ", ids=" + ids +
                 '}';
     }
 }

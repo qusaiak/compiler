@@ -1,46 +1,123 @@
 package AST;
 
+import java.util.List;
+
 public class DecoratorArgument {
-    private String id;
-    private Value value;
-    private String json;
+    private ExportStatement exportStatement;
+    private FunctionDeclaration functionDeclaration;
+    private VariableDeclaration variableDeclaration;
+    private ClassDeclaration classDeclaration;
+    private List<Statement> statements;
+    private String selector;
+    private String templateUrl;
+    private JsxElement jsxElement;
 
-    public String getId() {
-        return id;
+    // Constructor for each type of argument
+    public DecoratorArgument(ExportStatement exportStatement) {
+        this.exportStatement = exportStatement;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public DecoratorArgument(FunctionDeclaration functionDeclaration) {
+        this.functionDeclaration = functionDeclaration;
     }
 
-    public Value getValue() {
-        return value;
+    public DecoratorArgument(VariableDeclaration variableDeclaration) {
+        this.variableDeclaration = variableDeclaration;
     }
 
-    public void setValue(Value value) {
-        this.value = value;
+    public DecoratorArgument(ClassDeclaration classDeclaration) {
+        this.classDeclaration = classDeclaration;
     }
 
-    public String getJson() {
-        return json;
+    public DecoratorArgument(List<Statement> statements) {
+        this.statements = statements;
     }
 
-    public void setJson(String json) {
-        this.json = json;
+    public DecoratorArgument(String selector, boolean isSelector) {
+        this.selector = selector;
+    }
+
+    public DecoratorArgument(String templateUrl, boolean isTemplateUrl, JsxElement jsxElement) {
+        this.templateUrl = templateUrl;
+        this.jsxElement = jsxElement;
+    }
+
+    // Getters and setters
+    public ExportStatement getExportStatement() {
+        return exportStatement;
+    }
+
+    public void setExportStatement(ExportStatement exportStatement) {
+        this.exportStatement = exportStatement;
+    }
+
+    public FunctionDeclaration getFunctionDeclaration() {
+        return functionDeclaration;
+    }
+
+    public void setFunctionDeclaration(FunctionDeclaration functionDeclaration) {
+        this.functionDeclaration = functionDeclaration;
+    }
+
+    public VariableDeclaration getVariableDeclaration() {
+        return variableDeclaration;
+    }
+
+    public void setVariableDeclaration(VariableDeclaration variableDeclaration) {
+        this.variableDeclaration = variableDeclaration;
+    }
+
+    public ClassDeclaration getClassDeclaration() {
+        return classDeclaration;
+    }
+
+    public void setClassDeclaration(ClassDeclaration classDeclaration) {
+        this.classDeclaration = classDeclaration;
+    }
+
+    public List<Statement> getStatements() {
+        return statements;
+    }
+
+    public void setStatements(List<Statement> statements) {
+        this.statements = statements;
+    }
+
+    public String getSelector() {
+        return selector;
+    }
+
+    public void setSelector(String selector) {
+        this.selector = selector;
+    }
+
+    public String getTemplateUrl() {
+        return templateUrl;
+    }
+
+    public void setTemplateUrl(String templateUrl) {
+        this.templateUrl = templateUrl;
+    }
+
+    public JsxElement getJsxElement() {
+        return jsxElement;
+    }
+
+    public void setJsxElement(JsxElement jsxElement) {
+        this.jsxElement = jsxElement;
     }
 
     @Override
     public String toString() {
-        if (value != null) {
-            return "DecoratorArgument{" +
-                    "\nid='" + id + '\'' +
-                    "\n, value=" + value +
-                    "\n}";
-        } else if (json != null) {
-            return "DecoratorArgument{" +
-                    "\njson='" + json + '\'' +
-                    "\n}";
-        }
-        return "DecoratorArgument{}";
+        return "DecoratorArgument{" +
+                "exportStatement=" + exportStatement +
+                ", functionDeclaration=" + functionDeclaration +
+                ", variableDeclaration=" + variableDeclaration +
+                ", classDeclaration=" + classDeclaration +
+                ", statements=" + statements +
+                ", selector='" + selector + '\'' +
+                ", templateUrl='" + templateUrl + '\'' +
+                ", jsxElement=" + jsxElement +
+                '}';
     }
 }

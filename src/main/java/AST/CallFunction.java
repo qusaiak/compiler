@@ -1,33 +1,36 @@
 package AST;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class CallFunction {
     private String functionName;
-    private List<String> arguments = new ArrayList<>();
+    private List<Expression> arguments;
+
+    public CallFunction(String functionName, List<Expression> arguments) {
+        this.functionName = functionName;
+        this.arguments = arguments;
+    }
 
     public String getFunctionName() {
         return functionName;
     }
 
-    public void setFunctionName(String functionName) {
-        this.functionName = functionName;
-    }
-
-    public List<String> getArguments() {
+    public List<Expression> getArguments() {
         return arguments;
     }
 
-    public void setArguments(List<String> arguments) {
-        this.arguments = arguments;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CallFunction that = (CallFunction) o;
+        return Objects.equals(functionName, that.functionName) &&
+                Objects.equals(arguments, that.arguments);
     }
 
     @Override
-    public String toString() {
-        return "CallFunc{" +
-                "\n functionName='" + functionName + '\'' +
-                "\n arguments=" + arguments +
-                "\n}";
+    public int hashCode() {
+        return Objects.hash(functionName, arguments);
     }
 }

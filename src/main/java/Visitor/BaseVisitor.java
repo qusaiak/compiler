@@ -1,521 +1,816 @@
 package Visitor;
+
 import AST.*;
-import org.Angular.*;
+import org.Angular.AngularParser;
+import org.Angular.AngularParserBaseVisitor;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.TerminalNode;
+import SymbolTable.*;
+
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 public class BaseVisitor extends AngularParserBaseVisitor<Object> {
 
+    SymbolTable symbolTable = new SymbolTable();
+
+    // Program
+
     @Override
     public Object visitProgram(AngularParser.ProgramContext ctx) {
-        Program program = new Program();
+        List<ImportStatement> importStatements = new ArrayList<>();
+        List<VariableDeclaration> variableDeclarations = new ArrayList<>();
+        List<ClassDeclaration> classDeclarations = new ArrayList<>();
+        List<FunctionDeclaration> functionDeclarations = new ArrayList<>();
+        List<ComponentDeclaration> componentDeclarations = new ArrayList<>();
+        ExportStatement exportStatement = null;
 
-        List<AngularParser.ImportStatementContext> importStatements = ctx.importStatement();
-        for (AngularParser.ImportStatementContext importCtx : importStatements) {
-            program.getImportStatements().add((ImportStatement) visit(importCtx));
+        for (AngularParser.ImportStatementContext importCtx : ctx.importStatement()) {
+            importStatements.add((ImportStatement) visit(importCtx));
         }
-
         for (AngularParser.VariableDeclarationContext varCtx : ctx.variableDeclaration()) {
-            program.getVariableDeclarations().add((VariableDeclaration) visit(varCtx));
+            variableDeclarations.add((VariableDeclaration) visit(varCtx));
         }
         for (AngularParser.ClassDeclarationContext classCtx : ctx.classDeclaration()) {
-            program.getClassDeclarations().add((ClassDeclaration) visit(classCtx));
+            classDeclarations.add((ClassDeclaration) visit(classCtx));
         }
         for (AngularParser.FunctionDeclarationContext funcCtx : ctx.functionDeclaration()) {
-            program.getFunctionDeclarations().add((FunctionDeclaration) visit(funcCtx));
+            functionDeclarations.add((FunctionDeclaration) visit(funcCtx));
         }
         for (AngularParser.ComponentDeclarationContext compCtx : ctx.componentDeclaration()) {
-            program.getComponentDeclarations().add((ComponentDeclaration) visit(compCtx));
+            componentDeclarations.add((ComponentDeclaration) visit(compCtx));
         }
-
         if (ctx.exportStatement() != null) {
-            program.setExportStatement((ExportStatement) visit(ctx.exportStatement()));
+            exportStatement = (ExportStatement) visit(ctx.exportStatement());
         }
-
-        return program;
+        System.out.println("******** SYMBOL TABLE:\n");
+        this.symbolTable.print();
+        return new Program(importStatements, variableDeclarations, classDeclarations, functionDeclarations, componentDeclarations, exportStatement);
     }
+
+    //Import Statement
 
     @Override
     public Object visitImportStatement(AngularParser.ImportStatementContext ctx) {
         ImportStatement importStatement = new ImportStatement();
+
         if (ctx.ID() != null && !ctx.ID().isEmpty()) {
-            importStatement.setImportId(ctx.ID(0).getText());
+            importStatement.setId(ctx.ID(0).getText());
+        } else if (ctx.LEFTCURLY() != null) {
+            List<String> ids = new ArrayList<>();
+            for (int i = 0; i < ctx.ID().size(); i++) {
+                if (ctx.ID(i) != null) {
+                    ids.add(ctx.ID(i).getText());
+                }
+            }
+            importStatement.setIds(ids);
         }
-        if (ctx.STRING() != null) {
-            importStatement.setFrom(ctx.STRING().getText());
-        }
+
+        importStatement.setFrom(ctx.STRING().getText());
+        Row row = new Row();
+        row.setType("Import from");
+        row.setValue(importStatement.getFrom());
+        this.symbolTable.getRows().add(row);
         return importStatement;
     }
 
+    // Export Statement
+
     @Override
     public Object visitExportStatement(AngularParser.ExportStatementContext ctx) {
-        ExportStatement exportStatement = new ExportStatement();
-        if (ctx.DEFAULT() != null) {
-            exportStatement.setDefaultExport(true);
+        boolean isDefault = ctx.DEFAULT() != null;
+        ClassDeclaration classDeclaration = null;
+        VariableDeclaration variableDeclaration = null;
+        FunctionDeclaration functionDeclaration = null;
+        ComponentDeclaration componentDeclaration = null;
+        Object object = null;
+        List<String> ids = new ArrayList<>();
+
+        if (ctx.classDeclaration() != null) {
+            classDeclaration = (ClassDeclaration) visit(ctx.classDeclaration());
+            Row row = new Row();
+            row.setType("Export");
+            row.setValue(new ExportStatement(classDeclaration, variableDeclaration, functionDeclaration, componentDeclaration, object).getClassDeclaration().toString());
+            this.symbolTable.getRows().add(row);
+        } else if (ctx.variableDeclaration() != null) {
+            variableDeclaration = (VariableDeclaration) visit(ctx.variableDeclaration());
+            Row row = new Row();
+            row.setType("Export");
+            row.setValue(new ExportStatement(classDeclaration, variableDeclaration, functionDeclaration, componentDeclaration, object).getVariableDeclaration().toString());
+            this.symbolTable.getRows().add(row);
+        } else if (ctx.functionDeclaration() != null) {
+            functionDeclaration = (FunctionDeclaration) visit(ctx.functionDeclaration());
+            Row row = new Row();
+            row.setType("Export");
+            row.setValue(new ExportStatement(classDeclaration, variableDeclaration, functionDeclaration, componentDeclaration, object).getFunctionDeclaration().toString());
+            this.symbolTable.getRows().add(row);
+        } else if (ctx.componentDeclaration() != null) {
+            componentDeclaration = (ComponentDeclaration) visit(ctx.componentDeclaration());
+            Row row = new Row();
+            row.setType("Export");
+            row.setValue(new ExportStatement(classDeclaration, variableDeclaration, functionDeclaration, componentDeclaration, object).getComponentDeclaration().toString());
+            this.symbolTable.getRows().add(row);
+        } else if (ctx.object() != null) {
+            object = visitObject(ctx.object());
+            Row row = new Row();
+            row.setType("Export");
+            row.setValue(new ExportStatement(classDeclaration, variableDeclaration, functionDeclaration, componentDeclaration, object).getObject().toString());
+            this.symbolTable.getRows().add(row);
+        } else if (ctx.LEFTCURLY() != null) {
+            for (int i = 0; i < ctx.ID().size(); i++) {
+                ids.add(ctx.ID(i).getText());
+            }
         }
-        exportStatement.setClassName(ctx.CLASS().getText());
-        return exportStatement;
+
+        if (isDefault) {
+            return new ExportStatement(true, classDeclaration);
+        } else if (!ids.isEmpty()) {
+            return new ExportStatement(ids);
+        } else {
+            return new ExportStatement(classDeclaration, variableDeclaration, functionDeclaration, componentDeclaration, object);
+        }
     }
+
+    // Variable Declaration
 
     @Override
     public Object visitVariableDeclaration(AngularParser.VariableDeclarationContext ctx) {
-        VariableDeclaration variableDeclaration = new VariableDeclaration();
-        variableDeclaration.setType(ctx.getChild(0).getText());
-        variableDeclaration.setId(ctx.ID().getText());
-        variableDeclaration.setValue((Value) visit(ctx.value()));
-        return variableDeclaration;
+        String varType = null;
+        if (ctx.VAR() != null) {
+            varType = ctx.VAR().getText();
+        } else if (ctx.LET() != null) {
+            varType = ctx.LET().getText();
+        } else if (ctx.CONST() != null) {
+            varType = ctx.CONST().getText();
+        }
+
+        String id = ctx.ID().getText();
+        Type type = null;
+        Value value = null;
+        Array array = null;
+        Object object = null;
+        FunctionDeclaration functionDeclaration = null;
+
+        if (ctx.type() != null) {
+            type = (Type) visit(ctx.type());
+        }
+
+        if (ctx.value() != null) {
+            value = (Value) visit(ctx.value(0));
+        } else if (ctx.array() != null) {
+            array = (Array) visit(ctx.array());
+        } else if (ctx.object() != null) {
+            object = (Object) visit(ctx.object());
+        } else if (ctx.functionDeclaration() != null) {
+            functionDeclaration = (FunctionDeclaration) visit(ctx.functionDeclaration());
+        }
+
+        if (type != null && value != null) {
+            return new VariableDeclaration(varType, id, type, value);
+        } else if (value != null) {
+            return new VariableDeclaration(varType, id, value);
+        } else if (array != null) {
+            return new VariableDeclaration(varType, id, array);
+        } else if (object != null) {
+            return new VariableDeclaration(varType, id, object);
+        } else {
+            return new VariableDeclaration(varType, id, functionDeclaration);
+        }
     }
+
+    // Class Declaration
 
     @Override
     public Object visitClassDeclaration(AngularParser.ClassDeclarationContext ctx) {
-        ClassDeclaration classDeclaration = new ClassDeclaration();
-        classDeclaration.setClassName(ctx.ID(0).getText());
-        if (ctx.EXTENDS() != null) {
-            classDeclaration.setSuperClass(ctx.ID(1).getText());
-        }
+        String className = ctx.ID(0).getText();
+        String extendsClassName = ctx.EXTENDS() != null ? ctx.ID(1).getText() : null;
+        List<String> implementsList = new ArrayList<>();
+        List<ClassBody> classBody = new ArrayList<>();
+
         if (ctx.IMPLEMENTS() != null) {
-            List<String> implementsList = new ArrayList<>();
-            for (int i = 1; i < ctx.ID().size(); i++) {
+            for (int i = ctx.EXTENDS() != null ? 2 : 1; i < ctx.ID().size(); i++) {
                 implementsList.add(ctx.ID(i).getText());
             }
-            classDeclaration.setInterfaces(implementsList);
         }
-        classDeclaration.setClassBody((ClassBody) visit(ctx.classBody()));
-        return classDeclaration;
+
+        return new ClassDeclaration(className, extendsClassName, implementsList, classBody);
     }
+
+    // Function Declaration
 
     @Override
     public Object visitFunctionDeclaration(AngularParser.FunctionDeclarationContext ctx) {
-        FunctionDeclaration functionDeclaration = new FunctionDeclaration();
-
-        RegularFunction regularFunction = new RegularFunction();
-        regularFunction.setFunctionName(ctx.ID().getText());
-
+        String id = ctx.ID().getText();
+        List<Parameter> parameters = new ArrayList<>();
         if (ctx.parameters() != null) {
-            regularFunction.setParameters((Parameters) visit(ctx.parameters()));
+            parameters = (List<Parameter>) visit(ctx.parameters());
         }
 
-        regularFunction.setFunctionBody((FunctionBody) visit(ctx.functionBody()));
-        functionDeclaration.setRegularFunction(regularFunction);
+        Type returnType = null;
+        if (ctx.type() != null) {
+            returnType = (Type) visit(ctx.type());
+        }
 
-        return functionDeclaration;
+        FunctionBody functionBody = (FunctionBody) visit(ctx.functionBody());
+        Row row = new Row();
+        row.setType("FunctionName");
+        row.setValue(new FunctionDeclaration(id, parameters, returnType, functionBody).getId());
+        this.symbolTable.getRows().add(row);
+        return new FunctionDeclaration(id, parameters, returnType, functionBody);
     }
+
+    // Component Declaration
 
     @Override
     public Object visitComponentDeclaration(AngularParser.ComponentDeclarationContext ctx) {
-        ComponentDeclaration componentDeclaration = new ComponentDeclaration();
-        componentDeclaration.setDecorator((Decorator) visit(ctx.decorator()));
-        componentDeclaration.setComponentBody((ComponentBody) visit(ctx.componentBody()));
-        return componentDeclaration;
+        if (ctx.decorator() != null) {
+            return new ComponentDeclaration((Decorator) visit(ctx.decorator()));
+        } else {
+            return new ComponentDeclaration((ComponentBody) visit(ctx.componentBody()));
+        }
     }
+
+    // Value
+
     @Override
     public Object visitValue(AngularParser.ValueContext ctx) {
-        Value value = null;
-        if (ctx.STRING() != null) {
-            value = new Value(ctx.STRING().getText());
-        } else if (ctx.INT() != null) {
-            value = new Value(Integer.parseInt(ctx.INT().getText()));
-        } else if (ctx.DOUBLE() != null) {
-            value = new Value(Double.parseDouble(ctx.DOUBLE().getText()));
-        } else if (ctx.BOOLEAN() != null) {
-            value = new Value(Boolean.parseBoolean(ctx.BOOLEAN().getText()));
-        } else if (ctx.NULL() != null) {
-            value = new Value(true);
+        if (ctx.type() != null) {
+            return new Value((Type) visit(ctx.type()));
         } else if (ctx.array() != null) {
-            value = new Value((List<Value>) visit(ctx.array()));
+            return new Value((Array) visit(ctx.array()));
         } else if (ctx.object() != null) {
-            value = new Value((Object) visit(ctx.object()));
+            return new Value((Object) visit(ctx.object()));
         } else if (ctx.jsxElement() != null) {
-            value = new Value((JsxElement) visit(ctx.jsxElement()));
-        } else if (ctx.directive() != null) {
-            value = new Value((Directives) visit(ctx.directive()));
-        }
-        return value;
-    }
-    @Override
-    public Object visitArray(AngularParser.ArrayContext ctx) {
-        List<Value> values = new ArrayList<>();
-        for (AngularParser.ValueContext valueCtx : ctx.value()) {
-            values.add((Value) visit(valueCtx));
-        }
-        return values;
-    }
-    @Override
-    public Object visitObject(AngularParser.ObjectContext ctx) {
-        Map<String, Value> objectMap = new HashMap<>();
-        for (int i = 0; i < ctx.ID().size(); i++) {
-            String key = ctx.ID(i).getText();
-            Value value = (Value) visit(ctx.value(i));
-            objectMap.put(key, value);
-        }
-        return objectMap;
-    }
-    @Override
-    public Object visitJsxElement(AngularParser.JsxElementContext ctx) {
-        String tagName = ctx.ID(0).getText();
-        List<JsxAttribute> attributes = new ArrayList<>();
-        List<Directives> directives = new ArrayList<>();
-        List<Value> children = new ArrayList<>();
-
-        for (AngularParser.JsxAttributeContext attrCtx : ctx.jsxAttribute()) {
-            attributes.add((JsxAttribute) visit(attrCtx));
-        }
-        for (AngularParser.DirectiveContext dirCtx : ctx.directive()) {
-            directives.add((Directives) visit(dirCtx));
-        }
-        for (AngularParser.ContentContext contentCtx : ctx.content()) {
-            children.add((Value) visit(contentCtx));
+            return new Value((JsxElement) visit(ctx.jsxElement()));
+        } else if (ctx.angularDirective() != null) {
+            return new Value((angularDirective) visit(ctx.angularDirective()));
+        } else if (ctx.interpolation() != null) {
+            return new Value((interpolation) visit(ctx.interpolation()));
         }
 
-        return new JsxElement(tagName, attributes, children, directives);
-    }
-    @Override
-    public Object visitDirective(AngularParser.DirectiveContext ctx) {
-        if (ctx.NGIF() != null) {
-            NgIfDirective ngIfDirective = new NgIfDirective();
-            ngIfDirective.setCondition((Boolean) visit(ctx.condition()));
-            return ngIfDirective;
-        } else if (ctx.NGSWITCH() != null) {
-            NgSwitchCaseDirective<Object> ngSwitchDirective = new NgSwitchCaseDirective<>();
-            ngSwitchDirective.setCaseValue(visit(ctx.expression()));
-            return ngSwitchDirective;
-        } else if (ctx.NGFOR() != null) {
-            NgForDirective<Object> ngForDirective = new NgForDirective<>();
-            ngForDirective.setItems((List<Object>) visit(ctx.expression()));
-            return ngForDirective;
-        } else if (ctx.NGSTYLE() != null) {
-            NgStyleDirective ngStyleDirective = new NgStyleDirective();
-            ngStyleDirective.setStyles((Map<String, String>) visit(ctx.expression()));
-            return ngStyleDirective;
-        } else if (ctx.NGCLASS() != null) {
-            NgClassDirective ngClassDirective = new NgClassDirective();
-            ngClassDirective.setClasses((Map<String, Boolean>) visit(ctx.expression()));
-            return ngClassDirective;
-        }
         return null;
     }
+
+    // Array
+
+    @Override
+    public Object visitArray(AngularParser.ArrayContext ctx) {
+        Array array = new Array();
+
+        for (int i = 0; i < ctx.value().size(); i++) {
+            array.addValue(visit(ctx.value(i)));
+        }
+
+        return array;
+    }
+
+    // Object
+
+    @Override
+    public Object visitObject(AngularParser.ObjectContext ctx) {
+        object obj = new object();
+
+        for (int i = 0; i < ctx.ID().size(); i++) {
+            String key = ctx.ID(i).getText();
+            Object value = visit(ctx.value(i));
+            obj.addProperty(key, value);
+        }
+
+        return obj;
+    }
+
+    // Class Body
+
     @Override
     public Object visitClassBody(AngularParser.ClassBodyContext ctx) {
-        ClassBody classBody = new ClassBody();
-
-        if (ctx.decorator() != null) {
-            classBody.setDecorator((Decorator) visit(ctx.decorator()));
-        }
-        if (ctx.functionDeclaration() != null) {
-            classBody.setFunctionDeclaration((FunctionDeclaration) visit(ctx.functionDeclaration()));
-        }
-        if (ctx.variableDeclaration() != null) {
-            classBody.setVariableDeclaration((VariableDeclaration) visit(ctx.variableDeclaration()));
-        }
-        if (ctx.constructorDeclaration() != null) {
-            classBody.setConstructorDeclaration((ConstructorDeclaration) visit(ctx.constructorDeclaration()));
-        }
-
-        return classBody;
-    }
-
-    @Override
-    public Object visitConstructorDeclaration(AngularParser.ConstructorDeclarationContext ctx) {
-        ConstructorDeclaration constructorDeclaration = new ConstructorDeclaration();
-
-        if (ctx.parameters() != null) {
-            constructorDeclaration.setParameters((Parameters) visit(ctx.parameters()));
-        }
-
-        constructorDeclaration.setFunctionBody((FunctionBody) visit(ctx.functionBody()));
-
-        return constructorDeclaration;
-    }
-    @Override
-    public Object visitDecorator(AngularParser.DecoratorContext ctx) {
-        Decorator decorator = new Decorator();
-        decorator.setId(ctx.ID().getText());
-
-        if (ctx.decoratorArguments() != null) {
-            decorator.setDecoratorArguments((List<Object>) visit(ctx.decoratorArguments()));
-        }
-
-        return decorator;
-    }
-    @Override
-    public Object visitDecoratorArguments(AngularParser.DecoratorArgumentsContext ctx) {
-        List<DecoratorArgument> arguments = new ArrayList<>();
-
-        for (int i = 0; i < ctx.getChildCount(); i++) {
-            ParseTree child = ctx.getChild(i);
-            DecoratorArgument decoratorArgument = new DecoratorArgument();
-
-            if (child instanceof AngularParser.ValueContext) {
-                decoratorArgument.setValue((Value) visit(child));
-                arguments.add(decoratorArgument);
-            } else if (child.getText().startsWith("{") && child.getText().endsWith("}")) {
-                decoratorArgument.setJson(child.getText());
-                arguments.add(decoratorArgument);
-            } else if (child instanceof TerminalNode terminalNode) {
-                decoratorArgument.setId(terminalNode.getText());
-                arguments.add(decoratorArgument);
-            }
-        }
-
-        return arguments;
-    }
-    @Override
-    public Object visitParameters(AngularParser.ParametersContext ctx) {
-        Parameters parameters = new Parameters();
-        List<String> ids = new ArrayList<>();
-
-        for (TerminalNode idNode : ctx.ID()) {
-            ids.add(idNode.getText());
-        }
-
-        parameters.setIds(ids);
-        return parameters;
-    }
-    @Override
-    public Object visitFunctionBody(AngularParser.FunctionBodyContext ctx) {
-        FunctionBody functionBody = new FunctionBody();
-        List<FunctionStatement> FunctionStatementList = new ArrayList<>();
-
-        for (AngularParser.StatementContext statementCtx : ctx.statement()) {
-            FunctionStatementList.add((FunctionStatement) visit(statementCtx));
-        }
-
-        if (ctx.returnStatement() != null) {
-            functionBody.setReturnStatement((ReturnStatement) visit(ctx.returnStatement()));
-        }
-
-        functionBody.setFunctionStatementList(FunctionStatementList);
-        return functionBody;
-    }
-    @Override
-    public Object visitReturnStatement(AngularParser.ReturnStatementContext ctx) {
-        ReturnStatement returnStatement = new ReturnStatement();
-        List<JsxElement> jsxElementList = new ArrayList<>();
-
-        for (int i = 0; i < ctx.getChildCount(); i++) {
-            if (ctx.getChild(i) instanceof AngularParser.JsxElementContext) {
-                jsxElementList.add((JsxElement) visit(ctx.getChild(i)));
-            }
-        }
-
-        returnStatement.setJsxElementList(jsxElementList);
-        return returnStatement;
-    }
-    @Override
-    public Object visitStatement(AngularParser.StatementContext ctx) {
-        FunctionStatement FunctionStatement = null;
-
-        if (ctx.forStatement() != null) {
-            ForStatement forStatement = new ForStatement();
-            forStatement.setVariableDeclaration((VariableDeclaration) visit(ctx.forStatement().variableDeclaration()));
-            forStatement.setCondition((Condition) visit(ctx.forStatement().condition()));
-
-            List<FunctionStatement> bodyStatements = new ArrayList<>();
-            for (AngularParser.StatementContext statementCtx : ctx.forStatement().statement()) {
-                bodyStatements.add((FunctionStatement) visit(statementCtx));
-            }
-            forStatement.setBodyStatements(bodyStatements);
-
-            FunctionStatement = forStatement.getStatement();
-        }
-
-        return FunctionStatement;
-    }
-    @Override
-    public Object visitComponentBody(AngularParser.ComponentBodyContext ctx) {
-        ComponentBody componentBody = new ComponentBody();
+        List<Decorator> decorators = new ArrayList<>();
+        List<ConstructorDeclaration> constructorDeclarations = new ArrayList<>();
         List<VariableDeclaration> variableDeclarations = new ArrayList<>();
         List<FunctionDeclaration> functionDeclarations = new ArrayList<>();
 
-        for (AngularParser.VariableDeclarationContext variableCtx : ctx.variableDeclaration()) {
-            variableDeclarations.add((VariableDeclaration) visit(variableCtx));
+        for (int i = 0; i < ctx.getChildCount(); i++) {
+            ParseTree child = ctx.getChild(i);
+            if (child instanceof AngularParser.DecoratorContext) {
+                decorators.add((Decorator) visit(child));
+            } else if (child instanceof AngularParser.ConstructorDeclarationContext) {
+                constructorDeclarations.add((ConstructorDeclaration) visit(child));
+            } else if (child instanceof AngularParser.VariableDeclarationContext) {
+                variableDeclarations.add((VariableDeclaration) visit(child));
+            } else if (child instanceof AngularParser.FunctionDeclarationContext) {
+                functionDeclarations.add((FunctionDeclaration) visit(child));
+            }
         }
 
-        for (AngularParser.FunctionDeclarationContext functionCtx : ctx.functionDeclaration()) {
-            functionDeclarations.add((FunctionDeclaration) visit(functionCtx));
-        }
-
-        componentBody.setVariableDeclarations(variableDeclarations);
-        componentBody.setFunctionDeclarations(functionDeclarations);
-
-        return componentBody;
+        return new ClassBody(decorators, constructorDeclarations, variableDeclarations, functionDeclarations);
     }
+
+    // Decorator
+
+    @Override
+    public Object visitDecorator(AngularParser.DecoratorContext ctx) {
+        String id = ctx.ID().getText();
+        List<DecoratorArgument> arguments = new ArrayList<>();
+
+        if (ctx.decoratorArguments() != null) {
+            for (AngularParser.DecoratorArgumentsContext argCtx : ctx.decoratorArguments()) {
+                arguments.add((DecoratorArgument) visit(argCtx));
+            }
+        }
+
+        return new Decorator(id, arguments);
+    }
+
+    // Decorator Arguments
+
+
+
+
+    // Constructor Declaration
+    @Override
+    public Object visitConstructorDeclaration(AngularParser.ConstructorDeclarationContext ctx) {
+        List<Parameter> parameters = new ArrayList<>();
+        if (ctx.parameters() != null) {;
+            parameters = (List<Parameter>) visit(ctx.parameters());
+        }
+
+        FunctionBody functionBody = null;
+        List<Assignments> assignments = new ArrayList<>();
+        if (ctx.functionBody() != null) {
+            functionBody = (FunctionBody) visit(ctx.functionBody());
+        } else if (ctx.assignment() != null) {
+            assignments.add((Assignments) visit(ctx.assignment()));
+        }
+
+        if (functionBody != null) {
+            return new ConstructorDeclaration(parameters, functionBody);
+        } else {
+            return new ConstructorDeclaration(parameters, assignments);
+        }
+    }
+
+    // Parameters
+
+    @Override
+    public Object visitParameters(AngularParser.ParametersContext ctx) {
+        Parameters parameters = new Parameters();
+
+        for (int i = 0; i < ctx.ID().size(); i++) {
+            String accessModifier = null;
+            if (ctx.PUBLIC(i) != null) {
+                accessModifier = ctx.PUBLIC(i).getText();
+            } else if (ctx.PRIVATE(i) != null) {
+                accessModifier = ctx.PRIVATE(i).getText();
+            }
+
+            String id = ctx.ID(i).getText();
+            Type type = null;
+            if (ctx.type(i) != null) {
+                type = (Type) visit(ctx.type(i));
+            }
+
+            Object value = null;
+            if (ctx.value(i) != null) {
+                value = visit(ctx.value(i));
+            }
+
+            Parameter parameter = new Parameter(accessModifier, id, type, value);
+            parameters.addParameter(parameter);
+        }
+
+        if (ctx.LEFTCURLY() != null) {
+            for (int i = 0; i < ctx.ID().size(); i++) {
+                parameters.addId(ctx.ID(i).getText());
+            }
+        }
+
+        return parameters;
+    }
+
+    // Function Body
+
+    @Override
+    public Object visitFunctionBody(AngularParser.FunctionBodyContext ctx) {
+        List<Statement> statements = new ArrayList<>();
+        for (AngularParser.StatementContext stmtCtx : ctx.statement()) {
+            statements.add((Statement) visit(stmtCtx));
+        }
+
+        ReturnStatement returnStatement = null;
+        if (ctx.returnStatement() != null) {
+            returnStatement = (ReturnStatement) visit(ctx.returnStatement());
+        }
+
+        return new FunctionBody(statements, returnStatement);
+    }
+
+    // Return Statement
+    @Override
+    public Object visitReturnStatement(AngularParser.ReturnStatementContext ctx) {
+        if (ctx.jsxElement() != null) {
+            return new ReturnStatement((JsxElement) visit(ctx.jsxElement()));
+        }
+
+        Value value = (Value) visit(ctx.value(0));
+        operation operation = null;
+        Value secondValue = null;
+
+        if (ctx.operation() != null) {
+            operation = (operation) visit(ctx.operation());
+            secondValue = (Value) visit(ctx.value(1));
+        }
+
+        return new ReturnStatement(value, operation, secondValue);
+    }
+
+    // Operation
+
+    @Override
+    public Object visitOperation(AngularParser.OperationContext ctx) {
+        if (ctx.PLUS() != null) {
+            return operation.PLUS;
+        } else if (ctx.MINUS() != null) {
+            return operation.MINUS;
+        } else if (ctx.STAR() != null) {
+            return operation.STAR;
+        } else if (ctx.DIVISION() != null) {
+            return operation.DIVISION;
+        } else if (ctx.EQ() != null) {
+            return operation.EQ;
+        } else if (ctx.NEQ() != null) {
+            return operation.NEQ;
+        } else if (ctx.GREATERTHAN() != null) {
+            return operation.GREATERTHAN;
+        } else if (ctx.GREATEREQUAL() != null) {
+            return operation.GREATEREQUAL;
+        } else if (ctx.LESSTHAN() != null) {
+            return operation.LESSTHAN;
+        } else if (ctx.LESSEQUAL() != null) {
+            return operation.LESSEQUAL;
+        }
+        return null;
+    }
+
+    // Statement
+
+    @Override
+    public Object visitStatement(AngularParser.StatementContext ctx) {
+        if (ctx.variableDeclaration() != null) {
+            return new Statement((VariableDeclaration) visit(ctx.variableDeclaration()));
+        } else if (ctx.ifStatement() != null) {
+            return new Statement((ifStatement) visit(ctx.ifStatement()));
+        } else if (ctx.forStatement() != null) {
+            return new Statement((ForStatement) visit(ctx.forStatement()));
+        } else if (ctx.whileStatement() != null) {
+            return new Statement((WhileStatement) visit(ctx.whileStatement()));
+        } else if (ctx.callFunction() != null) {
+            return new Statement((CallFunction) visit(ctx.callFunction()));
+        } else if (ctx.printStatement() != null) {
+            return new Statement((Print) visit(ctx.printStatement()));
+        } else if (ctx.jsxElement() != null) {
+            return new Statement((JsxElement) visit(ctx.jsxElement()));
+        } else if (ctx.angularDirective() != null) {
+            return new Statement((angularDirective) visit(ctx.angularDirective()));
+        } else if (ctx.returnStatement() != null) {
+            return new Statement((ReturnStatement) visit(ctx.returnStatement()));
+        } else if (ctx.assignment() != null) {
+            return new Statement((Assignments) visit(ctx.assignment()));
+        }
+        return null;
+    }
+
+    // Component Body
+
+    @Override
+    public Object visitComponentBody(AngularParser.ComponentBodyContext ctx) {
+        List<VariableDeclaration> variableDeclarations = new ArrayList<>();
+        List<FunctionDeclaration> functionDeclarations = new ArrayList<>();
+
+        for (AngularParser.VariableDeclarationContext varCtx : ctx.variableDeclaration()) {
+            variableDeclarations.add((VariableDeclaration) visit(varCtx));
+        }
+        for (AngularParser.FunctionDeclarationContext funcCtx : ctx.functionDeclaration()) {
+            functionDeclarations.add((FunctionDeclaration) visit(funcCtx));
+        }
+
+        return new ComponentBody(variableDeclarations, functionDeclarations);
+    }
+
+    // IF Statement
+
     @Override
     public Object visitIfStatement(AngularParser.IfStatementContext ctx) {
-        IfStatement ifStatement = new IfStatement();
-        ifStatement.setCondition((Condition) visit(ctx.condition()));
+        Condition condition = (Condition) visit(ctx.condition());
 
-        List<FunctionStatement> thenStatements = new ArrayList<>();
-        for (ParseTree child : ctx.statement(0).children) {
-            if (child instanceof AngularParser.StatementContext) {
-                thenStatements.add((FunctionStatement) visit(child));
+        List<Statement> thenStatements = new ArrayList<>();
+        for (AngularParser.StatementContext stmtCtx : ctx.statement()) {
+            thenStatements.add((Statement) visit(stmtCtx));
+        }
+
+        List<Statement> elseStatements = new ArrayList<>();
+        if (ctx.ELSE() != null) {
+            for (AngularParser.StatementContext stmtCtx : ctx.statement()) {
+                elseStatements.add((Statement) visit(stmtCtx));
             }
         }
-        ifStatement.setThenStatements(thenStatements);
 
-        List<FunctionStatement> elseStatements = new ArrayList<>();
-        if (ctx.statement().size() > 1) {
-            for (ParseTree child : ctx.statement(1).children) {
-                if (child instanceof AngularParser.StatementContext) {
-                    elseStatements.add((FunctionStatement) visit(child));
-                }
-            }
-        }
-        ifStatement.setElseStatements(elseStatements);
-
-        return ifStatement;
+        return new ifStatement(condition, thenStatements, elseStatements);
     }
 
+    //Condition
 
     @Override
     public Object visitCondition(AngularParser.ConditionContext ctx) {
-        Condition condition = new Condition();
-        condition.setLeftExpression((Expression) visit(ctx.expression(0)));
-        condition.setRightExpression((Expression) visit(ctx.expression(1)));
-        condition.setOperator(ctx.getChild(1).getText());
-        return condition;
+        Expression left = (Expression) visit(ctx.expression(0));
+        Expression right = null;
+        String operator = null;
+
+        if (ctx.AND() != null) {
+            operator = ctx.AND().getText();
+            right = (Expression) visit(ctx.expression(1));
+        } else if (ctx.OR() != null) {
+            operator = ctx.OR().getText();
+            right = (Expression) visit(ctx.expression(1));
+        }
+
+        if (right != null) {
+            return new Condition(left, right, operator);
+        } else {
+            return new Condition(left, null, null);
+        }
     }
+
+    // For Statement
+
     @Override
     public Object visitForStatement(AngularParser.ForStatementContext ctx) {
-        ForStatement forStatement = new ForStatement();
-        forStatement.setVariableDeclaration((VariableDeclaration) visit(ctx.variableDeclaration()));
-        forStatement.setCondition((Condition) visit(ctx.condition()));
+        VariableDeclaration variableDeclaration = null;
+        Condition condition = null;
+        Statement body = null;
 
-        List<FunctionStatement> bodyStatements = new ArrayList<>();
-        for (ParseTree child : ctx.children) {
-            if (child instanceof AngularParser.StatementContext) {
-                bodyStatements.add((FunctionStatement) visit(child));
-            }
+        if (ctx.variableDeclaration() != null) {
+            variableDeclaration = (VariableDeclaration) visit(ctx.variableDeclaration());
         }
-        forStatement.setBodyStatements(bodyStatements);
 
-        return forStatement;
+        if (ctx.condition() != null) {
+            condition = (Condition) visit(ctx.condition());
+        }
+
+        if (ctx.statement(0) != null) {
+            body = (Statement) visit(ctx.statement(0));
+        }
+
+        List<Statement> statements = new ArrayList<>();
+        for (int i = 1; i < ctx.statement().size(); i++) {
+            statements.add((Statement) visit(ctx.statement(i)));
+        }
+
+        return new ForStatement(variableDeclaration, condition, body);
     }
 
+    // While Statement
 
     @Override
     public Object visitWhileStatement(AngularParser.WhileStatementContext ctx) {
-        WhileStatement whileStatement = new WhileStatement();
-        whileStatement.setCondition((Condition) visit(ctx.condition()));
+        Condition condition = (Condition) visit(ctx.condition());
+        List<Statement> body = new ArrayList<>();
 
-        List<FunctionStatement> bodyStatements = new ArrayList<>();
-        for (ParseTree child : ctx.children) {
-            if (child instanceof AngularParser.StatementContext) {
-                bodyStatements.add((FunctionStatement) visit(child));
-            }
-        }
-        whileStatement.setBodyStatements(bodyStatements);
-
-        return whileStatement;
-    }
-    @Override
-    public Object visitExpression(AngularParser.ExpressionContext ctx) {
-        Expression expression = new Expression();
-
-        if (ctx.value() != null) {
-            expression.setValue((Value) visit(ctx.value()));
-        } else if (ctx.ID().size() == 1) {
-            expression.setId(ctx.ID(0).getText());
-        } else if (ctx.ID().size() == 2) {
-            expression.setComplexId(ctx.ID(0).getText() + "." + ctx.ID(1).getText());
-        } else if (ctx.callFunction() != null) {
-            expression.setCallFunction((CallFunction) visit(ctx.callFunction()));
-        } else if (ctx.directive() != null) {
-            expression.setDirective((Directives) visit(ctx.directive()));
+        for (AngularParser.StatementContext stmtCtx : ctx.statement()) {
+            body.add((Statement) visit(stmtCtx));
         }
 
-        return expression;
+        return new WhileStatement(condition, body);
     }
+
+    // Call Function
+
     @Override
     public Object visitCallFunction(AngularParser.CallFunctionContext ctx) {
-        CallFunction callFunction = new CallFunction();
-        callFunction.setFunctionName(ctx.ID().getText());
+        String functionName = ctx.ID().getText();
+        List<Expression> arguments = new ArrayList<>();
 
-        List<String> arguments = new ArrayList<>();
         for (AngularParser.ExpressionContext exprCtx : ctx.expression()) {
-            arguments.add(visit(exprCtx).toString());
+            arguments.add((Expression) visit(exprCtx));
         }
-        callFunction.setArguments(arguments);
 
-        return callFunction;
+        return new CallFunction(functionName, arguments);
     }
+
+    // JSX Element
+
+    @Override
+    public Object visitJsxElement(AngularParser.JsxElementContext ctx) {
+        if (ctx.selfClosingTag() != null) {
+            return new JsxElement((SelfClosingTag) visit(ctx.selfClosingTag()));
+        }
+
+        OpeningTag openingTag = (OpeningTag) visit(ctx.openingTag());
+        List<JsxContent> jsxContents = new ArrayList<>();
+        for (AngularParser.JsxContentContext contentCtx : ctx.jsxContent()) {
+            jsxContents.add((JsxContent) visit(contentCtx));
+        }
+        ClosingTag closingTag = (ClosingTag) visit(ctx.closingTag());
+
+        return new JsxElement(openingTag, jsxContents, closingTag);
+    }
+
+    // Opening Tag
+
+    @Override
+    public Object visitOpeningTag(AngularParser.OpeningTagContext ctx) {
+        String id = ctx.ID().getText();
+        JsxAttributes jsxAttributes = (JsxAttributes) visit(ctx.jsxAttributes());
+
+        return new OpeningTag(id, jsxAttributes);
+    }
+
+    // Closing Tag
+
+    @Override
+    public Object visitClosingTag(AngularParser.ClosingTagContext ctx) {
+        String id = ctx.ID().getText();
+        return new ClosingTag(id);
+    }
+
+    // Self Closing Tag
+
+    @Override
+    public Object visitSelfClosingTag(AngularParser.SelfClosingTagContext ctx) {
+        String id = ctx.ID().getText();
+        JsxAttributes jsxAttributes = (JsxAttributes) visit(ctx.jsxAttributes());
+
+        return new SelfClosingTag(id, jsxAttributes);
+    }
+
+    // JSX Content
+
+    @Override
+    public Object visitJsxContent(AngularParser.JsxContentContext ctx) {
+        if (ctx.jsxElement() != null) {
+            return new JsxContent((JsxElement) visit(ctx.jsxElement()));
+        } else if (ctx.interpolation() != null) {
+            return new JsxContent((interpolation) visit(ctx.interpolation()));
+        } else if (ctx.ID() != null) {
+            return new JsxContent(ctx.ID().getText());
+        }
+
+        return null;
+    }
+
+    // Interpolation
+
+    @Override
+    public Object visitInterpolation(AngularParser.InterpolationContext ctx) {
+        Expression expression = (Expression) visit(ctx.expression());
+        return new interpolation(expression);
+    }
+
+    //Jsx Attributes
+
+    @Override
+    public Object visitJsxAttributes(AngularParser.JsxAttributesContext ctx) {
+        List<angularDirective> angularDirectives = new ArrayList<>();
+        List<JsxAttribute> jsxAttributes = new ArrayList<>();
+        List<jsxEvent> jsxEvents = new ArrayList<>();
+        List<JsxBinding> jsxBindings = new ArrayList<>();
+        List<JsxClass> jsxClasses = new ArrayList<>();
+
+        for (ParseTree child : ctx.children) {
+            if (child instanceof AngularParser.DirectiveContext) {
+                angularDirectives.add((angularDirective) visit(child));
+            } else if (child instanceof AngularParser.JsxAttributeContext) {
+                jsxAttributes.add((JsxAttribute) visit(child));
+            } else if (child instanceof AngularParser.JsxEventContext) {
+                jsxEvents.add((jsxEvent) visit(child));
+            } else if (child instanceof AngularParser.JsxBindingContext) {
+                jsxBindings.add((JsxBinding) visit(child));
+            } else if (child instanceof AngularParser.JsxClassContext) {
+                jsxClasses.add((JsxClass) visit(child));
+            }
+        }
+
+        return new JsxAttributes(angularDirectives, jsxAttributes, jsxEvents, jsxBindings, jsxClasses);
+    }
+
+    // Angular Directive
+
+    @Override
+    public Object visitAngularDirective(AngularParser.AngularDirectiveContext ctx) {
+        String directive = ctx.directive().getText();
+        String value = ctx.STRING().getText();
+        return new angularDirective(directive, value);
+    }
+
+    // Directive
+
+    @Override
+    public Object visitDirective(AngularParser.DirectiveContext ctx) {
+        if (ctx.NGIF() != null) {
+            return Directive.NGIF;
+        } else if (ctx.NGSWITCH() != null) {
+            return Directive.NGSWITCH;
+        } else if (ctx.NGFOR() != null) {
+            return Directive.NGFOR;
+        } else if (ctx.NGSTYLE() != null) {
+            return Directive.NGSTYLE;
+        } else if (ctx.NGCLASS() != null) {
+            return Directive.NGCLASS;
+        }
+        return null;
+    }
+
+    // JSX Attribute
 
     @Override
     public Object visitJsxAttribute(AngularParser.JsxAttributeContext ctx) {
-        String name = ctx.ID().getText();
-        Value value = (Value) visit(ctx.expression());
-
-        return new JsxAttribute(name, value);
+        String id = ctx.ID().getText();
+        String value = ctx.STRING().getText();
+        return new JsxAttribute(id, value);
     }
 
+    // JSX Event
+
+    @Override
+    public Object visitJsxEvent(AngularParser.JsxEventContext ctx) {
+        String id = ctx.ID().getText();
+        String value = ctx.STRING().getText();
+        return new jsxEvent(id, value);
+    }
+
+    // JSX Binding
+
+    @Override
+    public Object visitJsxBinding(AngularParser.JsxBindingContext ctx) {
+        String id = ctx.ID().getText();
+
+        if (ctx.STRING() != null) {
+            String value = ctx.STRING().getText();
+            return new JsxBinding(id, value);
+        } else if (ctx.interpolation() != null) {
+            interpolation interpolation = (interpolation) visit(ctx.interpolation());
+            return new JsxBinding(id, interpolation);
+        }
+
+        return null;
+    }
+
+    // Jsx Class
 
     @Override
     public Object visitJsxClass(AngularParser.JsxClassContext ctx) {
         String className = ctx.STRING().getText();
-
-        System.out.println("JSX Class: " + className);
-
-        return className;
+        return new JsxClass(className);
     }
+
+    // Expression
+
     @Override
-    public Object visitContent(AngularParser.ContentContext ctx) {
-        if (ctx.jsxElement() != null) {
-            return visit(ctx.jsxElement());
-        } else if (ctx.shortIf() != null) {
-            return visit(ctx.shortIf());
+    public Object visitExpression(AngularParser.ExpressionContext ctx) {
+        if (ctx.ID().size() == 1) {
+            return new Expression(ctx.ID(0).getText());
+        } else if (ctx.ID().size() == 2) {
+            return new Expression(ctx.ID(0).getText() + "." + ctx.ID(1).getText());
+        } else if (ctx.STRING() != null) {
+            return new Expression(ctx.STRING().getText());
+        } else if (ctx.INT() != null) {
+            return new Expression(Integer.parseInt(ctx.INT().getText()));
+        } else if (ctx.DOUBLE() != null) {
+            return new Expression(String.valueOf(Double.parseDouble(ctx.DOUBLE().getText())));
+        } else if (ctx.BOOLEAN() != null) {
+            return new Expression(String.valueOf(Boolean.parseBoolean(ctx.BOOLEAN().getText())));
+        } else if (ctx.value() != null) {
+            return new Expression(String.valueOf((Value) visit(ctx.value())));
         } else if (ctx.callFunction() != null) {
-            return visit(ctx.callFunction());
-        } else if (ctx.ID() != null) {
-            return ctx.ID().getText();
+            return new Expression(String.valueOf((CallFunction) visit(ctx.callFunction())));
+        } else if (ctx.array() != null) {
+            return new Expression(String.valueOf((Array) visit(ctx.array())));
+        } else if (ctx.object() != null) {
+            return new Expression(String.valueOf((Object) visit(ctx.object())));
+        } else if (ctx.expression().size() == 2 && ctx.operation() != null) {
+            Expression left = (Expression) visit(ctx.expression(0));
+            Expression right = (Expression) visit(ctx.expression(1));
+            operation op = (operation) visit(ctx.operation());
+            return new Expression(left, right, op);
         }
+
         return null;
     }
 
-    @Override
-    public Object visitShortIf(AngularParser.ShortIfContext ctx) {
-        boolean condition = Boolean.parseBoolean(ctx.condition().getText());
-        JsxElement jsxElement = (JsxElement) visit(ctx.jsxElement());
+    // Type
 
-        if (condition) {
-            return jsxElement;
-        }
-        return null;
-    }
     @Override
     public Object visitType(AngularParser.TypeContext ctx) {
-        Type type;
-
-        if (ctx.ID() != null) {
-            type = new Type(ctx.ID().getText(), Type.TypeCategory.ID);
-        } else if (ctx.STRING() != null) {
-            type = new Type(ctx.STRING().getText(), Type.TypeCategory.STRING);
-        } else if (ctx.INT() != null) {
-            type = new Type(ctx.INT().getText(), Type.TypeCategory.INT);
-        } else if (ctx.DOUBLE() != null) {
-            type = new Type(ctx.DOUBLE().getText(), Type.TypeCategory.DOUBLE);
-        } else if (ctx.BOOLEAN() != null) {
-            type = new Type(ctx.BOOLEAN().getText(), Type.TypeCategory.BOOLEAN);
-        } else {
-            type = new Type("undefined", Type.TypeCategory.UNDEFINED);
-        }
-
-        return type;
+        return new Type(ctx.getText());
     }
+
+    // Print Statement
+
     @Override
     public Object visitPrintStatement(AngularParser.PrintStatementContext ctx) {
-        Print print = new Print();
+        List<String> expressions = new ArrayList<>();
 
-        String expressionString = visit(ctx.expression()).toString();
-        List<String> strings = new ArrayList<>();
-        strings.add(expressionString);
-        print.setStrings(strings);
+        expressions.add(ctx.expression().getText());
 
-        return print;
+        return new Print(expressions);
     }
 
 }

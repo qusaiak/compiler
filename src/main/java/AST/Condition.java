@@ -1,40 +1,42 @@
 package AST;
 
+import java.util.Objects;
+
 public class Condition {
-    private Expression leftExpression;
-    private Expression rightExpression;
+    private Expression left;
+    private Expression right;
     private String operator;
 
-    public Expression getLeftExpression() {
-        return leftExpression;
+    public Condition(Expression left, Expression right, String operator) {
+        this.left = left;
+        this.right = right;
+        this.operator = operator;
     }
 
-    public void setLeftExpression(Expression leftExpression) {
-        this.leftExpression = leftExpression;
+    public Expression getLeft() {
+        return left;
     }
 
-    public Expression getRightExpression() {
-        return rightExpression;
-    }
-
-    public void setRightExpression(Expression rightExpression) {
-        this.rightExpression = rightExpression;
+    public Expression getRight() {
+        return right;
     }
 
     public String getOperator() {
         return operator;
     }
 
-    public void setOperator(String operator) {
-        this.operator = operator;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Condition that = (Condition) o;
+        return Objects.equals(left, that.left) &&
+                Objects.equals(right, that.right) &&
+                Objects.equals(operator, that.operator);
     }
 
     @Override
-    public String toString() {
-        return "Condition{" +
-                "\nleftExpression=" + leftExpression +
-                "\nrightExpression=" + rightExpression +
-                "\noperator='" + operator + '\'' +
-                "\n}";
+    public int hashCode() {
+        return Objects.hash(left, right, operator);
     }
 }

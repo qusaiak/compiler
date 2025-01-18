@@ -1,15 +1,28 @@
 package AST;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Program {
-    private List<ImportStatement> importStatements = new ArrayList<>();
-    private List<VariableDeclaration> variableDeclarations = new ArrayList<>();
-    private List<ClassDeclaration> classDeclarations = new ArrayList<>();
-    private List<FunctionDeclaration> functionDeclarations = new ArrayList<>();
-    private List<ComponentDeclaration> componentDeclarations = new ArrayList<>();
+    private List<ImportStatement> importStatements;
+    private List<VariableDeclaration> variableDeclarations;
+    private List<ClassDeclaration> classDeclarations;
+    private List<FunctionDeclaration> functionDeclarations;
+    private List<ComponentDeclaration> componentDeclarations;
     private ExportStatement exportStatement;
+
+    public Program(List<ImportStatement> importStatements,
+                   List<VariableDeclaration> variableDeclarations,
+                   List<ClassDeclaration> classDeclarations,
+                   List<FunctionDeclaration> functionDeclarations,
+                   List<ComponentDeclaration> componentDeclarations,
+                   ExportStatement exportStatement) {
+        this.importStatements = importStatements;
+        this.variableDeclarations = variableDeclarations;
+        this.classDeclarations = classDeclarations;
+        this.functionDeclarations = functionDeclarations;
+        this.componentDeclarations = componentDeclarations;
+        this.exportStatement = exportStatement;
+    }
 
     public List<ImportStatement> getImportStatements() {
         return importStatements;
@@ -61,29 +74,13 @@ public class Program {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Program{\n");
-
-        if (importStatements != null) {
-            sb.append("importStatements=").append(importStatements).append(",\n");
-        }
-        if (variableDeclarations != null) {
-            sb.append("variableDeclarations=").append(variableDeclarations).append(",\n");
-        }
-        if (classDeclarations != null) {
-            sb.append("classDeclarations=").append(classDeclarations).append(",\n");
-        }
-        if (functionDeclarations != null) {
-            sb.append("functionDeclarations=").append(functionDeclarations).append(",\n");
-        }
-        if (componentDeclarations != null) {
-            sb.append("componentDeclarations=").append(componentDeclarations).append(",\n");
-        }
-        if (exportStatement != null) {
-            sb.append("exportStatement=").append(exportStatement).append("\n");
-        }
-
-        sb.append('}');
-        return sb.toString();
+        return "Program{" +
+                "importStatements=" + importStatements +
+                ", variableDeclarations=" + variableDeclarations +
+                ", classDeclarations=" + classDeclarations +
+                ", functionDeclarations=" + functionDeclarations +
+                ", componentDeclarations=" + componentDeclarations +
+                ", exportStatement=" + exportStatement +
+                '}';
     }
 }

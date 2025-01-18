@@ -1,12 +1,21 @@
 package AST;
 
+
 import java.util.List;
 
 public class ClassDeclaration {
     private String className;
-    private String superClass;
-    private List<String> interfaces;
-    private ClassBody classBody;
+    private String extendsClassName;
+    private List<String> implementsList;
+    private List<ClassBody> classBody;
+
+
+    public ClassDeclaration(String className, String extendsClassName, List<String> implementsList, List<ClassBody> classBody) {
+        this.className=className;
+        this.extendsClassName=extendsClassName;
+        this.implementsList= implementsList;
+        this.classBody= classBody;
+    }
 
     public String getClassName() {
         return className;
@@ -16,37 +25,37 @@ public class ClassDeclaration {
         this.className = className;
     }
 
-    public String getSuperClass() {
-        return superClass;
+    public String getExtendsClassName() {
+        return extendsClassName;
     }
 
-    public void setSuperClass(String superClass) {
-        this.superClass = superClass;
+    public void setExtendsClassName(String extendsClassName) {
+        this.extendsClassName = extendsClassName;
     }
 
-    public List<String> getInterfaces() {
-        return interfaces;
+    public List<String> getImplementsList() {
+        return implementsList;
     }
 
-    public void setInterfaces(List<String> interfaces) {
-        this.interfaces = interfaces;
+    public void setImplementsList(List<String> implementsList) {
+        this.implementsList = implementsList;
     }
 
-    public ClassBody getClassBody() {
+    public List<ClassBody> getClassBodyElements() {
         return classBody;
     }
 
-    public void setClassBody(ClassBody classBody) {
+    public void setClassBodyElements(List<ClassBody> classBody) {
         this.classBody = classBody;
     }
 
     @Override
     public String toString() {
         return "ClassDeclaration{" +
-                "\nclassName='" + className + '\'' +
-                "\n, superClass='" + superClass + '\'' +
-                "\n, interfaces=" + interfaces +
-                "\n, classBody=" + classBody +
-                "\n}";
+                "className='" + className + '\'' +
+                ", extendsClassName='" + extendsClassName + '\'' +
+                ", implementsList=" + implementsList +
+                ", classBody=" + classBody +
+                '}';
     }
 }

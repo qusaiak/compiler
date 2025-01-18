@@ -1,29 +1,27 @@
 package AST;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class object {
-    private List<Value> elementList;
+    private Map<String, Object> properties = new HashMap<>();
 
-    public object() {
-        this.elementList = new ArrayList<>();
+    public Map<String, Object> getProperties() {
+        return properties;
     }
 
-    public object(List<Value> elementList) {
-        this.elementList = elementList;
+    public void setProperties(Map<String, Object> properties) {
+        this.properties = properties;
     }
 
-    public List<Value> getElementList() {
-        return elementList;
-    }
-
-    public void setElementList(List<Value> elementList) {
-        this.elementList = elementList;
+    public void addProperty(String key, Object value) {
+        properties.put(key, value);
     }
 
     @Override
     public String toString() {
-        return "Object{\nelementList=" + elementList + "\n}";
+        return "ObjectNode{" +
+                "\nproperties=" + properties +
+                "\n}";
     }
 }

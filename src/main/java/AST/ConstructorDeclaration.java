@@ -1,14 +1,29 @@
 package AST;
 
-public class ConstructorDeclaration {
-    private Parameters parameters;
-    private FunctionBody functionBody;
+import java.util.List;
 
-    public Parameters getParameters() {
+public class ConstructorDeclaration {
+    private List<Parameter> parameters;
+    private FunctionBody functionBody;
+    private List<Assignments> assignments;
+
+    // Constructor for function body
+    public ConstructorDeclaration(List<Parameter> parameters, FunctionBody functionBody) {
+        this.parameters = parameters;
+        this.functionBody = functionBody;
+    }
+
+    // Constructor for assignments
+    public ConstructorDeclaration(List<Parameter> parameters, List<Assignments> assignments) {
+        this.parameters = parameters;
+        this.assignments = assignments;
+    }
+
+    public List<Parameter> getParameters() {
         return parameters;
     }
 
-    public void setParameters(Parameters parameters) {
+    public void setParameters(List<Parameter> parameters) {
         this.parameters = parameters;
     }
 
@@ -20,11 +35,26 @@ public class ConstructorDeclaration {
         this.functionBody = functionBody;
     }
 
+    public List<Assignments> getAssignments() {
+        return assignments;
+    }
+
+    public void setAssignments(List<Assignments> assignments) {
+        this.assignments = assignments;
+    }
+
     @Override
     public String toString() {
-        return "ConstructorDeclaration{" +
-                "\nparameters=" + parameters +
-                "\n, functionBody=" + functionBody +
-                "\n}";
+        if (functionBody != null) {
+            return "ConstructorDeclaration{" +
+                    "parameters=" + parameters +
+                    ", functionBody=" + functionBody +
+                    '}';
+        } else {
+            return "ConstructorDeclaration{" +
+                    "parameters=" + parameters +
+                    ", assignments=" + assignments +
+                    '}';
+        }
     }
 }

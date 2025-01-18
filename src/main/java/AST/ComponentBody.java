@@ -6,6 +6,12 @@ public class ComponentBody {
     private List<VariableDeclaration> variableDeclarations;
     private List<FunctionDeclaration> functionDeclarations;
 
+    public ComponentBody(List<VariableDeclaration> variableDeclarations, List<FunctionDeclaration> functionDeclarations) {
+        this.variableDeclarations = variableDeclarations;
+        this.functionDeclarations = functionDeclarations;
+    }
+
+
     public List<VariableDeclaration> getVariableDeclarations() {
         return variableDeclarations;
     }
@@ -25,8 +31,8 @@ public class ComponentBody {
     @Override
     public String toString() {
         return "ComponentBody{" +
-                "\nvariableDeclarations=" + variableDeclarations +
-                "\n, functionDeclarations=" + functionDeclarations +
-                "\n}";
+                "variableDeclarations=" + variableDeclarations +
+                ", functionDeclarations=" + functionDeclarations +
+                '}';
     }
 }

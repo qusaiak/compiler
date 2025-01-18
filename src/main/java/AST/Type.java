@@ -1,39 +1,43 @@
 package AST;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Type {
-    public enum TypeCategory {
-        ID, STRING, INT, DOUBLE, BOOLEAN, UNDEFINED
+    private String typeName;
+
+    public Type(String typeName) {
+        this.typeName = typeName;
     }
 
-    private String name;
-    private TypeCategory category;
-
-    public Type(String name, TypeCategory category) {
-        this.name = name;
-        this.category = category;
+    public String getTypeName() {
+        return typeName;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public TypeCategory getCategory() {
-        return category;
-    }
-
-    public void setCategory(TypeCategory category) {
-        this.category = category;
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
     }
 
     @Override
     public String toString() {
         return "Type{" +
-                "name='" + name + '\'' +
-                ", category=" + category +
+                "typeName='" + typeName + '\'' +
                 '}';
+    }
+
+    public static List<Type> getAllTypes() {
+        List<Type> types = new ArrayList<>();
+        types.add(new Type("ID"));
+        types.add(new Type("STRING"));
+        types.add(new Type("INT"));
+        types.add(new Type("DOUBLE"));
+        types.add(new Type("BOOLEAN"));
+        types.add(new Type("ANY"));
+        types.add(new Type("PUBLIC"));
+        types.add(new Type("PRIVATE"));
+        types.add(new Type("VOID"));
+        types.add(new Type("NUMBER"));
+        types.add(new Type("NULL"));
+        return types;
     }
 }

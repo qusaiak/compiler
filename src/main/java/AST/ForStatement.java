@@ -1,52 +1,42 @@
 package AST;
 
-import java.util.List;
+import java.util.Objects;
 
 public class ForStatement {
     private VariableDeclaration variableDeclaration;
     private Condition condition;
-    private FunctionStatement statement;
-    private List<FunctionStatement> bodyStatements;
+    private Statement body;
+
+    public ForStatement(VariableDeclaration variableDeclaration, Condition condition, Statement body) {
+        this.variableDeclaration = variableDeclaration;
+        this.condition = condition;
+        this.body = body;
+    }
 
     public VariableDeclaration getVariableDeclaration() {
         return variableDeclaration;
-    }
-
-    public void setVariableDeclaration(VariableDeclaration variableDeclaration) {
-        this.variableDeclaration = variableDeclaration;
     }
 
     public Condition getCondition() {
         return condition;
     }
 
-    public void setCondition(Condition condition) {
-        this.condition = condition;
-    }
-
-    public FunctionStatement getStatement() {
-        return statement;
-    }
-
-    public void setStatement(FunctionStatement statement) {
-        this.statement = statement;
-    }
-
-    public List<FunctionStatement> getBodyStatements() {
-        return bodyStatements;
-    }
-
-    public void setBodyStatements(List<FunctionStatement> bodyStatements) {
-        this.bodyStatements = bodyStatements;
+    public Statement getBody() {
+        return body;
     }
 
     @Override
-    public String toString() {
-        return "ForStatement{" +
-                "\nvariableDeclaration=" + variableDeclaration +
-                "\ncondition=" + condition +
-                "\nstatement=" + statement +
-                "\nbodyStatements=" + bodyStatements +
-                "\n}";
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ForStatement that = (ForStatement) o;
+        return Objects.equals(variableDeclaration, that.variableDeclaration) &&
+                Objects.equals(condition, that.condition) &&
+                Objects.equals(body, that.body);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(variableDeclaration, condition, body);
     }
 }

@@ -3,21 +3,25 @@ package AST;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Print {
-    private List<String> strings = new ArrayList<>();
+public class Print{
+    private List<String> expressions = new ArrayList<>();
 
-    public List<String> getStrings() {
-        return strings;
+    public Print(List<String> expressions) {
+        this.expressions=expressions;
     }
 
-    public void setStrings(List<String> strings) {
-        this.strings = strings;
+    public List<String> getExpressions() {
+        return expressions;
+    }
+
+    public void setExpressions(List<String> expressions) {
+        this.expressions = expressions;
     }
 
     @Override
     public String toString() {
-        return "Print{" +
-                "\nstrings=" + strings +
+        return "PrintStatement{" +
+                "\nexpressions=" + expressions +
                 "\n}";
     }
 }

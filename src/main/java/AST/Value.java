@@ -10,7 +10,7 @@ public class Value {
     private Object nestedObject;
     private List<Value> nestedArray;
     private JsxElement jsxElement;
-    private Directives directive;
+    private angularDirective directive;
     private boolean isNull;
 
     public Value(String stringValue) {
@@ -41,7 +41,7 @@ public class Value {
         this.jsxElement = jsxElement;
     }
 
-    public Value(Directives directive) {
+    public Value(angularDirective directive) {
         this.directive = directive;
     }
 
@@ -49,11 +49,11 @@ public class Value {
         this.isNull = isNull;
     }
 
-    public Directives getDirective() {
+    public angularDirective getDirective() {
         return directive;
     }
 
-    public void setDirective(Directives directive) {
+    public void setDirective(angularDirective directive) {
         this.directive = directive;
     }
 

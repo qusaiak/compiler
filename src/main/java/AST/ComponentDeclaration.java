@@ -4,6 +4,14 @@ public class ComponentDeclaration {
     private Decorator decorator;
     private ComponentBody componentBody;
 
+    public ComponentDeclaration(Decorator decorator) {
+        this.decorator = decorator;
+    }
+
+    public ComponentDeclaration(ComponentBody componentBody) {
+        this.componentBody = componentBody;
+    }
+
     public Decorator getDecorator() {
         return decorator;
     }
@@ -22,9 +30,14 @@ public class ComponentDeclaration {
 
     @Override
     public String toString() {
-        return "ComponentDeclaration{" +
-                "\ndecorator=" + decorator +
-                "\n, componentBody=" + componentBody +
-                "\n}";
+        if (decorator != null) {
+            return "ComponentDeclaration{" +
+                    "decorator=" + decorator +
+                    '}';
+        } else {
+            return "ComponentDeclaration{" +
+                    "componentBody=" + componentBody +
+                    '}';
+        }
     }
 }

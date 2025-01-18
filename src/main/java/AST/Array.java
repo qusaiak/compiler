@@ -1,26 +1,27 @@
 package AST;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Array {
-    private List<Value> values;
+    private List<Object> values = new ArrayList<>();
 
-    public Array(List<Value> values) {
-        this.values = values;
-    }
-
-    public List<Value> getValues() {
+    public List<Object> getValues() {
         return values;
     }
 
-    public void setValues(List<Value> values) {
+    public void setValues(List<Object> values) {
         this.values = values;
+    }
+
+    public void addValue(Object value) {
+        values.add(value);
     }
 
     @Override
     public String toString() {
         return "Array{" +
-                "values=" + values +
-                '}';
+                "\nvalues=" + values +
+                "\n}";
     }
 }

@@ -1,27 +1,53 @@
 package AST;
 
 public class VariableDeclaration {
-    private String type;
-    private String variable;
+    private String varType;
     private String id;
-    private FunctionDeclaration functionDeclaration;
-    private Array array;
+    private Type type;
     private Value value;
+    private Array array;
+    private Object object;
+    private FunctionDeclaration functionDeclaration;
 
-    public String getType() {
-        return type;
+    // Constructor for variable declaration with value, array, object, or function declaration
+    public VariableDeclaration(String varType, String id, Value value) {
+        this.varType = varType;
+        this.id = id;
+        this.value = value;
     }
 
-    public void setType(String type) {
+    public VariableDeclaration(String varType, String id, Array array) {
+        this.varType = varType;
+        this.id = id;
+        this.array = array;
+    }
+
+    public VariableDeclaration(String varType, String id, Object object) {
+        this.varType = varType;
+        this.id = id;
+        this.object = object;
+    }
+
+    public VariableDeclaration(String varType, String id, FunctionDeclaration functionDeclaration) {
+        this.varType = varType;
+        this.id = id;
+        this.functionDeclaration = functionDeclaration;
+    }
+
+    public VariableDeclaration(String varType, String id, Type type, Value value) {
+        this.varType = varType;
+        this.id = id;
         this.type = type;
+        this.value = value;
     }
 
-    public String getVariable() {
-        return variable;
+    // Getters and setters
+    public String getVarType() {
+        return varType;
     }
 
-    public void setVariable(String variable) {
-        this.variable = variable;
+    public void setVarType(String varType) {
+        this.varType = varType;
     }
 
     public String getId() {
@@ -32,20 +58,12 @@ public class VariableDeclaration {
         this.id = id;
     }
 
-    public FunctionDeclaration getFunctionDeclaration() {
-        return functionDeclaration;
+    public Type getType() {
+        return type;
     }
 
-    public void setFunctionDeclaration(FunctionDeclaration functionDeclaration) {
-        this.functionDeclaration = functionDeclaration;
-    }
-
-    public Array getArray() {
-        return array;
-    }
-
-    public void setArray(Array array) {
-        this.array = array;
+    public void setType(Type type) {
+        this.type = type;
     }
 
     public Value getValue() {
@@ -56,33 +74,40 @@ public class VariableDeclaration {
         this.value = value;
     }
 
+    public Array getArray() {
+        return array;
+    }
+
+    public void setArray(Array array) {
+        this.array = array;
+    }
+
+    public Object getObject() {
+        return object;
+    }
+
+    public void setObject(Object object) {
+        this.object = object;
+    }
+
+    public FunctionDeclaration getFunctionDeclaration() {
+        return functionDeclaration;
+    }
+
+    public void setFunctionDeclaration(FunctionDeclaration functionDeclaration) {
+        this.functionDeclaration = functionDeclaration;
+    }
+
     @Override
     public String toString() {
-        if (value != null)
-            return "VariableDeclaration{" +
-                    "\n type='" + type + '\'' +
-                    "\n, variable='" + variable + '\'' +
-                    "\n, value=" + value +
-                    "\n}";
-
-        else if (functionDeclaration != null)
-            return "VariableDeclaration{" +
-                    "\n type='" + type + '\'' +
-                    "\n, variable='" + variable + '\'' +
-                    "\n, functionDeclaration=" + functionDeclaration +
-                    "\n}";
-
-        else if (array != null)
-            return "VariableDeclaration{" +
-                    "\n type='" + type + '\'' +
-                    "\n, variable='" + variable + '\'' +
-                    "\n, array=" + array +
-                    "\n}";
-
         return "VariableDeclaration{" +
-                "\n type='" + type + '\'' +
-                "\n, variable='" + variable + '\'' +
-                "\n, id=" + id +
-                "\n}";
+                "varType='" + varType + '\'' +
+                ", id='" + id + '\'' +
+                ", type=" + type +
+                ", value=" + value +
+                ", array=" + array +
+                ", object=" + object +
+                ", functionDeclaration=" + functionDeclaration +
+                '}';
     }
 }

@@ -1,18 +1,22 @@
 package AST;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class FunctionBody {
-    private List<FunctionStatement> FunctionStatementList = new ArrayList<>();
+    private List<Statement> statements;
     private ReturnStatement returnStatement;
 
-    public List<FunctionStatement> getFunctionStatementList() {
-        return FunctionStatementList;
+    public FunctionBody(List<Statement> statements, ReturnStatement returnStatement) {
+        this.statements = statements;
+        this.returnStatement = returnStatement;
     }
 
-    public void setFunctionStatementList(List<FunctionStatement> FunctionStatementList) {
-        this.FunctionStatementList = FunctionStatementList;
+    public List<Statement> getStatements() {
+        return statements;
+    }
+
+    public void setStatements(List<Statement> statements) {
+        this.statements = statements;
     }
 
     public ReturnStatement getReturnStatement() {
@@ -25,14 +29,9 @@ public class FunctionBody {
 
     @Override
     public String toString() {
-        if (returnStatement != null) {
-            return "FunctionBody{" +
-                    "\n FunctionStatementList=" + FunctionStatementList +
-                    "\n returnStatement=" + returnStatement +
-                    "\n }";
-        }
         return "FunctionBody{" +
-                "\n FunctionStatementList=" + FunctionStatementList +
-                "\n }";
+                "statements=" + statements +
+                ", returnStatement=" + returnStatement +
+                '}';
     }
 }

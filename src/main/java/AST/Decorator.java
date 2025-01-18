@@ -4,7 +4,18 @@ import java.util.List;
 
 public class Decorator {
     private String id;
-    private List<Object> decoratorArguments;
+    private List<DecoratorArgument> arguments;
+
+    // Constructor for decorators without arguments
+    public Decorator(String id) {
+        this.id = id;
+    }
+
+    // Constructor for decorators with arguments
+    public Decorator(String id, List<DecoratorArgument> arguments) {
+        this.id = id;
+        this.arguments = arguments;
+    }
 
     public String getId() {
         return id;
@@ -14,24 +25,19 @@ public class Decorator {
         this.id = id;
     }
 
-    public List<Object> getDecoratorArguments() {
-        return decoratorArguments;
+    public List<DecoratorArgument> getArguments() {
+        return arguments;
     }
 
-    public void setDecoratorArguments(List<Object> decoratorArguments) {
-        this.decoratorArguments = decoratorArguments;
+    public void setArguments(List<DecoratorArgument> arguments) {
+        this.arguments = arguments;
     }
 
     @Override
     public String toString() {
-        if (decoratorArguments != null && !decoratorArguments.isEmpty()) {
-            return "Decorator{" +
-                    "\nid='" + id + '\'' +
-                    "\n, decoratorArguments=" + decoratorArguments +
-                    "\n}";
-        }
         return "Decorator{" +
-                "\nid='" + id + '\'' +
-                "\n}";
+                "id='" + id + '\'' +
+                ", arguments=" + arguments +
+                '}';
     }
 }

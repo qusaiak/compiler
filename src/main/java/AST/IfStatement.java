@@ -1,42 +1,43 @@
 package AST;
 
 import java.util.List;
+import java.util.Objects;
 
-public class IfStatement {
+public class ifStatement {
     private Condition condition;
-    private List<FunctionStatement> thenStatements;
-    private List<FunctionStatement> elseStatements;
+    private List<Statement> thenStatements;
+    private List<Statement> elseStatements;
+
+    public ifStatement(Condition condition, List<Statement> thenStatements, List<Statement> elseStatements) {
+        this.condition = condition;
+        this.thenStatements = thenStatements;
+        this.elseStatements = elseStatements;
+    }
 
     public Condition getCondition() {
         return condition;
     }
 
-    public void setCondition(Condition condition) {
-        this.condition = condition;
-    }
-
-    public List<FunctionStatement> getThenStatements() {
+    public List<Statement> getThenStatements() {
         return thenStatements;
     }
 
-    public void setThenStatements(List<FunctionStatement> thenStatements) {
-        this.thenStatements = thenStatements;
-    }
-
-    public List<FunctionStatement> getElseStatements() {
+    public List<Statement> getElseStatements() {
         return elseStatements;
     }
 
-    public void setElseStatements(List<FunctionStatement> elseStatements) {
-        this.elseStatements = elseStatements;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ifStatement that = (ifStatement) o;
+        return Objects.equals(condition, that.condition) &&
+                Objects.equals(thenStatements, that.thenStatements) &&
+                Objects.equals(elseStatements, that.elseStatements);
     }
 
     @Override
-    public String toString() {
-        return "IfStatement{" +
-                "\ncondition=" + condition +
-                "\nthenStatements=" + thenStatements +
-                "\nelseStatements=" + elseStatements +
-                "\n}";
+    public int hashCode() {
+        return Objects.hash(condition, thenStatements, elseStatements);
     }
 }
