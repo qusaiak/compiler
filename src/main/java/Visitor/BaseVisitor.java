@@ -247,10 +247,18 @@ public class BaseVisitor extends AngularParserBaseVisitor<Object> {
 
         if (ctx.decorator() != null) {
             decorator = (Decorator) visit(ctx.decorator());
+            Row row = new Row();
+            row.setType("Decorator");
+            row.setValue(decorator.getId());
+            this.symbolTable.getRows().add(row);
         }
 
         if (ctx.componentBody() != null) {
             componentBody = (ComponentBody) visit(ctx.componentBody());
+            Row row = new Row();
+            row.setType("ComponentBody");
+            row.setValue(componentBody.getVariableDeclarations().toString());
+            this.symbolTable.getRows().add(row);
         }
 
         return new ComponentDeclaration(decorator, componentBody);
@@ -388,20 +396,23 @@ public class BaseVisitor extends AngularParserBaseVisitor<Object> {
                 statements.add((Statement) visit(stmtCtx));
             }
             return new ArgumentContent(statements);
-        } else if (ctx.ID() != null && ctx.STRING() != null) {
-            String id = ctx.ID().getText();
+        } else if (ctx.SELECTOR() != null && ctx.COLON() != null && ctx.STRING() != null && ctx.COMMA() != null) {
+            String selector = ctx.SELECTOR().getText();
             String stringValue = ctx.STRING().getText();
-            return new ArgumentContent(id, stringValue);
-        } else if (ctx.ID() != null && ctx.HTMLSTRING().size() == 2 && ctx.jsxElement() != null) {
-            String id = ctx.ID().getText();
-            String htmlStringBefore = ctx.HTMLSTRING(0).getText();
+            return new ArgumentContent(selector, stringValue);
+        } else if (ctx.TEMPLATE() != null && ctx.COLON() != null && ctx.HTMLSTRING().size() == 2 && ctx.jsxElement() != null && ctx.COMMA() != null) {
+            String template = ctx.TEMPLATE().getText();
+            String templateHtmlBefore = ctx.HTMLSTRING(0).getText();
             JsxElement jsxElement = (JsxElement) visit(ctx.jsxElement());
-            String htmlStringAfter = ctx.HTMLSTRING(1).getText();
-            return new ArgumentContent(id, htmlStringBefore, jsxElement, htmlStringAfter);
+            String templateHtmlAfter = ctx.HTMLSTRING(1).getText();
+            return new ArgumentContent(template,templateHtmlBefore, jsxElement, templateHtmlAfter);
         }
 
         return null;
     }
+
+
+
 
     // Constructor Declaration
 

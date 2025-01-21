@@ -76,8 +76,8 @@ argumentContent
     | variableDeclaration
     | classDeclaration
     | LEFTCURLY (statement)* RIGHTCURLY
-    | ID COLON STRING COMMA
-    | ID COLON HTMLSTRING jsxElement HTMLSTRING COMMA
+    | SELECTOR COLON STRING COMMA
+    | TEMPLATE COLON HTMLSTRING jsxElement HTMLSTRING COMMA
     ;
 
 constructorDeclaration
