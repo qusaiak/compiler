@@ -8,11 +8,12 @@ public class ArgumentContent {
     private VariableDeclaration variableDeclaration;
     private ClassDeclaration classDeclaration;
     private List<Statement> statements;
-    private String id;
+    private String selector;
     private String stringValue;
-    private String htmlStringBefore;
+    private String template;
+    private String templateHtmlBefore;
     private JsxElement jsxElement;
-    private String htmlStringAfter;
+    private String templateHtmlAfter;
 
     public ArgumentContent(ExportStatement exportStatement) {
         this.exportStatement = exportStatement;
@@ -34,16 +35,16 @@ public class ArgumentContent {
         this.statements = statements;
     }
 
-    public ArgumentContent(String id, String stringValue) {
-        this.id = id;
+    public ArgumentContent(String selector, String stringValue) {
+        this.selector = selector;
         this.stringValue = stringValue;
     }
 
-    public ArgumentContent(String id, String htmlStringBefore, JsxElement jsxElement, String htmlStringAfter) {
-        this.id = id;
-        this.htmlStringBefore = htmlStringBefore;
+    public ArgumentContent(String template, String templateHtmlBefore, JsxElement jsxElement, String templateHtmlAfter) {
+        this.template = template;
+        this.templateHtmlBefore = templateHtmlBefore;
         this.jsxElement = jsxElement;
-        this.htmlStringAfter = htmlStringAfter;
+        this.templateHtmlAfter = templateHtmlAfter;
     }
 
     public ExportStatement getExportStatement() {
@@ -86,12 +87,12 @@ public class ArgumentContent {
         this.statements = statements;
     }
 
-    public String getId() {
-        return id;
+    public String getSelector() {
+        return selector;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setSelector(String selector) {
+        this.selector = selector;
     }
 
     public String getStringValue() {
@@ -102,12 +103,20 @@ public class ArgumentContent {
         this.stringValue = stringValue;
     }
 
-    public String getHtmlStringBefore() {
-        return htmlStringBefore;
+    public String getTemplate() {
+        return template;
     }
 
-    public void setHtmlStringBefore(String htmlStringBefore) {
-        this.htmlStringBefore = htmlStringBefore;
+    public void setTemplate(String template) {
+        this.template = template;
+    }
+
+    public String getTemplateHtmlBefore() {
+        return templateHtmlBefore;
+    }
+
+    public void setTemplateHtmlBefore(String templateHtmlBefore) {
+        this.templateHtmlBefore = templateHtmlBefore;
     }
 
     public JsxElement getJsxElement() {
@@ -118,12 +127,12 @@ public class ArgumentContent {
         this.jsxElement = jsxElement;
     }
 
-    public String getHtmlStringAfter() {
-        return htmlStringAfter;
+    public String getTemplateHtmlAfter() {
+        return templateHtmlAfter;
     }
 
-    public void setHtmlStringAfter(String htmlStringAfter) {
-        this.htmlStringAfter = htmlStringAfter;
+    public void setTemplateHtmlAfter(String templateHtmlAfter) {
+        this.templateHtmlAfter = templateHtmlAfter;
     }
 
     @Override
@@ -145,23 +154,25 @@ public class ArgumentContent {
         if (statements != null && !statements.isEmpty()) {
             sb.append("  statements=").append(statements).append('\n');
         }
-        if (id != null) {
-            sb.append("  id='").append(id).append("'\n");
+        if (selector != null) {
+            sb.append("  selector='").append(selector).append("'\n");
         }
         if (stringValue != null) {
             sb.append("  stringValue='").append(stringValue).append("'\n");
         }
-        if (htmlStringBefore != null) {
-            sb.append("  htmlStringBefore='").append(htmlStringBefore).append("'\n");
+        if (template != null) {
+            sb.append("  template='").append(template).append("'\n");
+        }
+        if (templateHtmlBefore != null) {
+            sb.append("  templateHtmlBefore='").append(templateHtmlBefore).append("'\n");
         }
         if (jsxElement != null) {
             sb.append("  jsxElement=").append(jsxElement).append('\n');
         }
-        if (htmlStringAfter != null) {
-            sb.append("  htmlStringAfter='").append(htmlStringAfter).append("'\n");
+        if (templateHtmlAfter != null) {
+            sb.append("  templateHtmlAfter='").append(templateHtmlAfter).append("'\n");
         }
         sb.append("}");
         return sb.toString();
     }
-
 }

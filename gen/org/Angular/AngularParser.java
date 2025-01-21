@@ -22,16 +22,17 @@ public class AngularParser extends Parser {
 		LEFTCURLY=14, RIGHTCURLY=15, LESSTHAN=16, GREATERTHAN=17, LESSEQUAL=18, 
 		GREATEREQUAL=19, ARROW=20, EQ=21, NEQ=22, AND=23, OR=24, PLUSPLUS=25, 
 		MINUSMINUS=26, SQ=27, DQ=28, HTMLSTRING=29, DOT=30, AT=31, SLASHGREATERTHAN=32, 
-		DOUBLELEFTCURLY=33, DOUBLERIGHTCURLY=34, COMPONENT=35, CLASS=36, INPUT=37, 
-		OUTPUT=38, PROPERTY=39, IMPORT=40, EXPORT=41, DEFAULT=42, FROM=43, CONSTRUCTOR=44, 
-		EXTENDS=45, IMPLEMENTS=46, FUNCTION=47, CONSOLE=48, LOG=49, VAR=50, LET=51, 
-		CONST=52, IF=53, ELSE=54, FOR=55, WHILE=56, RETURN=57, NULL=58, ANY=59, 
-		SWITCH=60, CASE=61, DO=62, BREAK=63, CONTINUE=64, TRY=65, CATCH=66, FINALLY=67, 
-		THROWS=68, ASYNC=69, AWAIT=70, TYPE=71, ENUM=72, INTERFACE=73, PUBLIC=74, 
-		PRIVATE=75, PROTECTED=76, AS=77, THIS=78, VOID=79, NUMBER=80, ONINIT=81, 
-		ONCHANGES=82, ONDESTROY=83, NGIF=84, NGSWITCH=85, NGFOR=86, NGSTYLE=87, 
-		NGCLASS=88, ID=89, INT=90, DOUBLE=91, BOOLEAN=92, STRING=93, WS=94, COMMENT=95, 
-		BLOCK_COMMENT=96;
+		DOUBLELEFTCURLY=33, DOUBLERIGHTCURLY=34, COMPONENT=35, SELECTOR=36, TEMPLATE=37, 
+		TEMPLATEURL=38, STYLES=39, STYLEURL=40, CLASS=41, INPUT=42, OUTPUT=43, 
+		PROPERTY=44, IMPORT=45, EXPORT=46, DEFAULT=47, FROM=48, CONSTRUCTOR=49, 
+		EXTENDS=50, IMPLEMENTS=51, FUNCTION=52, CONSOLE=53, LOG=54, VAR=55, LET=56, 
+		CONST=57, IF=58, ELSE=59, FOR=60, WHILE=61, RETURN=62, NULL=63, ANY=64, 
+		SWITCH=65, CASE=66, DO=67, BREAK=68, CONTINUE=69, TRY=70, CATCH=71, FINALLY=72, 
+		THROWS=73, ASYNC=74, AWAIT=75, TYPE=76, ENUM=77, INTERFACE=78, PUBLIC=79, 
+		PRIVATE=80, PROTECTED=81, AS=82, THIS=83, VOID=84, NUMBER=85, ONINIT=86, 
+		ONCHANGES=87, ONDESTROY=88, NGIF=89, NGSWITCH=90, NGFOR=91, NGSTYLE=92, 
+		NGCLASS=93, ID=94, INT=95, DOUBLE=96, BOOLEAN=97, STRING=98, WS=99, COMMENT=100, 
+		BLOCK_COMMENT=101;
 	public static final int
 		RULE_program = 0, RULE_importStatement = 1, RULE_exportStatement = 2, 
 		RULE_variableDeclaration = 3, RULE_classDeclaration = 4, RULE_functionDeclaration = 5, 
@@ -66,14 +67,15 @@ public class AngularParser extends Parser {
 			null, "'='", "'+'", "'-'", "'*'", "'/'", "'%'", "','", "';'", "':'", 
 			"'('", "')'", "'['", "']'", "'{'", "'}'", "'<'", "'>'", "'<='", "'>='", 
 			"'=>'", "'=='", "'!='", "'&&'", "'||'", "'++'", "'--'", "'''", "'\"'", 
-			"'`'", "'.'", "'@'", "'/>'", "'{{'", "'}}'", "'component'", "'class'", 
-			"'input'", "'output'", "'property'", "'import'", "'export'", "'default'", 
-			"'from'", "'constructor'", "'extends'", "'implements'", "'function'", 
-			"'console'", "'log'", "'var'", "'let'", "'const'", "'if'", "'else'", 
-			"'for'", "'while'", "'return'", "'null'", "'any'", "'switch'", "'case'", 
-			"'do'", "'break'", "'continue'", "'try'", "'catch'", "'finally'", "'throws'", 
-			"'async'", "'await'", "'type'", "'enum'", "'interface'", "'public'", 
-			"'private'", "'protected'", "'as'", "'this'", "'void'", "'number'", "'ngOnInit'", 
+			"'`'", "'.'", "'@'", "'/>'", "'{{'", "'}}'", "'component'", "'selector'", 
+			"'template'", "'templateUrl'", "'styles'", "'styleUrl'", "'class'", "'input'", 
+			"'output'", "'property'", "'import'", "'export'", "'default'", "'from'", 
+			"'constructor'", "'extends'", "'implements'", "'function'", "'console'", 
+			"'log'", "'var'", "'let'", "'const'", "'if'", "'else'", "'for'", "'while'", 
+			"'return'", "'null'", "'any'", "'switch'", "'case'", "'do'", "'break'", 
+			"'continue'", "'try'", "'catch'", "'finally'", "'throws'", "'async'", 
+			"'await'", "'type'", "'enum'", "'interface'", "'public'", "'private'", 
+			"'protected'", "'as'", "'this'", "'void'", "'number'", "'ngOnInit'", 
 			"'ngOnChanges'", "'ngOnDestroy'", "'ngIf'", "'ngSwitch'", "'ngFor'", 
 			"'ngStyle'", "'ngClass'"
 		};
@@ -86,15 +88,15 @@ public class AngularParser extends Parser {
 			"LEFTCURLY", "RIGHTCURLY", "LESSTHAN", "GREATERTHAN", "LESSEQUAL", "GREATEREQUAL", 
 			"ARROW", "EQ", "NEQ", "AND", "OR", "PLUSPLUS", "MINUSMINUS", "SQ", "DQ", 
 			"HTMLSTRING", "DOT", "AT", "SLASHGREATERTHAN", "DOUBLELEFTCURLY", "DOUBLERIGHTCURLY", 
-			"COMPONENT", "CLASS", "INPUT", "OUTPUT", "PROPERTY", "IMPORT", "EXPORT", 
-			"DEFAULT", "FROM", "CONSTRUCTOR", "EXTENDS", "IMPLEMENTS", "FUNCTION", 
-			"CONSOLE", "LOG", "VAR", "LET", "CONST", "IF", "ELSE", "FOR", "WHILE", 
-			"RETURN", "NULL", "ANY", "SWITCH", "CASE", "DO", "BREAK", "CONTINUE", 
-			"TRY", "CATCH", "FINALLY", "THROWS", "ASYNC", "AWAIT", "TYPE", "ENUM", 
-			"INTERFACE", "PUBLIC", "PRIVATE", "PROTECTED", "AS", "THIS", "VOID", 
-			"NUMBER", "ONINIT", "ONCHANGES", "ONDESTROY", "NGIF", "NGSWITCH", "NGFOR", 
-			"NGSTYLE", "NGCLASS", "ID", "INT", "DOUBLE", "BOOLEAN", "STRING", "WS", 
-			"COMMENT", "BLOCK_COMMENT"
+			"COMPONENT", "SELECTOR", "TEMPLATE", "TEMPLATEURL", "STYLES", "STYLEURL", 
+			"CLASS", "INPUT", "OUTPUT", "PROPERTY", "IMPORT", "EXPORT", "DEFAULT", 
+			"FROM", "CONSTRUCTOR", "EXTENDS", "IMPLEMENTS", "FUNCTION", "CONSOLE", 
+			"LOG", "VAR", "LET", "CONST", "IF", "ELSE", "FOR", "WHILE", "RETURN", 
+			"NULL", "ANY", "SWITCH", "CASE", "DO", "BREAK", "CONTINUE", "TRY", "CATCH", 
+			"FINALLY", "THROWS", "ASYNC", "AWAIT", "TYPE", "ENUM", "INTERFACE", "PUBLIC", 
+			"PRIVATE", "PROTECTED", "AS", "THIS", "VOID", "NUMBER", "ONINIT", "ONCHANGES", 
+			"ONDESTROY", "NGIF", "NGSWITCH", "NGFOR", "NGSTYLE", "NGCLASS", "ID", 
+			"INT", "DOUBLE", "BOOLEAN", "STRING", "WS", "COMMENT", "BLOCK_COMMENT"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -227,7 +229,7 @@ public class AngularParser extends Parser {
 			setState(98);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 8022107703230464L) != 0) || _la==ID) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 256707379930873856L) != 0) || _la==ID) {
 				{
 				setState(96);
 				_errHandler.sync(this);
@@ -613,11 +615,11 @@ public class AngularParser extends Parser {
 				setState(152);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 7881299347898368L) != 0)) {
+				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 252201579132747776L) != 0)) {
 					{
 					setState(151);
 					_la = _input.LA(1);
-					if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 7881299347898368L) != 0)) ) {
+					if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 252201579132747776L) != 0)) ) {
 					_errHandler.recoverInline(this);
 					}
 					else {
@@ -686,11 +688,11 @@ public class AngularParser extends Parser {
 				setState(165);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 7881299347898368L) != 0)) {
+				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 252201579132747776L) != 0)) {
 					{
 					setState(164);
 					_la = _input.LA(1);
-					if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 7881299347898368L) != 0)) ) {
+					if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & 252201579132747776L) != 0)) ) {
 					_errHandler.recoverInline(this);
 					}
 					else {
@@ -710,7 +712,7 @@ public class AngularParser extends Parser {
 				setState(171);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 864691137045155856L) != 0) || ((((_la - 74)) & ~0x3f) == 0 && ((1L << (_la - 74)) & 1015907L) != 0)) {
+				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & -9223372028264755184L) != 0) || ((((_la - 64)) & ~0x3f) == 0 && ((1L << (_la - 64)) & 33289240577L) != 0)) {
 					{
 					setState(170);
 					value();
@@ -940,7 +942,7 @@ public class AngularParser extends Parser {
 			setState(211);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if (_la==LEFTCURLY || ((((_la - 74)) & ~0x3f) == 0 && ((1L << (_la - 74)) & 32771L) != 0)) {
+			if (_la==LEFTCURLY || ((((_la - 79)) & ~0x3f) == 0 && ((1L << (_la - 79)) & 32771L) != 0)) {
 				{
 				setState(210);
 				parameters();
@@ -1207,7 +1209,7 @@ public class AngularParser extends Parser {
 			setState(246);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 864691137045155856L) != 0) || ((((_la - 74)) & ~0x3f) == 0 && ((1L << (_la - 74)) & 1015907L) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & -9223372028264755184L) != 0) || ((((_la - 64)) & ~0x3f) == 0 && ((1L << (_la - 64)) & 33289240577L) != 0)) {
 				{
 				setState(238);
 				value();
@@ -1399,7 +1401,7 @@ public class AngularParser extends Parser {
 			setState(273);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (((((_la - 31)) & ~0x3f) == 0 && ((1L << (_la - 31)) & 288230376155455489L) != 0)) {
+			while (((((_la - 31)) & ~0x3f) == 0 && ((1L << (_la - 31)) & -9223372036734975999L) != 0)) {
 				{
 				setState(271);
 				_errHandler.sync(this);
@@ -1740,7 +1742,7 @@ public class AngularParser extends Parser {
 			setState(322);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 8024304579002368L) != 0) || _la==ID) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 256777952685998080L) != 0) || _la==ID) {
 				{
 				{
 				setState(319);
@@ -1788,10 +1790,11 @@ public class AngularParser extends Parser {
 		public StatementContext statement(int i) {
 			return getRuleContext(StatementContext.class,i);
 		}
-		public TerminalNode ID() { return getToken(AngularParser.ID, 0); }
+		public TerminalNode SELECTOR() { return getToken(AngularParser.SELECTOR, 0); }
 		public TerminalNode COLON() { return getToken(AngularParser.COLON, 0); }
 		public TerminalNode STRING() { return getToken(AngularParser.STRING, 0); }
 		public TerminalNode COMMA() { return getToken(AngularParser.COMMA, 0); }
+		public TerminalNode TEMPLATE() { return getToken(AngularParser.TEMPLATE, 0); }
 		public List<TerminalNode> HTMLSTRING() { return getTokens(AngularParser.HTMLSTRING); }
 		public TerminalNode HTMLSTRING(int i) {
 			return getToken(AngularParser.HTMLSTRING, i);
@@ -1862,7 +1865,7 @@ public class AngularParser extends Parser {
 				setState(335);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 269371552712163344L) != 0) || _la==THIS || _la==ID) {
+				while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 8619889686787194896L) != 0) || _la==THIS || _la==ID) {
 					{
 					{
 					setState(332);
@@ -1881,7 +1884,7 @@ public class AngularParser extends Parser {
 				enterOuterAlt(_localctx, 6);
 				{
 				setState(339);
-				match(ID);
+				match(SELECTOR);
 				setState(340);
 				match(COLON);
 				setState(341);
@@ -1894,7 +1897,7 @@ public class AngularParser extends Parser {
 				enterOuterAlt(_localctx, 7);
 				{
 				setState(343);
-				match(ID);
+				match(TEMPLATE);
 				setState(344);
 				match(COLON);
 				setState(345);
@@ -1969,7 +1972,7 @@ public class AngularParser extends Parser {
 			setState(355);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if (_la==LEFTCURLY || ((((_la - 74)) & ~0x3f) == 0 && ((1L << (_la - 74)) & 32771L) != 0)) {
+			if (_la==LEFTCURLY || ((((_la - 79)) & ~0x3f) == 0 && ((1L << (_la - 79)) & 32771L) != 0)) {
 				{
 				setState(354);
 				parameters();
@@ -2741,7 +2744,7 @@ public class AngularParser extends Parser {
 			setState(462);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 269371552712163344L) != 0) || _la==THIS || _la==ID) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 8619889686787194896L) != 0) || _la==THIS || _la==ID) {
 				{
 				{
 				setState(459);
@@ -2766,7 +2769,7 @@ public class AngularParser extends Parser {
 				setState(471);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 269371552712163344L) != 0) || _la==THIS || _la==ID) {
+				while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 8619889686787194896L) != 0) || _la==THIS || _la==ID) {
 					{
 					{
 					setState(468);
@@ -2954,7 +2957,7 @@ public class AngularParser extends Parser {
 			setState(496);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 269371552712163344L) != 0) || _la==THIS || _la==ID) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 8619889686787194896L) != 0) || _la==THIS || _la==ID) {
 				{
 				setState(495);
 				statement();
@@ -2968,7 +2971,7 @@ public class AngularParser extends Parser {
 			setState(503);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 269371552712163344L) != 0) || _la==THIS || _la==ID) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 8619889686787194896L) != 0) || _la==THIS || _la==ID) {
 				{
 				{
 				setState(500);
@@ -3049,7 +3052,7 @@ public class AngularParser extends Parser {
 			setState(516);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 269371552712163344L) != 0) || _la==THIS || _la==ID) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & 8619889686787194896L) != 0) || _la==THIS || _la==ID) {
 				{
 				{
 				setState(513);
@@ -3124,7 +3127,7 @@ public class AngularParser extends Parser {
 			setState(531);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 864691137045155856L) != 0) || ((((_la - 74)) & ~0x3f) == 0 && ((1L << (_la - 74)) & 1015907L) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & -9223372028264755184L) != 0) || ((((_la - 64)) & ~0x3f) == 0 && ((1L << (_la - 64)) & 33289240577L) != 0)) {
 				{
 				setState(523);
 				expression(0);
@@ -3294,7 +3297,7 @@ public class AngularParser extends Parser {
 			setState(551);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 68719481872L) != 0) || _la==ID) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 2199023260688L) != 0) || _la==ID) {
 				{
 				setState(550);
 				jsxAttributes();
@@ -3409,7 +3412,7 @@ public class AngularParser extends Parser {
 			setState(563);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 68719481872L) != 0) || _la==ID) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & 2199023260688L) != 0) || _la==ID) {
 				{
 				setState(562);
 				jsxAttributes();
@@ -3656,7 +3659,7 @@ public class AngularParser extends Parser {
 				setState(583); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & 68719481872L) != 0) || _la==ID );
+			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & 2199023260688L) != 0) || _la==ID );
 			}
 		}
 		catch (RecognitionException re) {
@@ -3759,7 +3762,7 @@ public class AngularParser extends Parser {
 			{
 			setState(590);
 			_la = _input.LA(1);
-			if ( !(((((_la - 84)) & ~0x3f) == 0 && ((1L << (_la - 84)) & 31L) != 0)) ) {
+			if ( !(((((_la - 89)) & ~0x3f) == 0 && ((1L << (_la - 89)) & 31L) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -4220,7 +4223,7 @@ public class AngularParser extends Parser {
 			{
 			setState(638);
 			_la = _input.LA(1);
-			if ( !(((((_la - 58)) & ~0x3f) == 0 && ((1L << (_la - 58)) & 66578481155L) != 0)) ) {
+			if ( !(((((_la - 63)) & ~0x3f) == 0 && ((1L << (_la - 63)) & 66578481155L) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
 			else {
@@ -4320,7 +4323,7 @@ public class AngularParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u0001`\u0289\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
+		"\u0004\u0001e\u0289\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
 		"\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004\u0007\u0004\u0002"+
 		"\u0005\u0007\u0005\u0002\u0006\u0007\u0006\u0002\u0007\u0007\u0007\u0002"+
 		"\b\u0007\b\u0002\t\u0007\t\u0002\n\u0007\n\u0002\u000b\u0007\u000b\u0002"+
@@ -4419,9 +4422,9 @@ public class AngularParser extends Parser {
 		"\t(\u0001)\u0001)\u0001*\u0001*\u0001*\u0001*\u0001*\u0001*\u0001*\u0001"+
 		"*\u0001*\u0000\u0001P+\u0000\u0002\u0004\u0006\b\n\f\u000e\u0010\u0012"+
 		"\u0014\u0016\u0018\u001a\u001c\u001e \"$&(*,.02468:<>@BDFHJLNPRT\u0000"+
-		"\b\u0001\u000024\u0002\u0000\u0001\u0001\t\t\u0001\u0000\u0007\b\u0001"+
-		"\u0000JK\u0003\u0000\u0002\u0005\u0010\u0013\u0015\u0016\u0001\u0000\u0017"+
-		"\u0018\u0001\u0000TX\u0004\u0000:;JKOPY]\u02d9\u0000Y\u0001\u0000\u0000"+
+		"\b\u0001\u000079\u0002\u0000\u0001\u0001\t\t\u0001\u0000\u0007\b\u0001"+
+		"\u0000OP\u0003\u0000\u0002\u0005\u0010\u0013\u0015\u0016\u0001\u0000\u0017"+
+		"\u0018\u0001\u0000Y]\u0004\u0000?@OPTU^b\u02d9\u0000Y\u0001\u0000\u0000"+
 		"\u0000\u0002j\u0001\u0000\u0000\u0000\u0004~\u0001\u0000\u0000\u0000\u0006"+
 		"\u00b6\u0001\u0000\u0000\u0000\b\u00b8\u0001\u0000\u0000\u0000\n\u00ce"+
 		"\u0001\u0000\u0000\u0000\f\u00e3\u0001\u0000\u0000\u0000\u000e\u00eb\u0001"+
@@ -4450,15 +4453,15 @@ public class AngularParser extends Parser {
 		"bc\u0001\u0000\u0000\u0000cf\u0001\u0000\u0000\u0000db\u0001\u0000\u0000"+
 		"\u0000eg\u0003\u0004\u0002\u0000fe\u0001\u0000\u0000\u0000fg\u0001\u0000"+
 		"\u0000\u0000gh\u0001\u0000\u0000\u0000hi\u0005\u0000\u0000\u0001i\u0001"+
-		"\u0001\u0000\u0000\u0000jx\u0005(\u0000\u0000ky\u0005Y\u0000\u0000lu\u0005"+
-		"\u000e\u0000\u0000mr\u0005Y\u0000\u0000no\u0005\u0007\u0000\u0000oq\u0005"+
-		"Y\u0000\u0000pn\u0001\u0000\u0000\u0000qt\u0001\u0000\u0000\u0000rp\u0001"+
+		"\u0001\u0000\u0000\u0000jx\u0005-\u0000\u0000ky\u0005^\u0000\u0000lu\u0005"+
+		"\u000e\u0000\u0000mr\u0005^\u0000\u0000no\u0005\u0007\u0000\u0000oq\u0005"+
+		"^\u0000\u0000pn\u0001\u0000\u0000\u0000qt\u0001\u0000\u0000\u0000rp\u0001"+
 		"\u0000\u0000\u0000rs\u0001\u0000\u0000\u0000sv\u0001\u0000\u0000\u0000"+
 		"tr\u0001\u0000\u0000\u0000um\u0001\u0000\u0000\u0000uv\u0001\u0000\u0000"+
 		"\u0000vw\u0001\u0000\u0000\u0000wy\u0005\u000f\u0000\u0000xk\u0001\u0000"+
 		"\u0000\u0000xl\u0001\u0000\u0000\u0000yz\u0001\u0000\u0000\u0000z{\u0005"+
-		"+\u0000\u0000{|\u0005]\u0000\u0000|}\u0005\b\u0000\u0000}\u0003\u0001"+
-		"\u0000\u0000\u0000~\u0095\u0005)\u0000\u0000\u007f\u0081\u0005*\u0000"+
+		"0\u0000\u0000{|\u0005b\u0000\u0000|}\u0005\b\u0000\u0000}\u0003\u0001"+
+		"\u0000\u0000\u0000~\u0095\u0005.\u0000\u0000\u007f\u0081\u0005/\u0000"+
 		"\u0000\u0080\u007f\u0001\u0000\u0000\u0000\u0080\u0081\u0001\u0000\u0000"+
 		"\u0000\u0081\u0087\u0001\u0000\u0000\u0000\u0082\u0088\u0003\b\u0004\u0000"+
 		"\u0083\u0088\u0003\u0006\u0003\u0000\u0084\u0088\u0003\n\u0005\u0000\u0085"+
@@ -4466,8 +4469,8 @@ public class AngularParser extends Parser {
 		"\u0001\u0000\u0000\u0000\u0087\u0083\u0001\u0000\u0000\u0000\u0087\u0084"+
 		"\u0001\u0000\u0000\u0000\u0087\u0085\u0001\u0000\u0000\u0000\u0087\u0086"+
 		"\u0001\u0000\u0000\u0000\u0088\u0096\u0001\u0000\u0000\u0000\u0089\u0092"+
-		"\u0005\u000e\u0000\u0000\u008a\u008f\u0005Y\u0000\u0000\u008b\u008c\u0005"+
-		"\u0007\u0000\u0000\u008c\u008e\u0005Y\u0000\u0000\u008d\u008b\u0001\u0000"+
+		"\u0005\u000e\u0000\u0000\u008a\u008f\u0005^\u0000\u0000\u008b\u008c\u0005"+
+		"\u0007\u0000\u0000\u008c\u008e\u0005^\u0000\u0000\u008d\u008b\u0001\u0000"+
 		"\u0000\u0000\u008e\u0091\u0001\u0000\u0000\u0000\u008f\u008d\u0001\u0000"+
 		"\u0000\u0000\u008f\u0090\u0001\u0000\u0000\u0000\u0090\u0093\u0001\u0000"+
 		"\u0000\u0000\u0091\u008f\u0001\u0000\u0000\u0000\u0092\u008a\u0001\u0000"+
@@ -4476,7 +4479,7 @@ public class AngularParser extends Parser {
 		"\u0000\u0000\u0095\u0089\u0001\u0000\u0000\u0000\u0096\u0005\u0001\u0000"+
 		"\u0000\u0000\u0097\u0099\u0007\u0000\u0000\u0000\u0098\u0097\u0001\u0000"+
 		"\u0000\u0000\u0098\u0099\u0001\u0000\u0000\u0000\u0099\u009a\u0001\u0000"+
-		"\u0000\u0000\u009a\u009b\u0005Y\u0000\u0000\u009b\u00a0\u0007\u0001\u0000"+
+		"\u0000\u0000\u009a\u009b\u0005^\u0000\u0000\u009b\u00a0\u0007\u0001\u0000"+
 		"\u0000\u009c\u00a1\u0003\u000e\u0007\u0000\u009d\u00a1\u0003\u0010\b\u0000"+
 		"\u009e\u00a1\u0003\u0012\t\u0000\u009f\u00a1\u0003\n\u0005\u0000\u00a0"+
 		"\u009c\u0001\u0000\u0000\u0000\u00a0\u009d\u0001\u0000\u0000\u0000\u00a0"+
@@ -4484,7 +4487,7 @@ public class AngularParser extends Parser {
 		"\u00a2\u0001\u0000\u0000\u0000\u00a2\u00a3\u0007\u0002\u0000\u0000\u00a3"+
 		"\u00b7\u0001\u0000\u0000\u0000\u00a4\u00a6\u0007\u0000\u0000\u0000\u00a5"+
 		"\u00a4\u0001\u0000\u0000\u0000\u00a5\u00a6\u0001\u0000\u0000\u0000\u00a6"+
-		"\u00a7\u0001\u0000\u0000\u0000\u00a7\u00a8\u0005Y\u0000\u0000\u00a8\u00a9"+
+		"\u00a7\u0001\u0000\u0000\u0000\u00a7\u00a8\u0005^\u0000\u0000\u00a8\u00a9"+
 		"\u0005\t\u0000\u0000\u00a9\u00ab\u0003R)\u0000\u00aa\u00ac\u0003\u000e"+
 		"\u0007\u0000\u00ab\u00aa\u0001\u0000\u0000\u0000\u00ab\u00ac\u0001\u0000"+
 		"\u0000\u0000\u00ac\u00ad\u0001\u0000\u0000\u0000\u00ad\u00b2\u0005\u0001"+
@@ -4495,20 +4498,20 @@ public class AngularParser extends Parser {
 		"\u00b3\u00b4\u0001\u0000\u0000\u0000\u00b4\u00b5\u0007\u0002\u0000\u0000"+
 		"\u00b5\u00b7\u0001\u0000\u0000\u0000\u00b6\u0098\u0001\u0000\u0000\u0000"+
 		"\u00b6\u00a5\u0001\u0000\u0000\u0000\u00b7\u0007\u0001\u0000\u0000\u0000"+
-		"\u00b8\u00b9\u0005$\u0000\u0000\u00b9\u00bc\u0005Y\u0000\u0000\u00ba\u00bb"+
-		"\u0005-\u0000\u0000\u00bb\u00bd\u0005Y\u0000\u0000\u00bc\u00ba\u0001\u0000"+
+		"\u00b8\u00b9\u0005)\u0000\u0000\u00b9\u00bc\u0005^\u0000\u0000\u00ba\u00bb"+
+		"\u00052\u0000\u0000\u00bb\u00bd\u0005^\u0000\u0000\u00bc\u00ba\u0001\u0000"+
 		"\u0000\u0000\u00bc\u00bd\u0001\u0000\u0000\u0000\u00bd\u00c7\u0001\u0000"+
-		"\u0000\u0000\u00be\u00bf\u0005.\u0000\u0000\u00bf\u00c4\u0005Y\u0000\u0000"+
-		"\u00c0\u00c1\u0005\u0007\u0000\u0000\u00c1\u00c3\u0005Y\u0000\u0000\u00c2"+
+		"\u0000\u0000\u00be\u00bf\u00053\u0000\u0000\u00bf\u00c4\u0005^\u0000\u0000"+
+		"\u00c0\u00c1\u0005\u0007\u0000\u0000\u00c1\u00c3\u0005^\u0000\u0000\u00c2"+
 		"\u00c0\u0001\u0000\u0000\u0000\u00c3\u00c6\u0001\u0000\u0000\u0000\u00c4"+
 		"\u00c2\u0001\u0000\u0000\u0000\u00c4\u00c5\u0001\u0000\u0000\u0000\u00c5"+
 		"\u00c8\u0001\u0000\u0000\u0000\u00c6\u00c4\u0001\u0000\u0000\u0000\u00c7"+
 		"\u00be\u0001\u0000\u0000\u0000\u00c7\u00c8\u0001\u0000\u0000\u0000\u00c8"+
 		"\u00c9\u0001\u0000\u0000\u0000\u00c9\u00ca\u0005\u000e\u0000\u0000\u00ca"+
 		"\u00cb\u0003\u0014\n\u0000\u00cb\u00cc\u0005\u000f\u0000\u0000\u00cc\t"+
-		"\u0001\u0000\u0000\u0000\u00cd\u00cf\u0005/\u0000\u0000\u00ce\u00cd\u0001"+
+		"\u0001\u0000\u0000\u0000\u00cd\u00cf\u00054\u0000\u0000\u00ce\u00cd\u0001"+
 		"\u0000\u0000\u0000\u00ce\u00cf\u0001\u0000\u0000\u0000\u00cf\u00d0\u0001"+
-		"\u0000\u0000\u0000\u00d0\u00d1\u0005Y\u0000\u0000\u00d1\u00d3\u0005\n"+
+		"\u0000\u0000\u0000\u00d0\u00d1\u0005^\u0000\u0000\u00d1\u00d3\u0005\n"+
 		"\u0000\u0000\u00d2\u00d4\u0003 \u0010\u0000\u00d3\u00d2\u0001\u0000\u0000"+
 		"\u0000\u00d3\u00d4\u0001\u0000\u0000\u0000\u00d4\u00d5\u0001\u0000\u0000"+
 		"\u0000\u00d5\u00d8\u0005\u000b\u0000\u0000\u00d6\u00d7\u0005\t\u0000\u0000"+
@@ -4533,9 +4536,9 @@ public class AngularParser extends Parser {
 		"\u00f5\u00f3\u0001\u0000\u0000\u0000\u00f6\u00ee\u0001\u0000\u0000\u0000"+
 		"\u00f6\u00f7\u0001\u0000\u0000\u0000\u00f7\u00f8\u0001\u0000\u0000\u0000"+
 		"\u00f8\u00f9\u0005\r\u0000\u0000\u00f9\u0011\u0001\u0000\u0000\u0000\u00fa"+
-		"\u0107\u0005\u000e\u0000\u0000\u00fb\u00fc\u0005Y\u0000\u0000\u00fc\u00fd"+
+		"\u0107\u0005\u000e\u0000\u0000\u00fb\u00fc\u0005^\u0000\u0000\u00fc\u00fd"+
 		"\u0005\t\u0000\u0000\u00fd\u0104\u0003\u000e\u0007\u0000\u00fe\u00ff\u0005"+
-		"\u0007\u0000\u0000\u00ff\u0100\u0005Y\u0000\u0000\u0100\u0101\u0005\t"+
+		"\u0007\u0000\u0000\u00ff\u0100\u0005^\u0000\u0000\u0100\u0101\u0005\t"+
 		"\u0000\u0000\u0101\u0103\u0003\u000e\u0007\u0000\u0102\u00fe\u0001\u0000"+
 		"\u0000\u0000\u0103\u0106\u0001\u0000\u0000\u0000\u0104\u0102\u0001\u0000"+
 		"\u0000\u0000\u0104\u0105\u0001\u0000\u0000\u0000\u0105\u0108\u0001\u0000"+
@@ -4548,15 +4551,15 @@ public class AngularParser extends Parser {
 		"\u010f\u010d\u0001\u0000\u0000\u0000\u010f\u010e\u0001\u0000\u0000\u0000"+
 		"\u0110\u0113\u0001\u0000\u0000\u0000\u0111\u010f\u0001\u0000\u0000\u0000"+
 		"\u0111\u0112\u0001\u0000\u0000\u0000\u0112\u0015\u0001\u0000\u0000\u0000"+
-		"\u0113\u0111\u0001\u0000\u0000\u0000\u0114\u0115\u0005Y\u0000\u0000\u0115"+
+		"\u0113\u0111\u0001\u0000\u0000\u0000\u0114\u0115\u0005^\u0000\u0000\u0115"+
 		"\u0116\u0005\t\u0000\u0000\u0116\u0117\u0003R)\u0000\u0117\u0118\u0005"+
 		"\b\u0000\u0000\u0118\u011a\u0001\u0000\u0000\u0000\u0119\u0114\u0001\u0000"+
 		"\u0000\u0000\u011a\u011b\u0001\u0000\u0000\u0000\u011b\u0119\u0001\u0000"+
 		"\u0000\u0000\u011b\u011c\u0001\u0000\u0000\u0000\u011c\u012f\u0001\u0000"+
-		"\u0000\u0000\u011d\u011e\u0005N\u0000\u0000\u011e\u011f\u0005\u001e\u0000"+
-		"\u0000\u011f\u0120\u0005Y\u0000\u0000\u0120\u0129\u0005\u0001\u0000\u0000"+
-		"\u0121\u012a\u0003\u000e\u0007\u0000\u0122\u0123\u0005N\u0000\u0000\u0123"+
-		"\u0124\u0005\u001e\u0000\u0000\u0124\u0127\u0005Y\u0000\u0000\u0125\u0126"+
+		"\u0000\u0000\u011d\u011e\u0005S\u0000\u0000\u011e\u011f\u0005\u001e\u0000"+
+		"\u0000\u011f\u0120\u0005^\u0000\u0000\u0120\u0129\u0005\u0001\u0000\u0000"+
+		"\u0121\u012a\u0003\u000e\u0007\u0000\u0122\u0123\u0005S\u0000\u0000\u0123"+
+		"\u0124\u0005\u001e\u0000\u0000\u0124\u0127\u0005^\u0000\u0000\u0125\u0126"+
 		"\u0005\u001e\u0000\u0000\u0126\u0128\u00034\u001a\u0000\u0127\u0125\u0001"+
 		"\u0000\u0000\u0000\u0127\u0128\u0001\u0000\u0000\u0000\u0128\u012a\u0001"+
 		"\u0000\u0000\u0000\u0129\u0121\u0001\u0000\u0000\u0000\u0129\u0122\u0001"+
@@ -4565,12 +4568,12 @@ public class AngularParser extends Parser {
 		"\u0000\u0000\u012c\u012d\u0001\u0000\u0000\u0000\u012d\u012f\u0001\u0000"+
 		"\u0000\u0000\u012e\u0119\u0001\u0000\u0000\u0000\u012e\u011d\u0001\u0000"+
 		"\u0000\u0000\u012f\u0017\u0001\u0000\u0000\u0000\u0130\u0131\u0005\u001f"+
-		"\u0000\u0000\u0131\u0132\u0005Y\u0000\u0000\u0132\u0136\u0005\n\u0000"+
+		"\u0000\u0000\u0131\u0132\u0005^\u0000\u0000\u0132\u0136\u0005\n\u0000"+
 		"\u0000\u0133\u0135\u0003\u001a\r\u0000\u0134\u0133\u0001\u0000\u0000\u0000"+
 		"\u0135\u0138\u0001\u0000\u0000\u0000\u0136\u0134\u0001\u0000\u0000\u0000"+
 		"\u0136\u0137\u0001\u0000\u0000\u0000\u0137\u0139\u0001\u0000\u0000\u0000"+
 		"\u0138\u0136\u0001\u0000\u0000\u0000\u0139\u013d\u0005\u000b\u0000\u0000"+
-		"\u013a\u013b\u0005\u001f\u0000\u0000\u013b\u013d\u0005Y\u0000\u0000\u013c"+
+		"\u013a\u013b\u0005\u001f\u0000\u0000\u013b\u013d\u0005^\u0000\u0000\u013c"+
 		"\u0130\u0001\u0000\u0000\u0000\u013c\u013a\u0001\u0000\u0000\u0000\u013d"+
 		"\u0019\u0001\u0000\u0000\u0000\u013e\u0142\u0005\u000e\u0000\u0000\u013f"+
 		"\u0141\u0003\u001c\u000e\u0000\u0140\u013f\u0001\u0000\u0000\u0000\u0141"+
@@ -4583,9 +4586,9 @@ public class AngularParser extends Parser {
 		"(\u0014\u0000\u014d\u014c\u0001\u0000\u0000\u0000\u014e\u0151\u0001\u0000"+
 		"\u0000\u0000\u014f\u014d\u0001\u0000\u0000\u0000\u014f\u0150\u0001\u0000"+
 		"\u0000\u0000\u0150\u0152\u0001\u0000\u0000\u0000\u0151\u014f\u0001\u0000"+
-		"\u0000\u0000\u0152\u015f\u0005\u000f\u0000\u0000\u0153\u0154\u0005Y\u0000"+
-		"\u0000\u0154\u0155\u0005\t\u0000\u0000\u0155\u0156\u0005]\u0000\u0000"+
-		"\u0156\u015f\u0005\u0007\u0000\u0000\u0157\u0158\u0005Y\u0000\u0000\u0158"+
+		"\u0000\u0000\u0152\u015f\u0005\u000f\u0000\u0000\u0153\u0154\u0005$\u0000"+
+		"\u0000\u0154\u0155\u0005\t\u0000\u0000\u0155\u0156\u0005b\u0000\u0000"+
+		"\u0156\u015f\u0005\u0007\u0000\u0000\u0157\u0158\u0005%\u0000\u0000\u0158"+
 		"\u0159\u0005\t\u0000\u0000\u0159\u015a\u0005\u001d\u0000\u0000\u015a\u015b"+
 		"\u00036\u001b\u0000\u015b\u015c\u0005\u001d\u0000\u0000\u015c\u015d\u0005"+
 		"\u0007\u0000\u0000\u015d\u015f\u0001\u0000\u0000\u0000\u015e\u0147\u0001"+
@@ -4593,7 +4596,7 @@ public class AngularParser extends Parser {
 		"\u0000\u0000\u0000\u015e\u014a\u0001\u0000\u0000\u0000\u015e\u014b\u0001"+
 		"\u0000\u0000\u0000\u015e\u0153\u0001\u0000\u0000\u0000\u015e\u0157\u0001"+
 		"\u0000\u0000\u0000\u015f\u001d\u0001\u0000\u0000\u0000\u0160\u0161\u0005"+
-		",\u0000\u0000\u0161\u0163\u0005\n\u0000\u0000\u0162\u0164\u0003 \u0010"+
+		"1\u0000\u0000\u0161\u0163\u0005\n\u0000\u0000\u0162\u0164\u0003 \u0010"+
 		"\u0000\u0163\u0162\u0001\u0000\u0000\u0000\u0163\u0164\u0001\u0000\u0000"+
 		"\u0000\u0164\u0165\u0001\u0000\u0000\u0000\u0165\u0166\u0005\u000b\u0000"+
 		"\u0000\u0166\u0169\u0005\u000e\u0000\u0000\u0167\u016a\u0003\"\u0011\u0000"+
@@ -4602,7 +4605,7 @@ public class AngularParser extends Parser {
 		"\u016b\u016c\u0005\u000f\u0000\u0000\u016c\u001f\u0001\u0000\u0000\u0000"+
 		"\u016d\u016f\u0007\u0003\u0000\u0000\u016e\u016d\u0001\u0000\u0000\u0000"+
 		"\u016e\u016f\u0001\u0000\u0000\u0000\u016f\u0170\u0001\u0000\u0000\u0000"+
-		"\u0170\u0177\u0005Y\u0000\u0000\u0171\u0172\u0005\t\u0000\u0000\u0172"+
+		"\u0170\u0177\u0005^\u0000\u0000\u0171\u0172\u0005\t\u0000\u0000\u0172"+
 		"\u0175\u0003R)\u0000\u0173\u0174\u0005\u0001\u0000\u0000\u0174\u0176\u0003"+
 		"\u000e\u0007\u0000\u0175\u0173\u0001\u0000\u0000\u0000\u0175\u0176\u0001"+
 		"\u0000\u0000\u0000\u0176\u0178\u0001\u0000\u0000\u0000\u0177\u0171\u0001"+
@@ -4610,7 +4613,7 @@ public class AngularParser extends Parser {
 		"\u0000\u0000\u0000\u0179\u017b\u0005\u0007\u0000\u0000\u017a\u017c\u0007"+
 		"\u0003\u0000\u0000\u017b\u017a\u0001\u0000\u0000\u0000\u017b\u017c\u0001"+
 		"\u0000\u0000\u0000\u017c\u017d\u0001\u0000\u0000\u0000\u017d\u0184\u0005"+
-		"Y\u0000\u0000\u017e\u017f\u0005\t\u0000\u0000\u017f\u0182\u0003R)\u0000"+
+		"^\u0000\u0000\u017e\u017f\u0005\t\u0000\u0000\u017f\u0182\u0003R)\u0000"+
 		"\u0180\u0181\u0005\u0001\u0000\u0000\u0181\u0183\u0003\u000e\u0007\u0000"+
 		"\u0182\u0180\u0001\u0000\u0000\u0000\u0182\u0183\u0001\u0000\u0000\u0000"+
 		"\u0183\u0185\u0001\u0000\u0000\u0000\u0184\u017e\u0001\u0000\u0000\u0000"+
@@ -4618,8 +4621,8 @@ public class AngularParser extends Parser {
 		"\u0186\u0179\u0001\u0000\u0000\u0000\u0187\u018a\u0001\u0000\u0000\u0000"+
 		"\u0188\u0186\u0001\u0000\u0000\u0000\u0188\u0189\u0001\u0000\u0000\u0000"+
 		"\u0189\u0196\u0001\u0000\u0000\u0000\u018a\u0188\u0001\u0000\u0000\u0000"+
-		"\u018b\u018c\u0005\u000e\u0000\u0000\u018c\u0191\u0005Y\u0000\u0000\u018d"+
-		"\u018e\u0005\u0007\u0000\u0000\u018e\u0190\u0005Y\u0000\u0000\u018f\u018d"+
+		"\u018b\u018c\u0005\u000e\u0000\u0000\u018c\u0191\u0005^\u0000\u0000\u018d"+
+		"\u018e\u0005\u0007\u0000\u0000\u018e\u0190\u0005^\u0000\u0000\u018f\u018d"+
 		"\u0001\u0000\u0000\u0000\u0190\u0193\u0001\u0000\u0000\u0000\u0191\u018f"+
 		"\u0001\u0000\u0000\u0000\u0191\u0192\u0001\u0000\u0000\u0000\u0192\u0194"+
 		"\u0001\u0000\u0000\u0000\u0193\u0191\u0001\u0000\u0000\u0000\u0194\u0196"+
@@ -4630,7 +4633,7 @@ public class AngularParser extends Parser {
 		"\u0000\u0000\u019b\u019e\u0001\u0000\u0000\u0000\u019c\u019a\u0001\u0000"+
 		"\u0000\u0000\u019d\u019f\u0003$\u0012\u0000\u019e\u019d\u0001\u0000\u0000"+
 		"\u0000\u019e\u019f\u0001\u0000\u0000\u0000\u019f#\u0001\u0000\u0000\u0000"+
-		"\u01a0\u01a8\u00059\u0000\u0000\u01a1\u01a5\u0003\u000e\u0007\u0000\u01a2"+
+		"\u01a0\u01a8\u0005>\u0000\u0000\u01a1\u01a5\u0003\u000e\u0007\u0000\u01a2"+
 		"\u01a3\u0003&\u0013\u0000\u01a3\u01a4\u0003\u000e\u0007\u0000\u01a4\u01a6"+
 		"\u0001\u0000\u0000\u0000\u01a5\u01a2\u0001\u0000\u0000\u0000\u01a5\u01a6"+
 		"\u0001\u0000\u0000\u0000\u01a6\u01a9\u0001\u0000\u0000\u0000\u01a7\u01a9"+
@@ -4654,14 +4657,14 @@ public class AngularParser extends Parser {
 		"\u0001\u0000\u0000\u0000\u01c0\u01c2\u0003\n\u0005\u0000\u01c1\u01c0\u0001"+
 		"\u0000\u0000\u0000\u01c2\u01c5\u0001\u0000\u0000\u0000\u01c3\u01c1\u0001"+
 		"\u0000\u0000\u0000\u01c3\u01c4\u0001\u0000\u0000\u0000\u01c4+\u0001\u0000"+
-		"\u0000\u0000\u01c5\u01c3\u0001\u0000\u0000\u0000\u01c6\u01c7\u00055\u0000"+
+		"\u0000\u0000\u01c5\u01c3\u0001\u0000\u0000\u0000\u01c6\u01c7\u0005:\u0000"+
 		"\u0000\u01c7\u01c8\u0005\n\u0000\u0000\u01c8\u01c9\u0003.\u0017\u0000"+
 		"\u01c9\u01ca\u0005\u000b\u0000\u0000\u01ca\u01ce\u0005\u000e\u0000\u0000"+
 		"\u01cb\u01cd\u0003(\u0014\u0000\u01cc\u01cb\u0001\u0000\u0000\u0000\u01cd"+
 		"\u01d0\u0001\u0000\u0000\u0000\u01ce\u01cc\u0001\u0000\u0000\u0000\u01ce"+
 		"\u01cf\u0001\u0000\u0000\u0000\u01cf\u01d1\u0001\u0000\u0000\u0000\u01d0"+
 		"\u01ce\u0001\u0000\u0000\u0000\u01d1\u01db\u0005\u000f\u0000\u0000\u01d2"+
-		"\u01d3\u00056\u0000\u0000\u01d3\u01d7\u0005\u000e\u0000\u0000\u01d4\u01d6"+
+		"\u01d3\u0005;\u0000\u0000\u01d3\u01d7\u0005\u000e\u0000\u0000\u01d4\u01d6"+
 		"\u0003(\u0014\u0000\u01d5\u01d4\u0001\u0000\u0000\u0000\u01d6\u01d9\u0001"+
 		"\u0000\u0000\u0000\u01d7\u01d5\u0001\u0000\u0000\u0000\u01d7\u01d8\u0001"+
 		"\u0000\u0000\u0000\u01d8\u01da\u0001\u0000\u0000\u0000\u01d9\u01d7\u0001"+
@@ -4670,7 +4673,7 @@ public class AngularParser extends Parser {
 		"\u0000\u0000\u01dd\u01de\u0003P(\u0000\u01de\u01df\u0007\u0005\u0000\u0000"+
 		"\u01df\u01e0\u0003P(\u0000\u01e0\u01e3\u0001\u0000\u0000\u0000\u01e1\u01e3"+
 		"\u0003P(\u0000\u01e2\u01dd\u0001\u0000\u0000\u0000\u01e2\u01e1\u0001\u0000"+
-		"\u0000\u0000\u01e3/\u0001\u0000\u0000\u0000\u01e4\u01e5\u00057\u0000\u0000"+
+		"\u0000\u0000\u01e3/\u0001\u0000\u0000\u0000\u01e4\u01e5\u0005<\u0000\u0000"+
 		"\u01e5\u01e7\u0005\n\u0000\u0000\u01e6\u01e8\u0003\u0006\u0003\u0000\u01e7"+
 		"\u01e6\u0001\u0000\u0000\u0000\u01e7\u01e8\u0001\u0000\u0000\u0000\u01e8"+
 		"\u01ea\u0001\u0000\u0000\u0000\u01e9\u01eb\u0003.\u0017\u0000\u01ea\u01e9"+
@@ -4684,14 +4687,14 @@ public class AngularParser extends Parser {
 		"\u0000\u01f6\u01f9\u0001\u0000\u0000\u0000\u01f7\u01f5\u0001\u0000\u0000"+
 		"\u0000\u01f7\u01f8\u0001\u0000\u0000\u0000\u01f8\u01fa\u0001\u0000\u0000"+
 		"\u0000\u01f9\u01f7\u0001\u0000\u0000\u0000\u01fa\u01fb\u0005\u000f\u0000"+
-		"\u0000\u01fb1\u0001\u0000\u0000\u0000\u01fc\u01fd\u00058\u0000\u0000\u01fd"+
+		"\u0000\u01fb1\u0001\u0000\u0000\u0000\u01fc\u01fd\u0005=\u0000\u0000\u01fd"+
 		"\u01fe\u0005\n\u0000\u0000\u01fe\u01ff\u0003.\u0017\u0000\u01ff\u0200"+
 		"\u0005\u000b\u0000\u0000\u0200\u0204\u0005\u000e\u0000\u0000\u0201\u0203"+
 		"\u0003(\u0014\u0000\u0202\u0201\u0001\u0000\u0000\u0000\u0203\u0206\u0001"+
 		"\u0000\u0000\u0000\u0204\u0202\u0001\u0000\u0000\u0000\u0204\u0205\u0001"+
 		"\u0000\u0000\u0000\u0205\u0207\u0001\u0000\u0000\u0000\u0206\u0204\u0001"+
 		"\u0000\u0000\u0000\u0207\u0208\u0005\u000f\u0000\u0000\u02083\u0001\u0000"+
-		"\u0000\u0000\u0209\u020a\u0005Y\u0000\u0000\u020a\u0213\u0005\n\u0000"+
+		"\u0000\u0000\u0209\u020a\u0005^\u0000\u0000\u020a\u0213\u0005\n\u0000"+
 		"\u0000\u020b\u0210\u0003P(\u0000\u020c\u020d\u0005\u0007\u0000\u0000\u020d"+
 		"\u020f\u0003P(\u0000\u020e\u020c\u0001\u0000\u0000\u0000\u020f\u0212\u0001"+
 		"\u0000\u0000\u0000\u0210\u020e\u0001\u0000\u0000\u0000\u0210\u0211\u0001"+
@@ -4706,17 +4709,17 @@ public class AngularParser extends Parser {
 		"\u021f\u0220\u0003:\u001d\u0000\u0220\u0223\u0001\u0000\u0000\u0000\u0221"+
 		"\u0223\u0003<\u001e\u0000\u0222\u0218\u0001\u0000\u0000\u0000\u0222\u0221"+
 		"\u0001\u0000\u0000\u0000\u02237\u0001\u0000\u0000\u0000\u0224\u0225\u0005"+
-		"\u0010\u0000\u0000\u0225\u0227\u0005Y\u0000\u0000\u0226\u0228\u0003B!"+
+		"\u0010\u0000\u0000\u0225\u0227\u0005^\u0000\u0000\u0226\u0228\u0003B!"+
 		"\u0000\u0227\u0226\u0001\u0000\u0000\u0000\u0227\u0228\u0001\u0000\u0000"+
 		"\u0000\u0228\u0229\u0001\u0000\u0000\u0000\u0229\u022a\u0005\u0011\u0000"+
 		"\u0000\u022a9\u0001\u0000\u0000\u0000\u022b\u022c\u0005\u0010\u0000\u0000"+
-		"\u022c\u022d\u0005\u0005\u0000\u0000\u022d\u022e\u0005Y\u0000\u0000\u022e"+
+		"\u022c\u022d\u0005\u0005\u0000\u0000\u022d\u022e\u0005^\u0000\u0000\u022e"+
 		"\u022f\u0005\u0011\u0000\u0000\u022f;\u0001\u0000\u0000\u0000\u0230\u0231"+
-		"\u0005\u0010\u0000\u0000\u0231\u0233\u0005Y\u0000\u0000\u0232\u0234\u0003"+
+		"\u0005\u0010\u0000\u0000\u0231\u0233\u0005^\u0000\u0000\u0232\u0234\u0003"+
 		"B!\u0000\u0233\u0232\u0001\u0000\u0000\u0000\u0233\u0234\u0001\u0000\u0000"+
 		"\u0000\u0234\u0235\u0001\u0000\u0000\u0000\u0235\u0236\u0005 \u0000\u0000"+
 		"\u0236=\u0001\u0000\u0000\u0000\u0237\u023b\u00036\u001b\u0000\u0238\u023b"+
-		"\u0003@ \u0000\u0239\u023b\u0005Y\u0000\u0000\u023a\u0237\u0001\u0000"+
+		"\u0003@ \u0000\u0239\u023b\u0005^\u0000\u0000\u023a\u0237\u0001\u0000"+
 		"\u0000\u0000\u023a\u0238\u0001\u0000\u0000\u0000\u023a\u0239\u0001\u0000"+
 		"\u0000\u0000\u023b?\u0001\u0000\u0000\u0000\u023c\u023d\u0005!\u0000\u0000"+
 		"\u023d\u023e\u0003P(\u0000\u023e\u023f\u0005\"\u0000\u0000\u023fA\u0001"+
@@ -4728,45 +4731,45 @@ public class AngularParser extends Parser {
 		"\u0000\u0000\u0247\u0245\u0001\u0000\u0000\u0000\u0247\u0248\u0001\u0000"+
 		"\u0000\u0000\u0248C\u0001\u0000\u0000\u0000\u0249\u024a\u0005\u0004\u0000"+
 		"\u0000\u024a\u024b\u0003F#\u0000\u024b\u024c\u0005\u0001\u0000\u0000\u024c"+
-		"\u024d\u0005]\u0000\u0000\u024dE\u0001\u0000\u0000\u0000\u024e\u024f\u0007"+
-		"\u0006\u0000\u0000\u024fG\u0001\u0000\u0000\u0000\u0250\u0251\u0005Y\u0000"+
-		"\u0000\u0251\u0252\u0005\u0001\u0000\u0000\u0252\u0253\u0005]\u0000\u0000"+
+		"\u024d\u0005b\u0000\u0000\u024dE\u0001\u0000\u0000\u0000\u024e\u024f\u0007"+
+		"\u0006\u0000\u0000\u024fG\u0001\u0000\u0000\u0000\u0250\u0251\u0005^\u0000"+
+		"\u0000\u0251\u0252\u0005\u0001\u0000\u0000\u0252\u0253\u0005b\u0000\u0000"+
 		"\u0253I\u0001\u0000\u0000\u0000\u0254\u0255\u0005\n\u0000\u0000\u0255"+
-		"\u0256\u0005Y\u0000\u0000\u0256\u0257\u0005\u000b\u0000\u0000\u0257\u0258"+
-		"\u0005\u0001\u0000\u0000\u0258\u0259\u0005]\u0000\u0000\u0259K\u0001\u0000"+
-		"\u0000\u0000\u025a\u025b\u0005\f\u0000\u0000\u025b\u025c\u0005Y\u0000"+
+		"\u0256\u0005^\u0000\u0000\u0256\u0257\u0005\u000b\u0000\u0000\u0257\u0258"+
+		"\u0005\u0001\u0000\u0000\u0258\u0259\u0005b\u0000\u0000\u0259K\u0001\u0000"+
+		"\u0000\u0000\u025a\u025b\u0005\f\u0000\u0000\u025b\u025c\u0005^\u0000"+
 		"\u0000\u025c\u025d\u0005\r\u0000\u0000\u025d\u0260\u0005\u0001\u0000\u0000"+
-		"\u025e\u0261\u0005]\u0000\u0000\u025f\u0261\u0003@ \u0000\u0260\u025e"+
+		"\u025e\u0261\u0005b\u0000\u0000\u025f\u0261\u0003@ \u0000\u0260\u025e"+
 		"\u0001\u0000\u0000\u0000\u0260\u025f\u0001\u0000\u0000\u0000\u0261M\u0001"+
-		"\u0000\u0000\u0000\u0262\u0263\u0005$\u0000\u0000\u0263\u0264\u0005\u0001"+
-		"\u0000\u0000\u0264\u0265\u0005]\u0000\u0000\u0265O\u0001\u0000\u0000\u0000"+
-		"\u0266\u0267\u0006(\uffff\uffff\u0000\u0267\u0274\u0005Y\u0000\u0000\u0268"+
-		"\u0269\u0005Y\u0000\u0000\u0269\u026a\u0005\u001e\u0000\u0000\u026a\u0274"+
-		"\u0005Y\u0000\u0000\u026b\u0274\u0005]\u0000\u0000\u026c\u0274\u0005Z"+
-		"\u0000\u0000\u026d\u0274\u0005[\u0000\u0000\u026e\u0274\u0005\\\u0000"+
-		"\u0000\u026f\u0274\u0003\u000e\u0007\u0000\u0270\u0274\u00034\u001a\u0000"+
-		"\u0271\u0274\u0003\u0010\b\u0000\u0272\u0274\u0003\u0012\t\u0000\u0273"+
-		"\u0266\u0001\u0000\u0000\u0000\u0273\u0268\u0001\u0000\u0000\u0000\u0273"+
-		"\u026b\u0001\u0000\u0000\u0000\u0273\u026c\u0001\u0000\u0000\u0000\u0273"+
-		"\u026d\u0001\u0000\u0000\u0000\u0273\u026e\u0001\u0000\u0000\u0000\u0273"+
-		"\u026f\u0001\u0000\u0000\u0000\u0273\u0270\u0001\u0000\u0000\u0000\u0273"+
-		"\u0271\u0001\u0000\u0000\u0000\u0273\u0272\u0001\u0000\u0000\u0000\u0274"+
-		"\u027b\u0001\u0000\u0000\u0000\u0275\u0276\n\u0001\u0000\u0000\u0276\u0277"+
-		"\u0003&\u0013\u0000\u0277\u0278\u0003P(\u0002\u0278\u027a\u0001\u0000"+
-		"\u0000\u0000\u0279\u0275\u0001\u0000\u0000\u0000\u027a\u027d\u0001\u0000"+
-		"\u0000\u0000\u027b\u0279\u0001\u0000\u0000\u0000\u027b\u027c\u0001\u0000"+
-		"\u0000\u0000\u027cQ\u0001\u0000\u0000\u0000\u027d\u027b\u0001\u0000\u0000"+
-		"\u0000\u027e\u027f\u0007\u0007\u0000\u0000\u027fS\u0001\u0000\u0000\u0000"+
-		"\u0280\u0281\u00050\u0000\u0000\u0281\u0282\u0005\u001e\u0000\u0000\u0282"+
-		"\u0283\u00051\u0000\u0000\u0283\u0284\u0005\n\u0000\u0000\u0284\u0285"+
-		"\u0003P(\u0000\u0285\u0286\u0005\u000b\u0000\u0000\u0286\u0287\u0005\b"+
-		"\u0000\u0000\u0287U\u0001\u0000\u0000\u0000RY`bfrux\u0080\u0087\u008f"+
-		"\u0092\u0095\u0098\u00a0\u00a5\u00ab\u00b2\u00b6\u00bc\u00c4\u00c7\u00ce"+
-		"\u00d3\u00d8\u00e3\u00eb\u00f3\u00f6\u0104\u0107\u010f\u0111\u011b\u0127"+
-		"\u0129\u012c\u012e\u0136\u013c\u0142\u014f\u015e\u0163\u0169\u016e\u0175"+
-		"\u0177\u017b\u0182\u0184\u0188\u0191\u0195\u019a\u019e\u01a5\u01a8\u01b8"+
-		"\u01bd\u01c3\u01ce\u01d7\u01db\u01e2\u01e7\u01ea\u01ed\u01f0\u01f7\u0204"+
-		"\u0210\u0213\u021c\u0222\u0227\u0233\u023a\u0245\u0247\u0260\u0273\u027b";
+		"\u0000\u0000\u0000\u0262\u0263\u0005)\u0000\u0000\u0263\u0264\u0005\u0001"+
+		"\u0000\u0000\u0264\u0265\u0005b\u0000\u0000\u0265O\u0001\u0000\u0000\u0000"+
+		"\u0266\u0267\u0006(\uffff\uffff\u0000\u0267\u0274\u0005^\u0000\u0000\u0268"+
+		"\u0269\u0005^\u0000\u0000\u0269\u026a\u0005\u001e\u0000\u0000\u026a\u0274"+
+		"\u0005^\u0000\u0000\u026b\u0274\u0005b\u0000\u0000\u026c\u0274\u0005_"+
+		"\u0000\u0000\u026d\u0274\u0005`\u0000\u0000\u026e\u0274\u0005a\u0000\u0000"+
+		"\u026f\u0274\u0003\u000e\u0007\u0000\u0270\u0274\u00034\u001a\u0000\u0271"+
+		"\u0274\u0003\u0010\b\u0000\u0272\u0274\u0003\u0012\t\u0000\u0273\u0266"+
+		"\u0001\u0000\u0000\u0000\u0273\u0268\u0001\u0000\u0000\u0000\u0273\u026b"+
+		"\u0001\u0000\u0000\u0000\u0273\u026c\u0001\u0000\u0000\u0000\u0273\u026d"+
+		"\u0001\u0000\u0000\u0000\u0273\u026e\u0001\u0000\u0000\u0000\u0273\u026f"+
+		"\u0001\u0000\u0000\u0000\u0273\u0270\u0001\u0000\u0000\u0000\u0273\u0271"+
+		"\u0001\u0000\u0000\u0000\u0273\u0272\u0001\u0000\u0000\u0000\u0274\u027b"+
+		"\u0001\u0000\u0000\u0000\u0275\u0276\n\u0001\u0000\u0000\u0276\u0277\u0003"+
+		"&\u0013\u0000\u0277\u0278\u0003P(\u0002\u0278\u027a\u0001\u0000\u0000"+
+		"\u0000\u0279\u0275\u0001\u0000\u0000\u0000\u027a\u027d\u0001\u0000\u0000"+
+		"\u0000\u027b\u0279\u0001\u0000\u0000\u0000\u027b\u027c\u0001\u0000\u0000"+
+		"\u0000\u027cQ\u0001\u0000\u0000\u0000\u027d\u027b\u0001\u0000\u0000\u0000"+
+		"\u027e\u027f\u0007\u0007\u0000\u0000\u027fS\u0001\u0000\u0000\u0000\u0280"+
+		"\u0281\u00055\u0000\u0000\u0281\u0282\u0005\u001e\u0000\u0000\u0282\u0283"+
+		"\u00056\u0000\u0000\u0283\u0284\u0005\n\u0000\u0000\u0284\u0285\u0003"+
+		"P(\u0000\u0285\u0286\u0005\u000b\u0000\u0000\u0286\u0287\u0005\b\u0000"+
+		"\u0000\u0287U\u0001\u0000\u0000\u0000RY`bfrux\u0080\u0087\u008f\u0092"+
+		"\u0095\u0098\u00a0\u00a5\u00ab\u00b2\u00b6\u00bc\u00c4\u00c7\u00ce\u00d3"+
+		"\u00d8\u00e3\u00eb\u00f3\u00f6\u0104\u0107\u010f\u0111\u011b\u0127\u0129"+
+		"\u012c\u012e\u0136\u013c\u0142\u014f\u015e\u0163\u0169\u016e\u0175\u0177"+
+		"\u017b\u0182\u0184\u0188\u0191\u0195\u019a\u019e\u01a5\u01a8\u01b8\u01bd"+
+		"\u01c3\u01ce\u01d7\u01db\u01e2\u01e7\u01ea\u01ed\u01f0\u01f7\u0204\u0210"+
+		"\u0213\u021c\u0222\u0227\u0233\u023a\u0245\u0247\u0260\u0273\u027b";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
